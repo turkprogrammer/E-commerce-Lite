@@ -1,0 +1,4 @@
+# Маршруты EasyAdmin
+easyadmin:
+    resource: .
+    type: easyadmin.routes

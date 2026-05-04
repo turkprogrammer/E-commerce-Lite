@@ -1,0 +1,25 @@
+# EasyAdmin Bundle конфигурация
+# https://symfony.com/bundles/EasyAdminBundle/current/index.html
+
+easy_admin:
+    # Заголовок админ-панели
+    site_name: 'E-commerce Admin'
+
+    # Главный маршрут дашборда
+    dashboard: App\Controller\Admin\DashboardController::index
+
+    # CRUD контроллеры
+    crud:
+        # Папка для CRUD контроллеров
+        controllers:
+            - App\Controller\Admin\ProductCrudController
+            - App\Controller\Admin\CategoryCrudController
+            - App\Controller\Admin\OrderCrudController
+
+        # Настройки по умолчанию
+        date_format: 'dd.MM.yyyy'
+        time_format: 'HH:mm'
+        datetime_format: 'dd.MM.yyyy HH:mm'
+
+    # Генерация URL
+    generate_relative_urls: true

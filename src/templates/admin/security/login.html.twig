@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход в админ-панель | E-commerce Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">E-commerce Admin</h1>
+            <p class="text-gray-500 mt-2">Войдите для продолжения</p>
+        </div>
+
+        <!-- Форма входа -->
+        <form method="post" class="space-y-6">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            {% if error %}
+                <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl">
+                    <p class="font-semibold">Ошибка входа</p>
+                    <p class="text-sm mt-1">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                </div>
+            {% endif %}
+
+            <div>
+                <label for="username" class="block text-sm font-medium text-gray-700 mb-2">
+                    Логин
+                </label>
+                <input
+                    type="text"
+                    id="username"
+                    name="_username"
+                    value="{{ last_username }}"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none transition-all"
+                    placeholder="admin"
+                    required
+                    autofocus
+                />
+            </div>
+
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+                    Пароль
+                </label>
+                <input
+                    type="password"
+                    id="password"
+                    name="_password"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none transition-all"
+                    placeholder="••••••••"
+                    required
+                />
+            </div>
+
+            <div class="flex items-center justify-between">
+                <label class="flex items-center">
+                    <input type="checkbox" name="_remember_me" class="w-4 h-4 text-gray-900 border-gray-300 rounded focus:ring-gray-900">
+                    <span class="ml-2 text-sm text-gray-600">Запомнить меня</span>
+                </label>
+            </div>
+
+            <button
+                type="submit"
+                class="w-full py-4 bg-gray-900 text-white font-bold rounded-xl hover:bg-gray-800 transition-colors"
+            >
+                Войти
+            </button>
+        </form>
+
+        <!-- Footer -->
+        <div class="mt-6 text-center text-sm text-gray-500">
+            <p>По умолчанию: <code class="bg-gray-100 px-2 py-1 rounded">admin / admin123</code></p>
+        </div>
+
+        <!-- Ссылка на сайт -->
+        <div class="mt-4 text-center">
+            <a href="/" class="text-sm text-gray-600 hover:text-gray-900 flex items-center justify-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                На сайт
+            </a>
+        </div>
+    </div>
+</body>
+</html>

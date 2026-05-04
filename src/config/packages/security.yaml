@@ -1,0 +1,91 @@
+# Конфигурация безопасности Symfony
+security:
+    # https://symfony.com/doc/current/reference/configuration/security.html
+
+    # Пароли по умолчанию (для будущих пользователей)
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    # Провайдеры пользователей
+    providers:
+        # Провайдер пользователей из БД (для админки)
+        app_user_provider:
+            entity:
+                class: App\Domain\Entity\User
+                property: username
+
+        # Встроенный провайдер для API ключей
+        api_key_provider:
+            memory:
+                users:
+                    # Admin API key (для админских endpoint21s)
+                    admin_key: { password: '%env(ADMIN_API_KEY)%', roles: ['ROLE_ADMIN'] }
+                    # Webhook secret key (для платежного webhook)
+                    webhook_key: { password: '%env(WEBHOOK_SECRET)%', roles: ['ROLE_WEBHOOK'] }
+
+    # Firewall конфигурация
+    firewalls:
+        # Dev firewall для отладки
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        # Admin firewall для админ-панели
+        admin:
+            pattern: ^/admin
+            lazy: true
+            provider: app_user_provider
+            form_login:
+                login_path: admin_login
+                check_path: /admin/login
+                default_target_path: admin
+                enable_csrf: true
+            logout:
+                path: admin_logout
+                target: admin_login
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 1 week
+                path: /admin
+
+        # Webhook firewall для платежных уведомлений
+        webhook:
+            pattern: ^/api/webhooks
+            stateless: true
+            http_basic:
+                realm: "Webhook Authentication"
+                provider: api_key_provider
+
+        # Admin API firewall
+        admin_api:
+            pattern: ^/api/admin
+            stateless: true
+            http_basic:
+                realm: "Admin API Authentication"
+                provider: api_key_provider
+
+        # Основной API firewall (публичный доступ)
+        api:
+            pattern: ^/api
+            stateless: true
+            security: false
+
+        # Main firewall для остальных routes
+        main:
+            lazy: true
+            provider: app_user_provider
+
+    # Правила доступа к endpoints
+    access_control:
+        # Публичные endpoints
+        - { path: ^/api/categories, roles: PUBLIC_ACCESS }
+        - { path: ^/api/products, roles: PUBLIC_ACCESS }
+        - { path: ^/api/cart, roles: PUBLIC_ACCESS }
+        - { path: ^/api/orders$, methods: POST, roles: PUBLIC_ACCESS }
+
+        # Защищенные endpoints
+        - { path: ^/api/webhooks, roles: ROLE_WEBHOOK }
+        - { path: ^/api/admin, roles: ROLE_ADMIN }
+        - { path: ^/api/orders, roles: PUBLIC_ACCESS }
+        - { path: ^/admin/login, roles: PUBLIC_ACCESS }
+        - { path: ^/admin, roles: ROLE_ADMIN }

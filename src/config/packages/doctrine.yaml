@@ -1,0 +1,51 @@
+# Конфигурация Doctrine ORM
+doctrine:
+    dbal:
+        url: '%env(resolve:DATABASE_URL)%'
+
+        # SQLite для разработки и тестирования
+        # В production можно заменить на PostgreSQL/MySQL
+
+        # Исправления для UTF-8
+        charset: UTF8
+        default_table_options:
+            charset: UTF8
+            engine: InnoDB
+            collate: utf8mb4_unicode_ci
+
+        use_savepoints: true
+
+    orm:
+        auto_generate_proxy_classes: true
+        enable_lazy_ghost_objects: true
+        report_fields_where_declared: true
+        validate_xml_mapping: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        mappings:
+            # Domain сущности с Attribute mapping
+            App:
+                is_bundle: false
+                type: attribute
+                dir: '%kernel.project_dir%/src/Domain/Entity'
+                prefix: 'App\Domain\Entity'
+
+# Настройки для тестирования
+when@test:
+    doctrine:
+        dbal:
+            # Использование SQLite для интеграционных тестов с реальной БД
+            url: '%env(resolve:DATABASE_URL)%'
+            charset: UTF8
+
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool

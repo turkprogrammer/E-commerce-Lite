@@ -1,0 +1,23 @@
+{# @var items \App\Domain\Entity\OrderItem[] #}
+<div class="datagrid">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Товар</th>
+                <th>Цена</th>
+                <th>Количество</th>
+                <th>Сумма</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in field.value %}
+                <tr>
+                    <td>{{ item.productName }}</td>
+                    <td>{{ item.price|number_format(2, '.', ' ') }} ₽</td>
+                    <td><span class="badge">{{ item.quantity }}</span></td>
+                    <td><strong>{{ (item.price * item.quantity)|number_format(2, '.', ' ') }} ₽</strong></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

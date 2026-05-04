@@ -1,0 +1,654 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}E-commerce Lite - Современный интернет-магазин{% endblock %}
+
+{% block body %}
+{# Навигация #}
+<nav class="bg-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex items-center">
+                <a href="{{ path('app_home') }}" class="flex items-center space-x-2 group">
+                    <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        E-commerce Lite
+                    </span>
+                </a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <a href="#catalog" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200">
+                    Каталог
+                </a>
+                <a href="#about" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200">
+                    О нас
+                </a>
+                <a href="#contact" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200">
+                    Контакты
+                </a>
+                
+                {# Корзина #}
+                <button id="cart-button" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors duration-200">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center opacity-0 transition-opacity duration-200">
+                        0
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+{# Hero секция с градиентом #}
+<section class="gradient-bg py-20 lg:py-32">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center animate-fade-in">
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 drop-shadow-lg">
+                Добро пожаловать в
+                <span class="block mt-2 animate-gradient">мир покупок</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-white/90 mb-10 max-w-3xl mx-auto leading-relaxed">
+                Современные технологии • Быстрая доставка • Лучшие цены
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#catalog" class="group bg-white text-blue-600 font-bold py-4 px-8 rounded-full shadow-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-300 inline-flex items-center justify-center">
+                    <span>Смотреть каталог</span>
+                    <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                    </svg>
+                </a>
+                <a href="#about" class="glass-effect text-white font-bold py-4 px-8 rounded-full border-2 border-white hover:bg-white hover:text-blue-600 transform hover:scale-105 transition-all duration-300">
+                    Узнать больше
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Преимущества #}
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center p-6 card-hover rounded-2xl">
+                <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Быстрая доставка</h3>
+                <p class="text-gray-600">Доставим ваш заказ в течение 24 часов</p>
+            </div>
+            
+            <div class="text-center p-6 card-hover rounded-2xl">
+                <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Безопасная оплата</h3>
+                <p class="text-gray-600">Защищенные платежи и гарантия возврата</p>
+            </div>
+            
+            <div class="text-center p-6 card-hover rounded-2xl">
+                <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Поддержка 24/7</h3>
+                <p class="text-gray-600">Круглосуточная помощь клиентам</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Каталог товаров #}
+<section id="catalog" class="py-20 mesh-gradient">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-fade-in">
+            <h2 class="text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-primary-600 via-accent-500 to-primary-600 bg-clip-text text-transparent">
+                Наши товары
+            </h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Лучшие предложения по отличным ценам с гарантией качества
+            </p>
+        </div>
+
+        {# Сетка товаров с skeleton loader #}
+        <div id="products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {# Skeleton loaders для первоначальной загрузки #}
+            <div class="skeleton rounded-3xl overflow-hidden h-96"></div>
+            <div class="skeleton rounded-3xl overflow-hidden h-96"></div>
+            <div class="skeleton rounded-3xl overflow-hidden h-96"></div>
+            <div class="skeleton rounded-3xl overflow-hidden h-96"></div>
+        </div>
+
+        {# Кнопка "Показать еще" #}
+        <div id="load-more-container" class="text-center mt-12 hidden">
+            <button id="load-more-btn" class="btn-gradient text-white font-bold py-4 px-12 rounded-full shadow-lg inline-flex items-center space-x-2">
+                <span>Показать еще</span>
+                <svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+        </div>
+
+        {# Сообщение что все товары загружены #}
+        <div id="all-loaded" class="text-center mt-12 hidden">
+            <p class="text-gray-500 text-lg">Все товары загружены ✨</p>
+        </div>
+    </div>
+</section>
+
+{# О нас #}
+<section id="about" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-4xl font-extrabold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    О нашем магазине
+                </h2>
+                <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                    Мы предлагаем широкий ассортимент качественных товаров по доступным ценам. 
+                    Наша миссия - сделать покупки удобными, быстрыми и приятными для каждого клиента.
+                </p>
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mt-1">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <p class="text-gray-700">Только проверенные поставщики</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mt-1">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <p class="text-gray-700">Гарантия качества на все товары</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mt-1">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <p class="text-gray-700">Удобная система лояльности</p>
+                    </div>
+                </div>
+            </div>
+            <div class="relative">
+                <div class="aspect-square rounded-3xl overflow-hidden shadow-2xl gradient-bg p-1">
+                    <div class="w-full h-full bg-white rounded-3xl flex items-center justify-center">
+                        <svg class="w-32 h-32 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Контакты #}
+<section id="contact" class="py-16 bg-gradient-to-br from-blue-600 to-purple-600">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h2 class="text-4xl font-extrabold text-white mb-4">
+                Свяжитесь с нами
+            </h2>
+            <p class="text-xl text-white/90 mb-8">
+                Мы всегда рады помочь вам с выбором
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-white">
+                    <svg class="w-8 h-8 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                    <h3 class="font-semibold mb-2">Email</h3>
+                    <p class="text-sm">info@ecommerce-lite.com</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-white">
+                    <svg class="w-8 h-8 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                    </svg>
+                    <h3 class="font-semibold mb-2">Телефон</h3>
+                    <p class="text-sm">+7 (999) 123-45-67</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-white">
+                    <svg class="w-8 h-8 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    <h3 class="font-semibold mb-2">Адрес</h3>
+                    <p class="text-sm">г. Москва, ул. Пушкина, д. 10</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Footer #}
+<footer class="bg-gray-900 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-lg font-bold mb-4">E-commerce Lite</h3>
+                <p class="text-gray-400 text-sm">
+                    Современный интернет-магазин с лучшими товарами и отличным сервисом.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4">Покупателям</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-white transition-colors">Как сделать заказ</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Оплата и доставка</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Возврат</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4">Компания</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-white transition-colors">О нас</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Контакты</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Партнерам</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4">API</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="/api/categories" class="hover:text-white transition-colors">Категории</a></li>
+                    <li><a href="/api/products" class="hover:text-white transition-colors">Товары</a></li>
+                    <li><a href="/api/cart" class="hover:text-white transition-colors">Корзина</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
+            <p>&copy; 2026 E-commerce Lite. Все права защищены.</p>
+        </div>
+    </div>
+</footer>
+
+{# Модальное окно корзины #}
+<div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl transform transition-transform duration-300 translate-x-full">
+        <div class="flex flex-col h-full">
+            <div class="flex items-center justify-between p-4 border-b">
+                <h2 class="text-xl font-bold">Корзина</h2>
+                <button onclick="closeCart()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="cart-items" class="flex-1 overflow-y-auto p-4">
+                <!-- Товары в корзине -->
+            </div>
+            <div id="cart-total" class="border-t p-4 hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="font-bold">Итого:</span>
+                    <span id="cart-total-amount" class="text-2xl font-bold text-blue-600">0 ₽</span>
+                </div>
+                <button onclick="checkout()" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-3 rounded-lg hover:opacity-90 transition-opacity">
+                    Оформить заказ
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Состояние каталога товаров
+let allProducts = [];
+let displayedProducts = 0;
+const productsPerPage = 4;
+let cart = [];
+
+// Загрузка товаров при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    loadProducts();
+    updateCartDisplay();
+});
+
+// Загрузка товаров из API
+async function loadProducts() {
+    try {
+        console.log('🔄 Загрузка товаров...');
+        const response = await fetch('/api/products?limit=100');
+        const data = await response.json();
+        
+        console.log('📦 Получено товаров:', data.data?.total || 0);
+
+        if (!data.error && data.data) {
+            allProducts = data.data.products || [];
+            displayedProducts = 0;
+            
+            // Очищаем skeleton loader перед загрузкой
+            const container = document.getElementById('products-container');
+            container.innerHTML = '';
+            
+            console.log('✅ Загружено', allProducts.length, 'товаров');
+            showNextProducts();
+        } else {
+            console.error('❌ Ошибка API:', data);
+            showError();
+        }
+    } catch (error) {
+        console.error('💥 Ошибка загрузки товаров:', error);
+        showError();
+    }
+}
+
+// Показать следующие товары
+function showNextProducts() {
+    const container = document.getElementById('products-container');
+    const start = displayedProducts;
+    const end = Math.min(start + productsPerPage, allProducts.length);
+    
+    console.log('📄 Показываем товары с', start, 'по', end, 'из', allProducts.length);
+    
+    // Если товаров нет
+    if (allProducts.length === 0) {
+        container.innerHTML = '<p class="col-span-full text-center text-gray-600 text-lg">Товары не найдены</p>';
+        document.getElementById('load-more-container').classList.add('hidden');
+        return;
+    }
+    
+    // Если все товары уже показаны
+    if (start >= allProducts.length) {
+        document.getElementById('load-more-container').classList.add('hidden');
+        document.getElementById('all-loaded').classList.remove('hidden');
+        return;
+    }
+
+    const productsToDisplay = allProducts.slice(start, end);
+    console.log('🎯 Показываем', productsToDisplay.length, 'товаров');
+    
+    productsToDisplay.forEach((product, index) => {
+        const productCard = createProductCard(product, start + index);
+        container.appendChild(productCard);
+        
+        // Анимация появления
+        setTimeout(() => {
+            productCard.classList.remove('opacity-0');
+            productCard.classList.add('animate-slide-up');
+        }, index * 100);
+    });
+
+    displayedProducts = end;
+    console.log('✅ Показано товаров:', displayedProducts, 'из', allProducts.length);
+
+    // Показываем кнопку "Показать еще" если есть товары
+    if (displayedProducts < allProducts.length) {
+        document.getElementById('load-more-container').classList.remove('hidden');
+        document.getElementById('all-loaded').classList.add('hidden');
+    } else {
+        setTimeout(() => {
+            document.getElementById('load-more-container').classList.add('hidden');
+            document.getElementById('all-loaded').classList.remove('hidden');
+        }, 500);
+    }
+}
+
+// Создание карточки товара
+function createProductCard(product, index) {
+    const div = document.createElement('div');
+    div.className = 'premium-card rounded-3xl overflow-hidden card-3d opacity-0 transition-all duration-500';
+
+    const discount = product.oldPrice && product.oldPrice > product.price
+        ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
+        : 0;
+
+    div.innerHTML = `
+        <div class="relative aspect-square overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+            ${product.imageUrl ? `
+                <img src="${product.imageUrl}" alt="${product.name}"
+                     class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                     loading="lazy"
+                     onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmM2Y0ZjYiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlNWU3ZWIiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0idXJsKCNnKSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzljYTE3MSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='">
+            ` : `
+                <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+                    <svg class="w-20 h-20 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+            `}
+
+            ${product.featured ? `
+                <span class="absolute top-3 left-3 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg glow">
+                    🔥 ХИТ
+                </span>
+            ` : ''}
+
+            ${discount > 0 ? `
+                <span class="absolute top-3 right-3 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                    -${discount}%
+                </span>
+            ` : ''}
+        </div>
+
+        <div class="p-5">
+            <h3 class="font-bold text-lg mb-2 line-clamp-2 text-gray-900">${product.name}</h3>
+            ${product.category ? `
+                <p class="text-xs text-gray-500 mb-2 flex items-center">
+                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                    </svg>
+                    ${product.category.name}
+                </p>
+            ` : ''}
+            <p class="text-gray-600 text-sm mb-4 line-clamp-2">${product.description || 'Описание отсутствует'}</p>
+
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="flex items-baseline space-x-2">
+                        <span class="text-2xl font-black text-primary-600">${product.price.toFixed(2)} ₽</span>
+                        ${product.oldPrice ? `
+                            <span class="text-sm text-gray-400 line-through">${product.oldPrice.toFixed(2)} ₽</span>
+                        ` : ''}
+                    </div>
+                </div>
+                <button onclick="addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price})"
+                        class="neon-button text-gray-900 p-3 rounded-xl hover:opacity-90 transition-all transform hover:scale-110 shadow-lg hover:shadow-xl">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    `;
+
+    return div;
+}
+
+// Показать ошибку
+function showError() {
+    document.getElementById('products-container').innerHTML = `
+        <div class="col-span-full text-center py-12 animate-fade-in">
+            <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <p class="text-gray-600 text-lg mb-4">Не удалось загрузить товары</p>
+            <button onclick="loadProducts()" class="btn-gradient text-white font-bold py-3 px-6 rounded-full shadow-lg inline-flex items-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                <span>Попробовать снова</span>
+            </button>
+        </div>
+    `;
+    document.getElementById('load-more-container').classList.add('hidden');
+}
+
+// Добавить в корзину
+function addToCart(productId, productName, price) {
+    const existingItem = cart.find(item => item.productId === productId);
+
+    if (existingItem) {
+        existingItem.quantity++;
+    } else {
+        cart.push({ productId, productName, price, quantity: 1 });
+    }
+
+    updateCartDisplay();
+    showNotification('Товар добавлен в корзину! 🎉');
+}
+
+// Обработчик кнопки "Показать еще"
+document.addEventListener('DOMContentLoaded', function() {
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', function() {
+            // Анимация кнопки при нажатии
+            this.classList.add('scale-95');
+            setTimeout(() => {
+                this.classList.remove('scale-95');
+                showNextProducts();
+            }, 150);
+        });
+    }
+});
+
+// Обновить отображение корзины
+function updateCartDisplay() {
+    const countElement = document.getElementById('cart-count');
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    
+    countElement.textContent = totalItems;
+    countElement.style.opacity = totalItems > 0 ? '1' : '0';
+    
+    // Обновляем содержимое модального окна
+    updateCartModal();
+}
+
+// Обновить модальное окно корзины
+function updateCartModal() {
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartTotalDiv = document.getElementById('cart-total');
+    
+    if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<p class="text-center text-gray-500 mt-8">Корзина пуста</p>';
+        cartTotalDiv.classList.add('hidden');
+        return;
+    }
+    
+    cartTotalDiv.classList.remove('hidden');
+    document.getElementById('cart-total-amount').textContent = cartTotal.toFixed(2) + ' ₽';
+    
+    cartItemsContainer.innerHTML = cart.map(item => `
+        <div class="flex items-center justify-between mb-4 pb-4 border-b">
+            <div class="flex-1">
+                <h4 class="font-medium">${item.productName}</h4>
+                <p class="text-sm text-gray-600">${item.price.toFixed(2)} ₽ x ${item.quantity}</p>
+            </div>
+            <div class="flex items-center space-x-2">
+                <button onclick="updateQuantity(${item.productId}, ${item.quantity - 1})" 
+                        class="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                    </svg>
+                </button>
+                <span class="font-medium">${item.quantity}</span>
+                <button onclick="updateQuantity(${item.productId}, ${item.quantity + 1})" 
+                        class="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                </button>
+                <button onclick="removeFromCart(${item.productId})" class="text-red-500 hover:text-red-700 ml-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Обновить количество
+function updateQuantity(productId, newQuantity) {
+    if (newQuantity <= 0) {
+        removeFromCart(productId);
+        return;
+    }
+    
+    const item = cart.find(item => item.productId === productId);
+    if (item) {
+        item.quantity = newQuantity;
+        updateCartDisplay();
+    }
+}
+
+// Удалить из корзины
+function removeFromCart(productId) {
+    cart = cart.filter(item => item.productId !== productId);
+    updateCartDisplay();
+}
+
+// Открыть корзину
+function openCart() {
+    const modal = document.getElementById('cart-modal');
+    const panel = modal.querySelector('div > div');
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+        panel.classList.remove('translate-x-full');
+    }, 10);
+}
+
+// Закрыть корзину
+function closeCart() {
+    const modal = document.getElementById('cart-modal');
+    const panel = modal.querySelector('div > div');
+    panel.classList.add('translate-x-full');
+    setTimeout(() => {
+        modal.classList.add('hidden');
+    }, 300);
+}
+
+// Оформление заказа
+function checkout() {
+    if (cart.length === 0) {
+        showNotification('Корзина пуста!', 'error');
+        return;
+    }
+    
+    // Здесь будет интеграция с API заказов
+    showNotification('Переход к оформлению заказа...');
+    console.log('Заказ:', { items: cart, total: cartTotal });
+}
+
+// Уведомления
+function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full ${
+        type === 'success' ? 'bg-green-500' : 'bg-red-500'
+    } text-white`;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.remove('translate-x-full');
+    }, 100);
+    
+    setTimeout(() => {
+        notification.classList.add('translate-x-full');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+// Обработчики событий
+document.getElementById('cart-button').addEventListener('click', openCart);
+</script>
+{% endblock %}

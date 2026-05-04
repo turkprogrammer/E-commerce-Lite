@@ -1,0 +1,93 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Controller\Api;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
+
+/**
+ * Базовый контроллер для API
+ */
+abstract class AbstractApiController extends AbstractController
+{
+    public function __construct(
+        protected SerializerInterface $serializer,
+    ) {
+    }
+
+    /**
+     * Создать JSON ответ
+     */
+    protected function json(mixed $data, int $status = Response::HTTP_OK, array $headers = [], array $context = []): JsonResponse
+    {
+        $context['groups'] = $context['groups'] ?? ['api_read'];
+
+        return parent::json($data, $status, $headers, $context);
+    }
+
+    /**
+     * Создать ответ с ошибкой
+     */
+    protected function error(string $message, int $status = Response::HTTP_BAD_REQUEST, array $errors = []): JsonResponse
+    {
+        $data = [
+            'error' => true,
+            'message' => $message,
+            'status' => $status,
+        ];
+
+        if (!empty($errors)) {
+            $data['errors'] = $errors;
+        }
+
+        return $this->json($data, $status);
+    }
+
+    /**
+     * Создать ответ об успехе
+     */
+    protected function success(mixed $data = null, string $message = 'OK', int $status = Response::HTTP_OK, array $context = []): JsonResponse
+    {
+        $response = [
+            'error' => false,
+            'message' => $message,
+        ];
+
+        if ($data !== null) {
+            $response['data'] = $data;
+        }
+
+        return $this->json($response, $status, [], $context);
+    }
+
+    /**
+     * Получить текущее время
+     */
+    protected function getTimestamp(): \DateTimeImmutable
+    {
+        return new \DateTimeImmutable();
+    }
+
+    /**
+     * Преобразовать ошибки валидации в массив
+     *
+     * @param mixed $violations Объект violations из валидатора
+     * @return array Массив ошибок с полями field и message
+     */
+    protected function getErrors($violations): array
+    {
+        $errors = [];
+        foreach ($violations as $violation) {
+            $errors[] = [
+                'field' => $violation->getPropertyPath(),
+                'message' => $violation->getMessage(),
+            ];
+        }
+        return $errors;
+    }
+}

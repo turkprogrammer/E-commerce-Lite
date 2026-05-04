@@ -1,0 +1,226 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Tests\Application\Cart;
+
+use App\Application\Cart\CheckoutCart;
+use App\Domain\Entity\Cart;
+use App\Domain\Entity\CartItem;
+use App\Domain\Entity\Product;
+use App\Domain\Port\Repository\CartRepositoryInterface;
+use App\Domain\Port\Repository\OrderRepositoryInterface;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * Тесты для Use Case: CheckoutCart
+ */
+class CheckoutCartTest extends TestCase
+{
+    private CartRepositoryInterface $cartRepo;
+    private OrderRepositoryInterface $orderRepo;
+    private CheckoutCart $useCase;
+
+    protected function setUp(): void
+    {
+        $this->cartRepo = $this->createMock(CartRepositoryInterface::class);
+        $this->orderRepo = $this->createMock(OrderRepositoryInterface::class);
+        $this->useCase = new CheckoutCart($this->cartRepo, $this->orderRepo);
+    }
+
+    /**
+     * Тест: Успешное оформление заказа
+     */
+    public function testCheckoutCartSuccessfully(): void
+    {
+        // Arrange
+        $product = new Product();
+        $product->setId(1);
+        $product->setName('Test Product');
+        $product->setPrice(1000.00);
+        $product->setStock(10);
+        $product->setActive(true);
+
+        $cartItem = new CartItem();
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(2);
+
+        $cart = new Cart();
+        $cart->setSessionId('test-session');
+        $cart->addItem($cartItem);
+        $cart->recalculate();
+
+        $customerData = [
+            'customerName' => 'Иван Иванов',
+            'customerEmail' => 'ivan@example.com',
+            'customerPhone' => '+7 (999) 123-45-67',
+            'deliveryAddress' => 'г. Москва, ул. Тестовая, д. 1',
+        ];
+
+        $this->cartRepo
+            ->method('findBySessionId')
+            ->with('test-session')
+            ->willReturn($cart);
+
+        $this->orderRepo
+            ->expects($this->once())
+            ->method('save');
+
+        $this->cartRepo
+            ->expects($this->once())
+            ->method('save')
+            ->with($cart);
+
+        // Act
+        $order = $this->useCase->handle('test-session', $customerData);
+
+        // Assert
+        $this->assertNotNull($order->getOrderNumber());
+        $this->assertEquals('Иван Иванов', $order->getCustomerName());
+        $this->assertEquals('ivan@example.com', $order->getCustomerEmail());
+        $this->assertEquals(2000.00, $order->getTotalAmount());
+        $this->assertCount(1, $order->getItems());
+    }
+
+    /**
+     * Тест: Оформление пустой корзины
+     */
+    public function testCheckoutEmptyCart(): void
+    {
+        // Arrange
+        $cart = new Cart();
+        $cart->setSessionId('test-session');
+
+        $this->cartRepo
+            ->method('findBySessionId')
+            ->with('test-session')
+            ->willReturn($cart);
+
+        // Assert
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Корзина пуста');
+
+        // Act
+        $this->useCase->handle('test-session', []);
+    }
+
+    /**
+     * Тест: Оформление несуществующей корзины
+     */
+    public function testCheckoutNonExistentCart(): void
+    {
+        // Arrange
+        $this->cartRepo
+            ->method('findBySessionId')
+            ->with('non-existent')
+            ->willReturn(null);
+
+        // Assert
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Корзина не найдена');
+
+        // Act
+        $this->useCase->handle('non-existent', []);
+    }
+
+    /**
+     * Тест: Товар не активен
+     */
+    public function testCheckoutWithInactiveProduct(): void
+    {
+        // Arrange
+        $product = new Product();
+        $product->setName('Inactive Product');
+        $product->setPrice(1000.00);
+        $product->setStock(10);
+        $product->setActive(false);
+
+        $cartItem = new CartItem();
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(1);
+
+        $cart = new Cart();
+        $cart->setSessionId('test-session');
+        $cart->addItem($cartItem);
+
+        $this->cartRepo
+            ->method('findBySessionId')
+            ->with('test-session')
+            ->willReturn($cart);
+
+        // Assert
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Товар "Inactive Product" больше не доступен');
+
+        // Act
+        $this->useCase->handle('test-session', []);
+    }
+
+    /**
+     * Тест: Недостаточно товара на складе
+     */
+    public function testCheckoutWithInsufficientStock(): void
+    {
+        // Arrange
+        $product = new Product();
+        $product->setName('Limited Product');
+        $product->setPrice(1000.00);
+        $product->setStock(1);  // Только 1 товар
+        $product->setActive(true);
+
+        $cartItem = new CartItem();
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(5);  // Пытаемся купить 5
+
+        $cart = new Cart();
+        $cart->setSessionId('test-session');
+        $cart->addItem($cartItem);
+
+        $this->cartRepo
+            ->method('findBySessionId')
+            ->with('test-session')
+            ->willReturn($cart);
+
+        // Assert
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Недостаточно товара "Limited Product" на складе');
+
+        // Act
+        $this->useCase->handle('test-session', []);
+    }
+
+    /**
+     * Тест: Корзина очищается после оформления
+     */
+    public function testCartClearedAfterCheckout(): void
+    {
+        // Arrange
+        $product = new Product();
+        $product->setName('Test Product');
+        $product->setPrice(1000.00);
+        $product->setStock(10);
+        $product->setActive(true);
+
+        $cartItem = new CartItem();
+        $cartItem->setProduct($product);
+        $cartItem->setQuantity(1);
+
+        $cart = new Cart();
+        $cart->setSessionId('test-session');
+        $cart->addItem($cartItem);
+        $cart->recalculate();
+
+        $this->cartRepo
+            ->method('findBySessionId')
+            ->willReturn($cart);
+
+        // Act
+        $this->useCase->handle('test-session', [
+            'customerName' => 'Test',
+            'customerEmail' => 'test@test.com',
+        ]);
+
+        // Assert
+        $this->assertTrue($cart->isEmpty());
+    }
+}
