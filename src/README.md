@@ -307,14 +307,13 @@ curl -X GET http://localhost:47000/api/products/1
 
 ```json
 {
-  "success": true,
+  "error": false,
   "message": "Товар найден",
   "data": {
     "product": {
       "id": 1,
       "name": "Товар 1",
       "price": 1000,
-      "currency": "RUB",
       "active": true
     }
   }
@@ -325,7 +324,7 @@ curl -X GET http://localhost:47000/api/products/1
 
 ```json
 {
-  "success": false,
+  "error": true,
   "message": "Товар не найден",
   "data": []
 }
@@ -371,7 +370,7 @@ curl -X GET http://localhost:47000/api/categories
 
 ```json
 {
-  "success": true,
+  "error": false,
   "message": "Категории получены",
   "data": {
     "categories": [
@@ -417,7 +416,7 @@ curl -X GET http://localhost:47000/api/cart \
 
 ```json
 {
-  "success": true,
+  "error": false,
   "message": "Корзина получена",
   "data": {
     "cart": {
@@ -468,7 +467,7 @@ curl -X POST http://localhost:47000/api/cart/items \
 
 ```json
 {
-  "success": true,
+  "error": false,
   "message": "Товар добавлен в корзину",
   "data": {
     "item": {
@@ -488,7 +487,7 @@ curl -X POST http://localhost:47000/api/cart/items \
 
 ```json
 {
-  "success": false,
+  "error": true,
   "message": "Товар не найден",
   "data": []
 }
@@ -538,7 +537,7 @@ curl -X DELETE http://localhost:47000/api/cart/items/1 \
 
 ```json
 {
-  "success": true,
+  "error": false,
   "message": "Товар удален из корзины",
   "data": []
 }
@@ -548,7 +547,7 @@ curl -X DELETE http://localhost:47000/api/cart/items/1 \
 
 ```json
 {
-  "success": false,
+  "error": true,
   "message": "Товар не найден в корзине",
   "data": []
 }
@@ -624,7 +623,7 @@ curl -X POST http://localhost:47000/api/orders \
 
 ```json
 {
-  "success": true,
+  "error": false,
   "message": "Заказ успешно создан",
   "data": {
     "order": {
@@ -641,7 +640,7 @@ curl -X POST http://localhost:47000/api/orders \
 
 ```json
 {
-  "success": false,
+  "error": true,
   "message": "Корзина пуста",
   "data": []
 }
@@ -671,7 +670,7 @@ curl -X GET "http://localhost:47000/api/orders?email=customer@example.com"
 
 ```json
 {
-  "success": true,
+  "error": false,
   "message": "Заказы получены",
   "data": {
     "orders": [...],
