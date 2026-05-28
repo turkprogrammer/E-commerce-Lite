@@ -6,29 +6,12 @@
 
 {% block content %}
     <style>
-        /* ===== OVERRIDES — Force dark cinematic theme on content area ===== */
-        :root {
-            --ea-content-bg: #0a0a0a !important;
-        }
-
-        /* Content wrapper */
-        .content-wrapper,
-        .content-wrapper-body,
-        [class*="content"] {
-            background: #0a0a0a !important;
-        }
-
-        /* Override EasyAdmin's content area background */
-        body.ea-content-width-full .content-wrapper,
-        .ea-content-width-full .content-wrapper {
-            background: #0a0a0a !important;
-        }
-
-        /* Grain overlay inside dashboard */
+        /* ===== DASHBOARD THEME ===== */
         .ea-dashboard-content {
             position: relative;
         }
-        .ea-dashboard-content::before {
+        /* Grain overlay — dark mode only */
+        [data-bs-theme="dark"] .ea-dashboard-content::before {
             content: '';
             position: fixed;
             inset: -200%;
@@ -64,29 +47,31 @@
 
         /* Header */
         .dashboard-header {
-            background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.06);
+            background: var(--admin-surface);
+            border: 1px solid var(--admin-border);
             border-radius: 16px;
             padding: 28px 32px;
             margin-bottom: 28px;
             position: relative;
             overflow: hidden;
         }
+        [data-bs-theme="dark"] .dashboard-header {
+            background: var(--admin-surface);
+            backdrop-filter: blur(20px);
+        }
         .dashboard-header::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(136,255,13,0.3), transparent);
+            background: linear-gradient(90deg, transparent, var(--admin-accent-soft), transparent);
         }
 
         .dashboard-title {
             font-family: 'Syne', system-ui, sans-serif;
             font-size: 28px;
             font-weight: 800;
-            color: #fafafa;
+            color: var(--admin-text);
             display: flex;
             align-items: center;
             gap: 12px;
@@ -96,12 +81,12 @@
         .dashboard-title .icon {
             width: 32px;
             height: 32px;
-            color: #88ff0d;
+            color: var(--admin-accent);
         }
         .dashboard-subtitle {
             font-family: 'DM Sans', system-ui, sans-serif;
             font-size: 14px;
-            color: #52525b;
+            color: var(--admin-text-dim);
             margin: 0;
         }
 
@@ -121,10 +106,8 @@
 
         /* Stat Card */
         .stat-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.06);
+            background: var(--admin-surface);
+            border: 1px solid var(--admin-border);
             border-radius: 16px;
             padding: 22px;
             display: flex;
@@ -139,13 +122,13 @@
             position: absolute;
             bottom: 0; left: 0; right: 0;
             height: 0;
-            background: linear-gradient(135deg, rgba(136,255,13,0.05), transparent);
+            background: linear-gradient(135deg, var(--admin-accent-soft), transparent);
             transition: height 0.4s ease;
         }
         .stat-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(136,255,13,0.2);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 20px rgba(136,255,13,0.05);
+            border-color: var(--admin-accent-soft);
+            box-shadow: 0 20px 40px var(--admin-shadow), 0 0 20px var(--admin-accent-soft);
         }
         .stat-card:hover::after {
             height: 100%;
@@ -168,24 +151,24 @@
         }
 
         .stat-card--revenue .stat-card__icon {
-            background: rgba(136,255,13,0.12);
-            color: #88ff0d;
-            border: 1px solid rgba(136,255,13,0.2);
+            background: var(--admin-accent-soft);
+            color: var(--admin-accent);
+            border: 1px solid var(--admin-accent-soft);
         }
         .stat-card--orders .stat-card__icon {
-            background: rgba(59,130,246,0.12);
-            color: #60a5fa;
-            border: 1px solid rgba(59,130,246,0.2);
+            background: var(--admin-color-info-bg);
+            color: var(--admin-color-info);
+            border: 1px solid var(--admin-color-info-bg);
         }
         .stat-card--average .stat-card__icon {
-            background: rgba(168,85,247,0.12);
-            color: #c084fc;
-            border: 1px solid rgba(168,85,247,0.2);
+            background: var(--admin-color-purple-bg);
+            color: var(--admin-color-purple);
+            border: 1px solid var(--admin-color-purple-bg);
         }
         .stat-card--products .stat-card__icon {
-            background: rgba(245,158,11,0.12);
-            color: #fbbf24;
-            border: 1px solid rgba(245,158,11,0.2);
+            background: var(--admin-color-warning-bg);
+            color: var(--admin-color-warning);
+            border: 1px solid var(--admin-color-warning-bg);
         }
 
         .stat-card__content {
@@ -199,14 +182,14 @@
         .stat-card__label {
             font-family: 'DM Sans', system-ui, sans-serif;
             font-size: 12px;
-            color: #71717a;
+            color: var(--admin-text-muted);
             font-weight: 500;
         }
         .stat-card__value {
             font-family: 'Syne', system-ui, sans-serif;
             font-size: 26px;
             font-weight: 800;
-            color: #fafafa;
+            color: var(--admin-text);
             line-height: 1.2;
             letter-spacing: -0.02em;
         }
@@ -223,9 +206,9 @@
             width: 14px;
             height: 14px;
         }
-        .stat-card__change--positive { color: #88ff0d; }
-        .stat-card__change--negative { color: #ef4444; }
-        .stat-card__change--neutral { color: #52525b; }
+        .stat-card__change--positive { color: var(--admin-accent); }
+        .stat-card__change--negative { color: var(--admin-color-danger); }
+        .stat-card__change--neutral { color: var(--admin-text-dim); }
 
         /* Dashboard Grid */
         .dashboard-grid {
@@ -240,21 +223,19 @@
 
         /* Cards */
         .dashboard-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.06);
+            background: var(--admin-surface);
+            border: 1px solid var(--admin-border);
             border-radius: 16px;
             overflow: hidden;
             transition: border-color 0.3s;
         }
         .dashboard-card:hover {
-            border-color: rgba(255,255,255,0.1);
+            border-color: var(--admin-border);
         }
 
         .dashboard-card__header {
             padding: 18px 24px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
+            border-bottom: 1px solid var(--admin-border);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -265,7 +246,7 @@
             font-family: 'Syne', system-ui, sans-serif;
             font-size: 16px;
             font-weight: 700;
-            color: #fafafa;
+            color: var(--admin-text);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -275,12 +256,12 @@
         .dashboard-card__title svg {
             width: 18px;
             height: 18px;
-            color: #88ff0d;
+            color: var(--admin-accent);
         }
         .dashboard-card__subtitle {
             font-family: 'DM Sans', system-ui, sans-serif;
             font-size: 12px;
-            color: #52525b;
+            color: var(--admin-text-dim);
         }
         .dashboard-card__content {
             padding: 24px;
@@ -302,21 +283,21 @@
             align-items: center;
             gap: 14px;
             padding: 12px 14px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.04);
+            background: var(--admin-header-bg);
+            border: 1px solid var(--admin-row-border);
             border-radius: 12px;
             transition: all 0.3s;
         }
         .top-product:hover {
-            background: rgba(255,255,255,0.06);
-            border-color: rgba(136,255,13,0.15);
+            background: var(--admin-surface-hover);
+            border-color: var(--admin-accent-soft);
         }
         .top-product__rank {
             width: 30px;
             height: 30px;
             border-radius: 8px;
-            background: linear-gradient(135deg, #88ff0d 0%, #66cc00 100%);
-            color: #0a0a0a;
+            background: var(--admin-accent);
+            color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -335,7 +316,7 @@
         .top-product__name {
             font-family: 'DM Sans', system-ui, sans-serif;
             font-weight: 600;
-            color: #fafafa;
+            color: var(--admin-text);
             font-size: 13px;
             white-space: nowrap;
             overflow: hidden;
@@ -344,12 +325,12 @@
         .top-product__qty {
             font-family: 'DM Sans', system-ui, sans-serif;
             font-size: 11px;
-            color: #52525b;
+            color: var(--admin-text-dim);
         }
         .top-product__revenue {
             font-family: 'Syne', system-ui, sans-serif;
             font-weight: 700;
-            color: #88ff0d;
+            color: var(--admin-accent);
             font-size: 14px;
             white-space: nowrap;
         }
@@ -358,18 +339,18 @@
         .empty-state {
             text-align: center;
             padding: 40px 20px;
-            color: #3f3f46;
+            color: var(--admin-text-dim);
         }
         .empty-state svg {
             width: 48px;
             height: 48px;
             margin-bottom: 16px;
-            color: #27272a;
+            color: var(--admin-text-dim);
         }
         .empty-state p {
             margin: 0;
             font-size: 14px;
-            color: #52525b;
+            color: var(--admin-text-dim);
         }
 
         /* Status Grid */
@@ -388,15 +369,15 @@
         .status-item {
             text-align: center;
             padding: 18px 12px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.04);
+            background: var(--admin-header-bg);
+            border: 1px solid var(--admin-row-border);
             border-radius: 12px;
             transition: all 0.3s;
         }
         .status-item:hover {
             transform: translateY(-3px);
-            background: rgba(255,255,255,0.06);
-            border-color: rgba(255,255,255,0.1);
+            background: var(--admin-surface-hover);
+            border-color: var(--admin-border);
         }
         .status-item__count {
             display: block;
@@ -409,16 +390,16 @@
         .status-item__label {
             font-family: 'DM Sans', system-ui, sans-serif;
             font-size: 11px;
-            color: #52525b;
+            color: var(--admin-text-dim);
             text-transform: capitalize;
         }
 
-        .status-item--pending .status-item__count { color: #fbbf24; }
-        .status-item--paid .status-item__count { color: #60a5fa; }
-        .status-item--confirmed .status-item__count { color: #c084fc; }
-        .status-item--shipped .status-item__count { color: #22d3ee; }
-        .status-item--delivered .status-item__count { color: #88ff0d; }
-        .status-item--cancelled .status-item__count { color: #ef4444; }
+        .status-item--pending .status-item__count { color: var(--admin-color-warning); }
+        .status-item--paid .status-item__count { color: var(--admin-color-info); }
+        .status-item--confirmed .status-item__count { color: var(--admin-color-purple); }
+        .status-item--shipped .status-item__count { color: var(--admin-color-cyan); }
+        .status-item--delivered .status-item__count { color: var(--admin-accent); }
+        .status-item--cancelled .status-item__count { color: var(--admin-color-danger); }
 
         /* Animate in */
         @keyframes fadeSlideUp {
@@ -436,11 +417,11 @@
 
         /* Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #88ff0d, #66cc00); border-radius: 3px; }
+        ::-webkit-scrollbar-track { background: var(--admin-scrollbar-track); }
+        ::-webkit-scrollbar-thumb { background: var(--admin-scrollbar-thumb); border-radius: 3px; }
 
         /* Selection */
-        ::selection { background: rgba(136, 255, 13, 0.3); color: #fafafa; }
+        ::selection { background: var(--admin-accent-soft); color: var(--admin-text); }
     </style>
 
     <div class="ea-dashboard-content">
@@ -620,17 +601,28 @@
         const revenues = salesData.map(item => item.revenue);
         const orders = salesData.map(item => item.orders);
 
+        // Read CSS variables for chart colors
+        const cs = getComputedStyle(document.documentElement);
+        const accent = cs.getPropertyValue('--admin-accent').trim();
+        const accentSoft = cs.getPropertyValue('--admin-accent-soft').trim();
+        const textMuted = cs.getPropertyValue('--admin-text-muted').trim();
+        const textDim = cs.getPropertyValue('--admin-text-dim').trim();
+        const text = cs.getPropertyValue('--admin-text').trim();
+        const bg = cs.getPropertyValue('--admin-bg').trim();
+        const border = cs.getPropertyValue('--admin-border').trim();
+        const info = cs.getPropertyValue('--admin-color-info').trim();
+
         const ctx = document.getElementById('salesChart').getContext('2d');
 
         // Gradient for revenue
         const revenueGradient = ctx.createLinearGradient(0, 0, 0, 300);
-        revenueGradient.addColorStop(0, 'rgba(136, 255, 13, 0.15)');
-        revenueGradient.addColorStop(1, 'rgba(136, 255, 13, 0)');
+        revenueGradient.addColorStop(0, accentSoft || 'rgba(22, 163, 74, 0.15)');
+        revenueGradient.addColorStop(1, 'transparent');
 
         // Gradient for orders
         const ordersGradient = ctx.createLinearGradient(0, 0, 0, 300);
-        ordersGradient.addColorStop(0, 'rgba(96, 165, 250, 0.1)');
-        ordersGradient.addColorStop(1, 'rgba(96, 165, 250, 0)');
+        ordersGradient.addColorStop(0, (info ? info + '1a' : 'rgba(96, 165, 250, 0.1)'));
+        ordersGradient.addColorStop(1, 'transparent');
 
         new Chart(ctx, {
             type: 'line',
@@ -640,13 +632,13 @@
                     {
                         label: 'Выручка (₽)',
                         data: revenues,
-                        borderColor: '#88ff0d',
+                        borderColor: accent,
                         backgroundColor: revenueGradient,
                         borderWidth: 2,
                         tension: 0.4,
                         fill: true,
-                        pointBackgroundColor: '#88ff0d',
-                        pointBorderColor: '#0a0a0a',
+                        pointBackgroundColor: accent,
+                        pointBorderColor: bg,
                         pointBorderWidth: 2,
                         pointRadius: 4,
                         pointHoverRadius: 6
@@ -654,13 +646,13 @@
                     {
                         label: 'Заказы',
                         data: orders,
-                        borderColor: '#60a5fa',
+                        borderColor: info,
                         backgroundColor: ordersGradient,
                         borderWidth: 2,
                         tension: 0.4,
                         fill: true,
-                        pointBackgroundColor: '#60a5fa',
-                        pointBorderColor: '#0a0a0a',
+                        pointBackgroundColor: info,
+                        pointBorderColor: bg,
                         pointBorderWidth: 2,
                         pointRadius: 4,
                         pointHoverRadius: 6,
@@ -681,7 +673,7 @@
                         display: true,
                         position: 'top',
                         labels: {
-                            color: '#71717a',
+                            color: textMuted,
                             font: { family: 'DM Sans', size: 12 },
                             padding: 16,
                             usePointStyle: true,
@@ -689,13 +681,13 @@
                         }
                     },
                     tooltip: {
-                        backgroundColor: 'rgba(10, 10, 10, 0.95)',
+                        backgroundColor: bg,
                         padding: 12,
                         titleFont: { family: 'Syne', size: 13, weight: '700' },
                         bodyFont: { family: 'DM Sans', size: 12 },
-                        titleColor: '#fafafa',
-                        bodyColor: '#a1a1aa',
-                        borderColor: 'rgba(136, 255, 13, 0.2)',
+                        titleColor: text,
+                        bodyColor: textMuted,
+                        borderColor: border,
                         borderWidth: 1,
                         cornerRadius: 10,
                         displayColors: true,
@@ -717,11 +709,11 @@
                         display: true,
                         position: 'left',
                         grid: {
-                            color: 'rgba(255, 255, 255, 0.04)',
+                            color: border,
                             drawBorder: false
                         },
                         ticks: {
-                            color: '#3f3f46',
+                            color: textDim,
                             font: { family: 'DM Sans', size: 11 },
                             callback: function(value) {
                                 return value.toLocaleString('ru-RU') + ' ₽';
@@ -737,7 +729,7 @@
                             drawBorder: false
                         },
                         ticks: {
-                            color: '#3f3f46',
+                            color: textDim,
                             font: { family: 'DM Sans', size: 11 }
                         }
                     },
@@ -746,7 +738,7 @@
                             display: false
                         },
                         ticks: {
-                            color: '#3f3f46',
+                            color: textDim,
                             font: { family: 'DM Sans', size: 11 }
                         }
                     }
