@@ -11,6 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Doctrine адаптер для CategoryRepositoryInterface
+ *
+ * @extends ServiceEntityRepository<Category>
  */
 class CategoryDoctrineRepository extends ServiceEntityRepository implements CategoryRepositoryInterface
 {

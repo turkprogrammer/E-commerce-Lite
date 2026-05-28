@@ -11,6 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Doctrine адаптер для OrderRepositoryInterface
+ *
+ * @extends ServiceEntityRepository<Order>
  */
 class OrderDoctrineRepository extends ServiceEntityRepository implements OrderRepositoryInterface
 {

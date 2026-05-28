@@ -84,6 +84,7 @@ class Payment
      * @var array Дополнительная информация о платеже в формате JSON
      */
     #[ORM\Column(type: 'json', options: ['default' => '{}'])]
+    /** @var array<string, mixed> */
     private array $metadata = [];
 
     /**
@@ -242,7 +243,7 @@ class Payment
     /**
      * Получить дополнительные данные платежа
      *
-     * @return array Дополнительная информация о платеже
+     * @return array<string, mixed> Дополнительная информация о платеже
      */
     public function getMetadata(): array
     {
@@ -252,7 +253,7 @@ class Payment
     /**
      * Установить дополнительные данные платежа
      *
-     * @param array $metadata Дополнительная информация о платеже
+     * @param array<string, mixed> $metadata Дополнительная информация о платеже
      * @return self Возвращает текущий экземпляр для цепочки вызовов
      */
     public function setMetadata(array $metadata): self

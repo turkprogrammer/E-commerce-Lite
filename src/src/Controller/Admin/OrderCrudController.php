@@ -24,6 +24,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * CRUD контроллер для заказов
+ *
+ * @extends AbstractCrudController<Order>
  */
 #[AdminRoute]
 #[IsGranted('ROLE_ADMIN')]

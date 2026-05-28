@@ -17,9 +17,7 @@ class MockPaymentGateway implements PaymentGatewayInterface
      */
     private array $payments = [];
     
-    /**
-     * @var array
-     */
+    /** @var array<int, array<string, mixed>> */
     private array $webhooks = [];
     
     /**
@@ -39,6 +37,8 @@ class MockPaymentGateway implements PaymentGatewayInterface
 
     /**
      * Обработать webhook от платёжной системы
+     *
+     * @param array<string, mixed> $payload
      */
     public function processWebhook(array $payload): Payment
     {
@@ -102,6 +102,8 @@ class MockPaymentGateway implements PaymentGatewayInterface
     
     /**
      * Получить все обработанные webhook
+     *
+     * @return array<int, array<string, mixed>>
      */
     public function getWebhooks(): array
     {

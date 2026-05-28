@@ -22,6 +22,9 @@ abstract class AbstractApiController extends AbstractController
 
     /**
      * Создать JSON ответ
+     *
+     * @param array<string, string> $headers
+     * @param array<string, mixed> $context
      */
     protected function json(mixed $data, int $status = Response::HTTP_OK, array $headers = [], array $context = []): JsonResponse
     {
@@ -32,6 +35,8 @@ abstract class AbstractApiController extends AbstractController
 
     /**
      * Создать ответ с ошибкой
+     *
+     * @param array<int, array{field: string, message: string}> $errors
      */
     protected function error(string $message, int $status = Response::HTTP_BAD_REQUEST, array $errors = []): JsonResponse
     {
@@ -50,6 +55,8 @@ abstract class AbstractApiController extends AbstractController
 
     /**
      * Создать ответ об успехе
+     *
+     * @param array<string, mixed> $context
      */
     protected function success(mixed $data = null, string $message = 'OK', int $status = Response::HTTP_OK, array $context = []): JsonResponse
     {
@@ -83,7 +90,7 @@ abstract class AbstractApiController extends AbstractController
         $errors = [];
         foreach ($violations as $violation) {
             $errors[] = [
-                'field' => $violation->getPropertyPath() ?? '',
+                'field' => $violation->getPropertyPath(),
                 'message' => $violation->getMessage(),
             ];
         }

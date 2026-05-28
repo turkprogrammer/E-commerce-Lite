@@ -24,7 +24,7 @@ readonly class CheckoutCart
      * Оформить заказ из корзины
      *
      * @param string $sessionId Session ID корзины
-     * @param array $customerData Данные покупателя
+     * @param array{customerName: string, customerEmail: string, customerPhone: string, deliveryAddress: string} $customerData Данные покупателя
      * @return Order Созданный заказ
      * @throws \RuntimeException Если корзина пуста или не найдена
      */
@@ -65,10 +65,10 @@ readonly class CheckoutCart
         
         // Создаём заказ
         $order = new Order();
-        $order->setCustomerName($customerData['customerName'] ?? '');
-        $order->setCustomerEmail($customerData['customerEmail'] ?? '');
-        $order->setCustomerPhone($customerData['customerPhone'] ?? '');
-        $order->setDeliveryAddress($customerData['deliveryAddress'] ?? '');
+        $order->setCustomerName($customerData['customerName']);
+        $order->setCustomerEmail($customerData['customerEmail']);
+        $order->setCustomerPhone($customerData['customerPhone']);
+        $order->setDeliveryAddress($customerData['deliveryAddress']);
         
         // Переносим элементы корзины в заказ
         foreach ($cart->getItems() as $cartItem) {

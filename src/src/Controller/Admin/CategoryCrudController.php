@@ -20,6 +20,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * CRUD контроллер для категорий
+ *
+ * @extends AbstractCrudController<Category>
  */
 #[AdminRoute]
 #[IsGranted('ROLE_ADMIN')]

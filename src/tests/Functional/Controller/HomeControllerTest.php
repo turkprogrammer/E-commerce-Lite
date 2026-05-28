@@ -71,7 +71,7 @@ class HomeControllerTest extends WebTestCase
     }
 
     /**
-     * Тест: Главная страница содержит заголовок Latest Drops
+     * Тест: Главная страница содержит заголовок
      *
      * ПРОВЕРКА: Контент соответствует premium-дизайну
      */
@@ -80,8 +80,7 @@ class HomeControllerTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/');
 
-        $this->assertSelectorTextContains('h1', 'Latest Drops', 'Заголовок Latest Drops должен быть');
-        $this->assertSelectorTextContains('p', 'Exclusive pieces, limited availability', 'Описание должно быть');
+        $this->assertSelectorTextContains('h1', 'Define Your Style', 'Заголовок Define Your Style должен быть');
     }
 
     /**

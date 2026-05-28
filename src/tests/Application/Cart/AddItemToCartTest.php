@@ -9,7 +9,7 @@ use App\Domain\Entity\Cart;
 use App\Domain\Entity\CartItem;
 use App\Domain\Entity\Product;
 use App\Domain\Port\Repository\CartRepositoryInterface;
-use App\Infrastructure\Doctrine\Repository\ProductDoctrineRepository;
+use App\Domain\Port\Repository\ProductRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,13 +18,13 @@ use PHPUnit\Framework\TestCase;
 class AddItemToCartTest extends TestCase
 {
     private CartRepositoryInterface $cartRepo;
-    private ProductDoctrineRepository $productRepo;
+    private ProductRepositoryInterface $productRepo;
     private AddItemToCart $useCase;
 
     protected function setUp(): void
     {
         $this->cartRepo = $this->createMock(CartRepositoryInterface::class);
-        $this->productRepo = $this->createMock(ProductDoctrineRepository::class);
+        $this->productRepo = $this->createMock(ProductRepositoryInterface::class);
         $this->useCase = new AddItemToCart($this->cartRepo, $this->productRepo);
     }
 
@@ -43,7 +43,7 @@ class AddItemToCartTest extends TestCase
         $cart = new Cart();
         $cart->setSessionId('test-session');
 
-        $this->productRepo->method('find')->willReturn($product);
+        $this->productRepo->method('findById')->willReturn($product);
         $this->cartRepo->method('findBySessionId')->willReturn($cart);
         $this->cartRepo->expects($this->once())->method('save')->with($cart);
 
@@ -77,7 +77,7 @@ class AddItemToCartTest extends TestCase
         $existingItem->setQuantity(1);
         $cart->addItem($existingItem);
 
-        $this->productRepo->method('find')->willReturn($product);
+        $this->productRepo->method('findById')->willReturn($product);
         $this->cartRepo->method('findBySessionId')->willReturn($cart);
         $this->cartRepo->expects($this->once())->method('save')->with($cart);
 
@@ -96,7 +96,7 @@ class AddItemToCartTest extends TestCase
     public function testAddItemWithNonExistentProduct(): void
     {
         // Arrange
-        $this->productRepo->method('find')->willReturn(null);
+        $this->productRepo->method('findById')->willReturn(null);
 
         // Assert
         $this->expectException(\RuntimeException::class);
@@ -118,7 +118,7 @@ class AddItemToCartTest extends TestCase
         $product->setStock(10);
         $product->setActive(false);
 
-        $this->productRepo->method('find')->willReturn($product);
+        $this->productRepo->method('findById')->willReturn($product);
 
         // Assert
         $this->expectException(\RuntimeException::class);
@@ -140,7 +140,7 @@ class AddItemToCartTest extends TestCase
         $product->setStock(2); // Всего 2 штуки
         $product->setActive(true);
 
-        $this->productRepo->method('find')->willReturn($product);
+        $this->productRepo->method('findById')->willReturn($product);
 
         // Assert
         $this->expectException(\RuntimeException::class);

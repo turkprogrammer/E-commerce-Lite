@@ -218,6 +218,8 @@ class CheckoutCartTest extends TestCase
         $this->useCase->handle('test-session', [
             'customerName' => 'Test',
             'customerEmail' => 'test@test.com',
+            'customerPhone' => '+7 (999) 000-00-00',
+            'deliveryAddress' => 'Test Address',
         ]);
 
         // Assert

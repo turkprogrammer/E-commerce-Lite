@@ -11,6 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Doctrine адаптер для ProductRepositoryInterface
+ *
+ * @extends ServiceEntityRepository<Product>
  */
 class ProductDoctrineRepository extends ServiceEntityRepository implements ProductRepositoryInterface
 {

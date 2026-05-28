@@ -11,6 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Doctrine адаптер для CartRepositoryInterface
+ *
+ * @extends ServiceEntityRepository<Cart>
  */
 class CartDoctrineRepository extends ServiceEntityRepository implements CartRepositoryInterface
 {

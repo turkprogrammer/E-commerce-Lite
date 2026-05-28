@@ -18,6 +18,8 @@ interface PaymentGatewayInterface
 
     /**
      * Обработать webhook от платёжной системы
+     *
+     * @param array<string, mixed> $payload
      */
     public function processWebhook(array $payload): Payment;
 

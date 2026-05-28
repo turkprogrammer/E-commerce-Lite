@@ -13,19 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class WebhookControllerTest extends WebTestCase
 {
-    private const WEBHOOK_SECRET = 'webhook_test_secret_key_change_in_production';
-    
-    /**
-     * Получить заголовки авторизации для webhook
-     */
-    private function getAuthHeaders(): array
-    {
-        return [
-            'PHP_AUTH_USER' => 'webhook_key',
-            'PHP_AUTH_PW' => self::WEBHOOK_SECRET,
-        ];
-    }
-    
     /**
      * Тест: Webhook test endpoint возвращает успешный ответ
      * 

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Domain\Entity\Product;
-use App\Infrastructure\Doctrine\Repository\ProductDoctrineRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -24,15 +23,13 @@ use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 
 /**
  * CRUD контроллер для товаров
+ *
+ * @extends AbstractCrudController<Product>
  */
 #[AdminRoute]
 #[IsGranted('ROLE_ADMIN')]
 class ProductCrudController extends AbstractCrudController
 {
-    public function __construct(
-        private ProductDoctrineRepository $productRepo,
-    ) {}
-
     public static function getEntityFqcn(): string
     {
         return Product::class;

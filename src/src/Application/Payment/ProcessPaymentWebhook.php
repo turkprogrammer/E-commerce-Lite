@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Payment;
 
 use App\Domain\Entity\Payment;
-use App\Domain\Port\PaymentGatewayInterface;
 use App\Domain\Port\Repository\PaymentRepositoryInterface;
-use App\Domain\Port\Repository\OrderRepositoryInterface;
 
 /**
  * Use Case: Обработать webhook от платёжной системы
@@ -15,15 +13,13 @@ use App\Domain\Port\Repository\OrderRepositoryInterface;
 readonly class ProcessPaymentWebhook
 {
     public function __construct(
-        private PaymentGatewayInterface $gateway,
         private PaymentRepositoryInterface $paymentRepo,
-        private OrderRepositoryInterface $orderRepo,
     ) {}
 
     /**
      * Обработать webhook
      *
-     * @param array $payload Данные webhook
+     * @param array<string, mixed> $payload Данные webhook
      * @return Payment Обработанный платёж
      * @throws \RuntimeException Если webhook невалиден
      */
@@ -49,6 +45,8 @@ readonly class ProcessPaymentWebhook
 
     /**
      * Об успешном платеже
+     *
+     * @param array<string, mixed> $payload
      */
     private function handlePaymentSucceeded(array $payload): Payment
     {
@@ -79,6 +77,8 @@ readonly class ProcessPaymentWebhook
 
     /**
      * О неудачном платеже
+     *
+     * @param array<string, mixed> $payload
      */
     private function handlePaymentFailed(array $payload): Payment
     {
@@ -102,6 +102,8 @@ readonly class ProcessPaymentWebhook
 
     /**
      * О возврате платежа (refund)
+     *
+     * @param array<string, mixed> $payload
      */
     private function handlePaymentRefunded(array $payload): Payment
     {

@@ -20,8 +20,8 @@ readonly class CreateOrder
     /**
      * Создать заказ
      *
-     * @param array $data Данные заказа
-     * @param array $items Элементы заказа
+     * @param array{customerName: string, customerEmail: string, customerPhone: string, deliveryAddress: string} $data Данные заказа
+     * @param array<int, array{productName: string, quantity: int, price: float}> $items Элементы заказа
      * @return Order Созданный заказ
      */
     public function handle(array $data, array $items): Order

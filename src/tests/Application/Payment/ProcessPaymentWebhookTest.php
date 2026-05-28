@@ -6,8 +6,6 @@ namespace App\Tests\Application\Payment;
 
 use App\Application\Payment\ProcessPaymentWebhook;
 use App\Domain\Entity\Payment;
-use App\Domain\Port\PaymentGatewayInterface;
-use App\Domain\Port\Repository\OrderRepositoryInterface;
 use App\Domain\Port\Repository\PaymentRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -16,20 +14,14 @@ use PHPUnit\Framework\TestCase;
  */
 class ProcessPaymentWebhookTest extends TestCase
 {
-    private PaymentGatewayInterface $gateway;
     private PaymentRepositoryInterface $paymentRepo;
-    private OrderRepositoryInterface $orderRepo;
     private ProcessPaymentWebhook $useCase;
 
     protected function setUp(): void
     {
-        $this->gateway = $this->createMock(PaymentGatewayInterface::class);
         $this->paymentRepo = $this->createMock(PaymentRepositoryInterface::class);
-        $this->orderRepo = $this->createMock(OrderRepositoryInterface::class);
         $this->useCase = new ProcessPaymentWebhook(
-            $this->gateway,
-            $this->paymentRepo,
-            $this->orderRepo
+            $this->paymentRepo
         );
     }
 

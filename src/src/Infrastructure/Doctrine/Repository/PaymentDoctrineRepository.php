@@ -11,6 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Doctrine адаптер для PaymentRepositoryInterface
+ *
+ * @extends ServiceEntityRepository<Payment>
  */
 class PaymentDoctrineRepository extends ServiceEntityRepository implements PaymentRepositoryInterface
 {

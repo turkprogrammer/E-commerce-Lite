@@ -17,6 +17,8 @@ class DashboardStatsProvider
 
     /**
      * Получить основную статистику
+     *
+     * @return array{todayRevenue: float, todayRevenueChange: float, todayOrders: int, todayOrdersChange: float, averageCheck: float, totalOrders: int, totalProducts: int, weekRevenue: float, monthRevenue: float}
      */
     public function getStats(): array
     {
@@ -100,6 +102,8 @@ class DashboardStatsProvider
 
     /**
      * Получить динамику продаж по дням (последние 7 дней)
+     *
+     * @return array<int, array{date: string, orders: int, revenue: float}>
      */
     public function getSalesChart(): array
     {
@@ -152,6 +156,8 @@ class DashboardStatsProvider
 
     /**
      * Получить топ-5 самых продаваемых товаров
+     *
+     * @return array<int, array{name: string, quantity: int, revenue: float}>
      */
     public function getTopProducts(int $limit = 5): array
     {
@@ -179,6 +185,8 @@ class DashboardStatsProvider
 
     /**
      * Получить статусы заказов для графика
+     *
+     * @return array<int, array{status: string, count: int}>
      */
     public function getOrderStatuses(): array
     {
