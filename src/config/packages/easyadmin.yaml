@@ -3,7 +3,7 @@
 
 easy_admin:
     # Заголовок админ-панели
-    site_name: 'E-commerce Admin'
+    site_name: '<span style="font-family: Syne, sans-serif; font-weight: 800; letter-spacing: -0.02em;">ECOMM<span style="color: #88ff0d;">ERCE</span></span>'
 
     # Главный маршрут дашборда
     dashboard: App\Controller\Admin\DashboardController::index

@@ -6,6 +6,7 @@ namespace App\Controller\Admin;
 
 use App\Service\DashboardStatsProvider;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -42,6 +43,15 @@ class DashboardController extends AbstractDashboardController
     }
 
     /**
+     * Загрузка глобальных CSS-ассетов для админки
+     */
+    public function configureAssets(): Assets
+    {
+        return Assets::new()
+            ->addCssFile('css/admin-theme.css');
+    }
+
+    /**
      * Настройка дашборда
      */
     public function configureDashboard(): Dashboard
@@ -57,23 +67,17 @@ class DashboardController extends AbstractDashboardController
      */
     public function configureMenuItems(): iterable
     {
-        // Главная - Dashboard
-        yield MenuItem::linkToDashboard('Главная', 'fa fa-home');
+        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-gauge-high');
 
-        // Раздел каталога
         yield MenuItem::section('Каталог');
-        yield MenuItem::linkToRoute('Товары', 'fas fa-box', 'admin_product_index');
-        yield MenuItem::linkToRoute('Категории', 'fas fa-tags', 'admin_category_index');
+        yield MenuItem::linkToRoute('Товары', 'fas fa-cube', 'admin_product_index');
+        yield MenuItem::linkToRoute('Категории', 'fas fa-layer-group', 'admin_category_index');
 
-        // Раздел заказов
-        yield MenuItem::section('Заказы');
-        yield MenuItem::linkToRoute('Заказы', 'fas fa-shopping-cart', 'admin_order_index');
+        yield MenuItem::section('Продажи');
+        yield MenuItem::linkToRoute('Заказы', 'fas fa-receipt', 'admin_order_index');
 
-        // Ссылка на сайт
         yield MenuItem::section('');
-        yield MenuItem::linkToUrl('На сайт', 'fas fa-external-link-alt', '/');
-
-        // Выход
-        yield MenuItem::linkToLogout('Выйти', 'fas fa-sign-out-alt');
+        yield MenuItem::linkToUrl('На сайт', 'fas fa-arrow-up-right-from-square', '/')->setLinkTarget('_blank');
+        yield MenuItem::linkToLogout('Выход', 'fas fa-right-from-bracket');
     }
 }

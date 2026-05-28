@@ -1,0 +1,618 @@
+/* ===== E-commerce Admin — Cinematic Dark Theme ===== */
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+
+:root {
+    --admin-bg: #0a0a0a;
+    --admin-surface: rgba(255,255,255,0.04);
+    --admin-border: rgba(255,255,255,0.06);
+    --admin-text: #fafafa;
+    --admin-text-muted: #71717a;
+    --admin-text-dim: #52525b;
+    --admin-accent: #88ff0d;
+    --admin-accent-soft: rgba(136,255,13,0.12);
+
+    /* Override EasyAdmin sidebar CSS variables */
+    --sidebar-bg: #050505 !important;
+    --sidebar-border-color: rgba(255,255,255,0.06) !important;
+    --sidebar-logo-color: #fafafa !important;
+    --sidebar-menu-color: #71717a !important;
+    --sidebar-menu-header-color: #3f3f46 !important;
+    --sidebar-menu-icon-color: #3f3f46 !important;
+    --sidebar-menu-active-item-bg: rgba(136,255,13,0.08) !important;
+    --sidebar-menu-active-item-color: #88ff0d !important;
+    --sidebar-menu-badge-bg: rgba(136,255,13,0.12) !important;
+    --sidebar-menu-badge-color: #88ff0d !important;
+    --sidebar-menu-badge-active-bg: #88ff0d !important;
+    --sidebar-menu-badge-active-color: #0a0a0a !important;
+}
+
+/* ===== Global ===== */
+body.ea {
+    background: var(--admin-bg) !important;
+    font-family: 'DM Sans', system-ui, sans-serif !important;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #88ff0d #0a0a0a;
+}
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #88ff0d, #66cc00); border-radius: 3px; }
+
+::selection { background: rgba(136,255,13,0.3); color: #fafafa; }
+
+/* ===== Sidebar ===== */
+.ea-sidebar {
+    background: #050505 !important;
+    border-right: 1px solid var(--admin-border) !important;
+}
+
+/* Logo */
+.ea-sidebar .logo {
+    background: transparent !important;
+    border-bottom: 1px solid var(--admin-border) !important;
+    padding: 24px 24px !important;
+}
+
+.ea-sidebar .logo-title {
+    color: var(--admin-text) !important;
+    font-family: 'Syne', system-ui, sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 15px !important;
+    letter-spacing: -0.02em !important;
+}
+
+.ea-sidebar .logo-icon {
+    background: linear-gradient(135deg, #88ff0d, #66cc00) !important;
+    color: #0a0a0a !important;
+    border-radius: 10px !important;
+    box-shadow: 0 0 15px rgba(136,255,13,0.3) !important;
+}
+
+/* Menu container */
+.ea-sidebar .menu {
+    padding: 8px 0 !important;
+}
+
+/* Section headers (.menu-header, NOT .menu-section) */
+.ea-sidebar .menu .menu-header {
+    margin-top: 20px !important;
+    padding: 0 !important;
+}
+
+.ea-sidebar .menu .menu-header .menu-header-contents {
+    padding: 0 24px !important;
+    background: transparent !important;
+}
+
+.ea-sidebar .menu .menu-header .menu-item-label {
+    color: #3f3f46 !important;
+    font-family: 'Syne', system-ui, sans-serif !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.15em !important;
+    background: transparent !important;
+}
+
+/* Menu items — the <a> is .menu-item-contents */
+.ea-sidebar .menu-item .menu-item-contents {
+    color: #71717a !important;
+    background: transparent !important;
+    font-family: 'DM Sans', system-ui, sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    padding: 10px 16px !important;
+    margin: 2px 12px !important;
+    border-radius: 10px !important;
+    border-left: 3px solid transparent !important;
+    transition: all 0.25s ease !important;
+    text-decoration: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+/* Hover */
+.ea-sidebar .menu-item .menu-item-contents:hover {
+    color: #fafafa !important;
+    background: rgba(255,255,255,0.04) !important;
+}
+
+/* Active */
+.ea-sidebar .menu-item.active .menu-item-contents,
+.ea-sidebar .menu-item.selected .menu-item-contents {
+    color: #fafafa !important;
+    background: rgba(136,255,13,0.07) !important;
+    border-left-color: #88ff0d !important;
+}
+
+/* Icon — the <i> inside .menu-icon */
+.ea-sidebar .menu-item .menu-icon i {
+    color: #3f3f46 !important;
+    width: 18px !important;
+    text-align: center !important;
+    font-size: 14px !important;
+}
+
+.ea-sidebar .menu-item.active .menu-icon i,
+.ea-sidebar .menu-item.selected .menu-icon i {
+    color: #88ff0d !important;
+}
+
+/* Label — nuke all backgrounds with maximum specificity */
+.ea-sidebar span.menu-item-label,
+.ea-sidebar span.menu-item-label.position-relative,
+.ea-sidebar .menu-item span.menu-item-label,
+.ea-sidebar .menu-item span.menu-item-label.position-relative,
+.ea-sidebar .menu-header span.menu-item-label,
+.ea-sidebar .menu-header span.menu-item-label.position-relative,
+.ea-sidebar .menu-item-contents span.menu-item-label,
+.ea-sidebar .menu-item-contents span.menu-item-label.position-relative,
+.ea-sidebar .menu-header-contents span.menu-item-label,
+.ea-sidebar .menu-header-contents span.menu-item-label.position-relative {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    color: inherit !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: inline !important;
+}
+
+/* Nuclear option — override ANY background on labels inside sidebar */
+.ea-sidebar [class*="menu-item-label"] {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+}
+
+/* Also nuke .menu-icon backgrounds if any */
+.ea-sidebar .menu-item .menu-icon,
+.ea-sidebar .menu-item .icon {
+    background: transparent !important;
+}
+
+/* Override any inline style on labels */
+.ea-sidebar span[style*="background"] {
+    background: transparent !important;
+}
+
+/* ===== ID-based overrides to beat #main-menu specificity ===== */
+#main-menu .menu .menu-header {
+    color: #3f3f46 !important;
+    font-family: 'Syne', system-ui, sans-serif !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.15em !important;
+    margin-top: 20px !important;
+}
+
+#main-menu .menu .menu-header .menu-header-contents {
+    background: transparent !important;
+}
+
+#main-menu .menu .menu-header .menu-item-label {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    color: inherit !important;
+}
+
+#main-menu .menu .menu-item {
+    background: transparent !important;
+    margin: 2px 12px !important;
+    border-radius: 10px !important;
+    padding: 0 !important;
+}
+
+#main-menu .menu .menu-item.active {
+    background: rgba(136,255,13,0.08) !important;
+}
+
+#main-menu .menu .menu-item.active .menu-item-contents {
+    background: transparent !important;
+}
+
+#main-menu .menu .menu-item .menu-item-contents {
+    color: #71717a !important;
+    font-family: 'DM Sans', system-ui, sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    padding: 10px 16px !important;
+    border-radius: 10px !important;
+    text-decoration: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    transition: all 0.25s ease !important;
+    background: transparent !important;
+}
+
+#main-menu .menu .menu-item .menu-item-contents:hover {
+    color: #fafafa !important;
+    background: rgba(255,255,255,0.04) !important;
+}
+
+#main-menu .menu .menu-item.active .menu-item-contents {
+    color: #fafafa !important;
+}
+
+#main-menu .menu .menu-item.active:not(.expanded) .menu-icon,
+#main-menu .menu .menu-item.active:not(.expanded) a {
+    color: #88ff0d !important;
+}
+
+#main-menu .menu .menu-item .menu-icon,
+#main-menu .menu .menu-item .menu-item-contents .menu-icon {
+    color: #3f3f46 !important;
+}
+
+#main-menu .menu .menu-item.active .menu-icon {
+    color: #88ff0d !important;
+}
+
+#main-menu .menu .menu-item .menu-item-label,
+#main-menu .menu .menu-item .menu-item-contents .menu-item-label {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    color: inherit !important;
+    font-weight: inherit !important;
+}
+
+#main-menu .menu .menu-item.active .menu-item-label {
+    background: transparent !important;
+    color: #fafafa !important;
+    font-weight: 600 !important;
+}
+
+/* Sidebar toggle */
+.ea-sidebar .sidebar-resize-handler {
+    background: var(--admin-border) !important;
+}
+
+/* User menu at bottom */
+.ea-sidebar .user-menu-wrapper {
+    border-top: 1px solid var(--admin-border) !important;
+}
+
+.ea-sidebar .user-menu-wrapper .user-name {
+    color: #fafafa !important;
+    font-family: 'DM Sans', system-ui, sans-serif !important;
+    font-weight: 600 !important;
+}
+
+.ea-sidebar .user-menu-wrapper .user-details {
+    color: #52525b !important;
+}
+
+/* Sidebar scrollbar */
+.ea-sidebar * {
+    scrollbar-width: thin;
+    scrollbar-color: #27272a transparent;
+}
+
+/* ===== Content Area ===== */
+.content-wrapper {
+    background: var(--admin-bg) !important;
+}
+
+.content-wrapper-body {
+    background: var(--admin-bg) !important;
+}
+
+.ea-content {
+    background: var(--admin-bg) !important;
+}
+
+/* Content header */
+.content-header {
+    background: var(--admin-bg) !important;
+    border-bottom: 1px solid var(--admin-border) !important;
+    padding: 20px 28px !important;
+}
+
+.content-header-title {
+    color: var(--admin-text) !important;
+    font-family: 'Syne', system-ui, sans-serif !important;
+    font-weight: 700 !important;
+}
+
+/* ===== DataGrid / Tables ===== */
+.datagrid {
+    background: transparent !important;
+}
+
+.datagrid thead th {
+    background: rgba(255,255,255,0.03) !important;
+    color: var(--admin-text-muted) !important;
+    font-family: 'Syne', system-ui, sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    border-bottom: 1px solid var(--admin-border) !important;
+    padding: 12px 16px !important;
+}
+
+.datagrid tbody tr {
+    border-bottom: 1px solid rgba(255,255,255,0.03) !important;
+    transition: background 0.2s !important;
+}
+
+.datagrid tbody tr:hover {
+    background: rgba(255,255,255,0.03) !important;
+}
+
+.datagrid td {
+    color: var(--admin-text) !important;
+    font-family: 'DM Sans', system-ui, sans-serif !important;
+    font-size: 13px !important;
+    padding: 14px 16px !important;
+    border-color: rgba(255,255,255,0.03) !important;
+}
+
+/* Table in card */
+.table tbody tr:hover td,
+.table-hover tbody tr:hover td {
+    background: rgba(255,255,255,0.03) !important;
+}
+
+/* ===== Cards ===== */
+.card,
+.field-group,
+.ea-detail .card {
+    background: var(--admin-surface) !important;
+    border: 1px solid var(--admin-border) !important;
+    border-radius: 16px !important;
+    box-shadow: none !important;
+}
+
+.card-header,
+.ea-detail .card-header {
+    background: transparent !important;
+    border-bottom: 1px solid var(--admin-border) !important;
+    color: var(--admin-text) !important;
+    font-family: 'Syne', system-ui, sans-serif !important;
+    font-weight: 700 !important;
+}
+
+/* ===== Buttons ===== */
+.btn-primary,
+.btn-primary:not(:disabled):not(.disabled):active {
+    background: linear-gradient(135deg, #88ff0d 0%, #66cc00 100%) !important;
+    border: none !important;
+    color: #0a0a0a !important;
+    font-family: 'Syne', system-ui, sans-serif !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 0 15px rgba(136,255,13,0.2) !important;
+    transition: all 0.3s !important;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 0 25px rgba(136,255,13,0.4) !important;
+    transform: translateY(-1px) !important;
+}
+
+.btn-secondary {
+    background: var(--admin-surface) !important;
+    border: 1px solid var(--admin-border) !important;
+    color: var(--admin-text-muted) !important;
+    border-radius: 10px !important;
+    font-family: 'DM Sans', system-ui, sans-serif !important;
+}
+
+.btn-secondary:hover {
+    background: rgba(255,255,255,0.08) !important;
+    color: var(--admin-text) !important;
+    border-color: rgba(255,255,255,0.15) !important;
+}
+
+.btn-danger {
+    background: rgba(239,68,68,0.15) !important;
+    border: 1px solid rgba(239,68,68,0.3) !important;
+    color: #ef4444 !important;
+    border-radius: 10px !important;
+}
+
+.btn-danger:hover {
+    background: rgba(239,68,68,0.25) !important;
+}
+
+/* ===== Form Controls ===== */
+.form-control,
+.form-select,
+.field-textarea textarea {
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    color: var(--admin-text) !important;
+    border-radius: 10px !important;
+    font-family: 'DM Sans', system-ui, sans-serif !important;
+    transition: all 0.3s !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: rgba(136,255,13,0.5) !important;
+    box-shadow: 0 0 0 3px rgba(136,255,13,0.1) !important;
+    background: rgba(255,255,255,0.06) !important;
+}
+
+.form-control::placeholder {
+    color: #3f3f46 !important;
+}
+
+/* Labels */
+.form-label,
+.field-label {
+    color: var(--admin-text-muted) !important;
+    font-family: 'Syne', system-ui, sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+/* Checkbox / Toggle */
+.form-check-input {
+    background-color: rgba(255,255,255,0.04) !important;
+    border-color: rgba(255,255,255,0.15) !important;
+}
+
+.form-check-input:checked {
+    background-color: var(--admin-accent) !important;
+    border-color: var(--admin-accent) !important;
+}
+
+/* ===== Badges ===== */
+.badge {
+    font-family: 'Syne', system-ui, sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 11px !important;
+    border-radius: 6px !important;
+    padding: 4px 10px !important;
+}
+
+.badge-success { background: rgba(136,255,13,0.15) !important; color: #88ff0d !important; }
+.badge-warning { background: rgba(251,191,36,0.15) !important; color: #fbbf24 !important; }
+.badge-info { background: rgba(96,165,250,0.15) !important; color: #60a5fa !important; }
+.badge-primary { background: rgba(192,132,252,0.15) !important; color: #c084fc !important; }
+.badge-danger { background: rgba(239,68,68,0.15) !important; color: #ef4444 !important; }
+.badge-secondary { background: rgba(255,255,255,0.06) !important; color: #a1a1aa !important; }
+
+/* ===== Pagination ===== */
+.pagination .page-item .page-link {
+    background: var(--admin-surface) !important;
+    border-color: var(--admin-border) !important;
+    color: var(--admin-text-muted) !important;
+    border-radius: 8px !important;
+    margin: 0 2px !important;
+    font-family: 'DM Sans', system-ui, sans-serif !important;
+}
+
+.pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, #88ff0d 0%, #66cc00 100%) !important;
+    border-color: transparent !important;
+    color: #0a0a0a !important;
+    font-weight: 700 !important;
+}
+
+/* ===== Dropdown Menus ===== */
+.dropdown-menu {
+    background: rgba(10,10,10,0.95) !important;
+    border: 1px solid var(--admin-border) !important;
+    backdrop-filter: blur(20px) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5) !important;
+}
+
+.dropdown-item {
+    color: var(--admin-text-muted) !important;
+    font-family: 'DM Sans', system-ui, sans-serif !important;
+    font-size: 13px !important;
+    border-radius: 8px !important;
+    padding: 8px 14px !important;
+    margin: 2px 6px !important;
+}
+
+.dropdown-item:hover {
+    background: rgba(255,255,255,0.06) !important;
+    color: var(--admin-text) !important;
+}
+
+/* ===== Modals ===== */
+.modal-content {
+    background: #0f0f11 !important;
+    border: 1px solid var(--admin-border) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5) !important;
+}
+
+.modal-header {
+    border-bottom-color: var(--admin-border) !important;
+}
+
+.modal-footer {
+    border-top-color: var(--admin-border) !important;
+}
+
+.modal-title {
+    color: var(--admin-text) !important;
+    font-family: 'Syne', system-ui, sans-serif !important;
+    font-weight: 700 !important;
+}
+
+/* ===== Alerts ===== */
+.alert {
+    border-radius: 12px !important;
+    font-family: 'DM Sans', system-ui, sans-serif !important;
+}
+
+.alert-success {
+    background: rgba(136,255,13,0.1) !important;
+    border: 1px solid rgba(136,255,13,0.2) !important;
+    color: #88ff0d !important;
+}
+
+.alert-danger {
+    background: rgba(239,68,68,0.1) !important;
+    border: 1px solid rgba(239,68,68,0.2) !important;
+    color: #fca5a5 !important;
+}
+
+.alert-warning {
+    background: rgba(251,191,36,0.1) !important;
+    border: 1px solid rgba(251,191,36,0.2) !important;
+    color: #fde68a !important;
+}
+
+/* ===== Actions ===== */
+.actions a,
+.actions button {
+    border-radius: 8px !important;
+    transition: all 0.2s !important;
+}
+
+/* ===== Filter Panel ===== */
+.filter-panel .filter-field {
+    background: var(--admin-surface) !important;
+    border: 1px solid var(--admin-border) !important;
+    border-radius: 12px !important;
+    padding: 12px !important;
+}
+
+/* ===== Global Search ===== */
+.form-extern .form-control {
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    border-radius: 10px !important;
+    color: var(--admin-text) !important;
+}
+
+/* ===== User Menu ===== */
+.user-menu-wrapper .user-details .user-name {
+    color: var(--admin-text) !important;
+}
+
+/* ===== Footer ===== */
+.content-wrapper-footer {
+    background: var(--admin-bg) !important;
+    border-top: 1px solid var(--admin-border) !important;
+}
+
+.content-wrapper-footer a {
+    color: var(--admin-accent) !important;
+}
+
+/* ===== Toast / Flash ===== */
+#flashes .alert {
+    backdrop-filter: blur(20px) !important;
+}

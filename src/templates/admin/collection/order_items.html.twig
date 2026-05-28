@@ -1,21 +1,23 @@
 {# @var items \App\Domain\Entity\OrderItem[] #}
-<div class="datagrid">
-    <table class="data-table">
+<div style="overflow-x: auto;">
+    <table style="width: 100%; border-collapse: separate; border-spacing: 0; font-family: 'DM Sans', system-ui, sans-serif;">
         <thead>
             <tr>
-                <th>Товар</th>
-                <th>Цена</th>
-                <th>Количество</th>
-                <th>Сумма</th>
+                <th style="text-align: left; padding: 10px 14px; font-family: 'Syne', system-ui, sans-serif; font-size: 11px; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid rgba(255,255,255,0.06);">Товар</th>
+                <th style="text-align: right; padding: 10px 14px; font-family: 'Syne', system-ui, sans-serif; font-size: 11px; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid rgba(255,255,255,0.06);">Цена</th>
+                <th style="text-align: center; padding: 10px 14px; font-family: 'Syne', system-ui, sans-serif; font-size: 11px; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid rgba(255,255,255,0.06);">Кол-во</th>
+                <th style="text-align: right; padding: 10px 14px; font-family: 'Syne', system-ui, sans-serif; font-size: 11px; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid rgba(255,255,255,0.06);">Сумма</th>
             </tr>
         </thead>
         <tbody>
             {% for item in field.value %}
-                <tr>
-                    <td>{{ item.productName }}</td>
-                    <td>{{ item.price|number_format(2, '.', ' ') }} ₽</td>
-                    <td><span class="badge">{{ item.quantity }}</span></td>
-                    <td><strong>{{ (item.price * item.quantity)|number_format(2, '.', ' ') }} ₽</strong></td>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                    <td style="padding: 12px 14px; color: #fafafa; font-size: 13px; font-weight: 500;">{{ item.productName }}</td>
+                    <td style="padding: 12px 14px; color: #a1a1aa; font-size: 13px; text-align: right; font-variant-numeric: tabular-nums;">{{ item.price|number_format(2, '.', ' ') }} ₽</td>
+                    <td style="padding: 12px 14px; text-align: center;">
+                        <span style="display: inline-flex; align-items: center; justify-content: center; min-width: 28px; height: 24px; padding: 0 8px; background: rgba(136,255,13,0.1); border: 1px solid rgba(136,255,13,0.2); border-radius: 6px; color: #88ff0d; font-size: 12px; font-weight: 700; font-family: 'Syne', system-ui, sans-serif;">{{ item.quantity }}</span>
+                    </td>
+                    <td style="padding: 12px 14px; color: #88ff0d; font-size: 14px; font-weight: 700; text-align: right; font-family: 'Syne', system-ui, sans-serif; font-variant-numeric: tabular-nums;">{{ (item.price * item.quantity)|number_format(2, '.', ' ') }} ₽</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -8,10 +8,10 @@
     {# TailwindCSS #}
     <script src="https://cdn.tailwindcss.com"></script>
 
-    {# Premium Fonts #}
+    {# Distinctive Fonts: Syne (geometric display) + DM Sans (refined body) #}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
 
     {# Tailwind Config #}
     <script>
@@ -19,8 +19,8 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter Tight', 'system-ui', 'sans-serif'],
-                        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+                        sans: ['DM Sans', 'system-ui', 'sans-serif'],
+                        display: ['Syne', 'system-ui', 'sans-serif'],
                     },
                     colors: {
                         charcoal: {
@@ -69,6 +69,13 @@
                         'fade-in': 'fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                         'slide-up': 'slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                         'scale-in': 'scaleIn 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                        'reveal': 'reveal 1s cubic-bezier(0.77, 0, 0.175, 1) forwards',
+                        'grain': 'grain 8s steps(10) infinite',
+                        'marquee': 'marquee 30s linear infinite',
+                        'glitch-1': 'glitch1 2s infinite linear alternate-reverse',
+                        'glitch-2': 'glitch2 3s infinite linear alternate-reverse',
+                        'diagonal-slide': 'diagonalSlide 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+                        'count-up': 'countUp 2s cubic-bezier(0.4, 0, 0.2, 1) forwards',
                     },
                     keyframes: {
                         float: {
@@ -87,6 +94,50 @@
                             '0%': { opacity: '0', transform: 'scale(0.9)' },
                             '100%': { opacity: '1', transform: 'scale(1)' },
                         },
+                        reveal: {
+                            '0%': { clipPath: 'inset(0 100% 0 0)' },
+                            '100%': { clipPath: 'inset(0 0 0 0)' },
+                        },
+                        grain: {
+                            '0%, 100%': { transform: 'translate(0, 0)' },
+                            '10%': { transform: 'translate(-5%, -10%)' },
+                            '20%': { transform: 'translate(-15%, 5%)' },
+                            '30%': { transform: 'translate(7%, -25%)' },
+                            '40%': { transform: 'translate(-5%, 25%)' },
+                            '50%': { transform: 'translate(-15%, 10%)' },
+                            '60%': { transform: 'translate(15%, 0%)' },
+                            '70%': { transform: 'translate(0%, 15%)' },
+                            '80%': { transform: 'translate(3%, 35%)' },
+                            '90%': { transform: 'translate(-10%, 10%)' },
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        },
+                        glitch1: {
+                            '0%': { clipPath: 'inset(40% 0 61% 0)', transform: 'translate(-2px, 2px)' },
+                            '20%': { clipPath: 'inset(92% 0 1% 0)', transform: 'translate(1px, -1px)' },
+                            '40%': { clipPath: 'inset(43% 0 1% 0)', transform: 'translate(-1px, 3px)' },
+                            '60%': { clipPath: 'inset(25% 0 58% 0)', transform: 'translate(3px, 1px)' },
+                            '80%': { clipPath: 'inset(54% 0 7% 0)', transform: 'translate(-3px, -2px)' },
+                            '100%': { clipPath: 'inset(58% 0 43% 0)', transform: 'translate(2px, -3px)' },
+                        },
+                        glitch2: {
+                            '0%': { clipPath: 'inset(65% 0 13% 0)', transform: 'translate(3px, -1px)' },
+                            '20%': { clipPath: 'inset(15% 0 65% 0)', transform: 'translate(-2px, 3px)' },
+                            '40%': { clipPath: 'inset(78% 0 4% 0)', transform: 'translate(1px, -2px)' },
+                            '60%': { clipPath: 'inset(3% 0 83% 0)', transform: 'translate(-3px, 1px)' },
+                            '80%': { clipPath: 'inset(48% 0 23% 0)', transform: 'translate(2px, 2px)' },
+                            '100%': { clipPath: 'inset(23% 0 48% 0)', transform: 'translate(-1px, -3px)' },
+                        },
+                        diagonalSlide: {
+                            '0%': { opacity: '0', transform: 'translate(-30px, 30px) skewX(-3deg)' },
+                            '100%': { opacity: '1', transform: 'translate(0, 0) skewX(0)' },
+                        },
+                        countUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
                     },
                     backdropBlur: {
                         xs: '2px',
@@ -96,6 +147,7 @@
                         'neon-hover': '0 0 30px rgba(136, 255, 13, 0.5), 0 0 60px rgba(136, 255, 13, 0.2)',
                         'deep': '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
                         'glass': '0 8px 32px rgba(0, 0, 0, 0.3)',
+                        'brutal': '6px 6px 0px rgba(136, 255, 13, 0.4)',
                     }
                 }
             }
@@ -115,17 +167,30 @@
         }
 
         body {
-            font-family: 'Inter Tight', system-ui, sans-serif;
+            font-family: 'DM Sans', system-ui, sans-serif;
             background: #0a0a0a;
             color: #fafafa;
             overflow-x: hidden;
         }
 
+        /* Film Grain Texture Overlay */
+        .grain-overlay {
+            position: fixed;
+            inset: -200%;
+            width: 400%;
+            height: 400%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 999;
+            animation: grain 8s steps(10) infinite;
+            opacity: 0.5;
+        }
+
         /* Cinematic Gradient Background */
         .cinematic-bg {
-            background: 
-                radial-gradient(ellipse at 20% 20%, rgba(136, 255, 13, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(136, 255, 13, 0.06) 0%, transparent 50%),
+            background:
+                radial-gradient(ellipse at 20% 0%, rgba(136, 255, 13, 0.07) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(136, 255, 13, 0.05) 0%, transparent 50%),
                 radial-gradient(ellipse at 50% 50%, rgba(24, 24, 27, 0.8) 0%, #0a0a0a 100%);
             background-attachment: fixed;
         }
@@ -139,7 +204,7 @@
         }
 
         .frosted-glass-dark {
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -165,6 +230,7 @@
             background: linear-gradient(135deg, #88ff0d 0%, #66cc00 100%);
             color: #0a0a0a;
             font-weight: 700;
+            font-family: 'Syne', system-ui, sans-serif;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 0 20px rgba(136, 255, 13, 0.3);
         }
@@ -183,32 +249,65 @@
         }
 
         .text-gradient-lime {
-            background: linear-gradient(135deg, #ccff00 0%, #88ff0d 100%);
+            background: linear-gradient(135deg, #ccff00 0%, #88ff0d 50%, #66cc00 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
+        /* Glitch Text Effect */
+        .glitch-text {
+            position: relative;
+        }
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glitch-text::before {
+            color: #88ff0d;
+            animation: glitch1 2s infinite linear alternate-reverse;
+            z-index: -1;
+        }
+        .glitch-text::after {
+            color: #ff006e;
+            animation: glitch2 3s infinite linear alternate-reverse;
+            z-index: -2;
+        }
+
+        /* Decorative Diagonal Line */
+        .diagonal-line {
+            position: absolute;
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(136, 255, 13, 0.3), transparent);
+            transform: rotate(-45deg);
+        }
+
         /* Grid Pattern */
         .grid-pattern {
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 80px 80px;
         }
 
         /* Glow Orbs */
         .glow-orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.3;
+            filter: blur(120px);
+            opacity: 0.25;
             animation: float 8s ease-in-out infinite;
         }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
 
         ::-webkit-scrollbar-track {
@@ -217,7 +316,7 @@
 
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(180deg, #88ff0d, #66cc00);
-            border-radius: 4px;
+            border-radius: 3px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
@@ -249,7 +348,7 @@
         }
 
         .card-3d:hover {
-            transform: perspective(1000px) rotateX(5deg) rotateY(-5deg) translateZ(10px);
+            transform: perspective(1000px) rotateX(3deg) rotateY(-3deg) translateZ(10px);
         }
 
         /* Filter Buttons */
@@ -259,6 +358,8 @@
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             color: #a1a1aa;
+            font-family: 'Syne', system-ui, sans-serif;
+            letter-spacing: 0.02em;
         }
         .filter-btn:hover {
             background: rgba(255, 255, 255, 0.08);
@@ -341,8 +442,8 @@
 
         /* Checkout modal backdrop */
         .modal-backdrop {
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(12px);
         }
 
         /* Input focus styles */
@@ -369,19 +470,103 @@
             height: 40px;
             color: #0a0a0a;
         }
+
+        /* Scroll reveal animation */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Marquee */
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marquee 30s linear infinite;
+        }
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+
+        /* Stat counter */
+        .stat-number {
+            font-family: 'Syne', system-ui, sans-serif;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Diagonal section divider */
+        .diagonal-divider {
+            position: relative;
+        }
+        .diagonal-divider::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: inherit;
+            clip-path: polygon(0 100%, 100% 0, 100% 100%);
+        }
+
+        /* Accent border animation */
+        .accent-border {
+            position: relative;
+        }
+        .accent-border::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #88ff0d, #66cc00);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .accent-border:hover::after {
+            width: 100%;
+        }
     </style>
 
     {% block stylesheets %}{% endblock %}
 </head>
 <body class="cinematic-bg antialiased">
+    {# Film Grain Overlay #}
+    <div class="grain-overlay"></div>
+
     {# Background Glow Orbs #}
     <div class="fixed inset-0 overflow-hidden pointer-events-none">
-        <div class="glow-orb w-96 h-96 bg-lime-500 top-0 left-1/4"></div>
-        <div class="glow-orb w-80 h-80 bg-lime-600 bottom-0 right-1/4 animation-float-delayed"></div>
+        <div class="glow-orb w-[500px] h-[500px] bg-lime-500 -top-32 left-1/4"></div>
+        <div class="glow-orb w-[400px] h-[400px] bg-lime-600 -bottom-32 right-1/4" style="animation-delay: 4s"></div>
+        <div class="glow-orb w-[300px] h-[300px] bg-lime-700 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style="animation-delay: 2s; opacity: 0.15"></div>
     </div>
+
+    {# Decorative Grid Pattern #}
+    <div class="fixed inset-0 grid-pattern pointer-events-none opacity-30"></div>
 
     {% block body %}{% endblock %}
 
     {% block javascripts %}{% endblock %}
+
+    {# Scroll Reveal Observer #}
+    <script>
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.scroll-reveal').forEach(el => revealObserver.observe(el));
+        });
+    </script>
 </body>
 </html>

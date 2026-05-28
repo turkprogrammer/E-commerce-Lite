@@ -1,59 +1,120 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}E-commerce Lite — Premium Store{% endblock %}
+{% block title %}E-commerce Premium — Коллекции{% endblock %}
 
 {% block body %}
     {# Header #}
-    <header class="sticky top-0 z-50 frosted-glass-dark border-b border-white/5">
+    <header class="fixed top-0 left-0 right-0 z-50 frosted-glass-dark border-b border-white/5">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <a href="/" class="flex items-center space-x-2">
-                    <div class="w-10 h-10 bg-lime-500 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-                        </svg>
+            <div class="flex items-center justify-between h-16">
+                {# Logo #}
+                <a href="/" class="flex items-center gap-3 group">
+                    <div class="relative">
+                        <div class="w-9 h-9 bg-lime-500 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(136,255,13,0.4)]">
+                            <svg class="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                            </svg>
+                        </div>
+                        <div class="absolute -inset-1 bg-lime-500/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
-                    <span class="text-xl font-bold text-white tracking-tighter">ECOMMERCE</span>
+                    <div class="flex flex-col">
+                        <span class="font-display text-base font-bold text-white tracking-tight leading-none">ECOMMERCE</span>
+                        <span class="text-[9px] font-display font-semibold tracking-[0.25em] uppercase text-lime-500/70 leading-none mt-0.5">Premium</span>
+                    </div>
                 </a>
-                <nav class="hidden md:flex items-center space-x-2">
-                    <a href="#collection" class="filter-btn px-5 py-2 rounded-full text-sm font-medium transition-all duration-300">Каталог</a>
-                    <a href="#about" class="filter-btn px-5 py-2 rounded-full text-sm font-medium transition-all duration-300">О нас</a>
-                    <a href="#contact" class="filter-btn px-5 py-2 rounded-full text-sm font-medium transition-all duration-300">Контакты</a>
+
+                {# Nav — Pill Style #}
+                <nav class="hidden md:flex items-center gap-1 p-1 rounded-full bg-white/[0.03] border border-white/[0.06]">
+                    <a href="#collection" class="px-5 py-1.5 rounded-full text-xs font-display font-semibold tracking-wide text-gray-400 hover:text-white hover:bg-white/[0.06] transition-all duration-300">Каталог</a>
+                    <a href="#about" class="px-5 py-1.5 rounded-full text-xs font-display font-semibold tracking-wide text-gray-400 hover:text-white hover:bg-white/[0.06] transition-all duration-300">О нас</a>
+                    <a href="#contact" class="px-5 py-1.5 rounded-full text-xs font-display font-semibold tracking-wide text-gray-400 hover:text-white hover:bg-white/[0.06] transition-all duration-300">Контакты</a>
                 </nav>
-                <button id="cart-button" onclick="toggleCart()" class="relative p-2 hover:bg-white/5 rounded-lg text-white transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                {# Cart #}
+                <button id="cart-button" onclick="toggleCart()" class="relative p-2.5 hover:bg-white/[0.06] rounded-xl text-white transition-all duration-300 group border border-transparent hover:border-white/10">
+                    <svg class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                     </svg>
-                    <span id="cart-count" class="absolute -top-1 -right-1 bg-lime-500 text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center opacity-0 transition-opacity">0</span>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-lime-500 text-black text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center opacity-0 transition-opacity font-display">0</span>
                 </button>
             </div>
         </div>
     </header>
 
-    {# Hero #}
-    <section class="py-20 lg:py-32 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-5xl md:text-7xl font-black text-white mb-6 font-display animate-slide-up">
-                Latest <span class="text-gradient-lime">Drops</span>
+    {# Hero Section — Cinematic Reveal #}
+    <section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden pt-16">
+        {# Decorative diagonal line #}
+        <div class="diagonal-line top-1/4 left-1/4 w-[300px]" style="opacity: 0.4"></div>
+        <div class="diagonal-line bottom-1/3 right-1/4 w-[200px]" style="opacity: 0.2; transform: rotate(45deg)"></div>
+
+        {# Geometric accent #}
+        <div class="absolute top-20 right-[15%] w-24 h-24 border border-lime-500/20 rounded-full animate-pulse-slow hidden lg:block"></div>
+        <div class="absolute bottom-32 left-[10%] w-16 h-16 border border-lime-500/10 rotate-45 animate-float hidden lg:block"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            {# Eyebrow #}
+            <div class="animate-slide-up mb-6">
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-lime-500/20 bg-lime-500/5 text-lime-400 text-xs font-display font-semibold tracking-widest uppercase">
+                    <span class="w-1.5 h-1.5 bg-lime-500 rounded-full animate-pulse"></span>
+                    Новая коллекция 2026
+                </span>
+            </div>
+
+            {# Main Title with Glitch #}
+            <h1 class="animate-slide-up mb-8" style="animation-delay: 0.1s">
+                <span class="block font-display font-800 text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] tracking-tight">
+                    <span class="text-white">Define</span>
+                </span>
+                <span class="block font-display font-800 text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] tracking-tight mt-2">
+                    <span class="text-gradient-lime glitch-text" data-text="Your Style">Your Style</span>
+                </span>
             </h1>
-            <p class="text-gray-400 text-xl max-w-2xl mx-auto animate-slide-up" style="animation-delay:0.15s">
-                Exclusive pieces, limited availability
+
+            {# Subtitle #}
+            <p class="animate-slide-up text-gray-500 text-lg md:text-xl max-w-lg mx-auto mb-10 leading-relaxed" style="animation-delay: 0.2s">
+                Curated goods from around the world.<br>
+                <span class="text-gray-400">Quality you can feel.</span>
             </p>
+
+            {# CTA Buttons #}
+            <div class="animate-slide-up flex flex-col sm:flex-row items-center justify-center gap-4" style="animation-delay: 0.3s">
+                <a href="#collection" class="neon-button py-4 px-10 rounded-full text-base shadow-neon hover:shadow-neon-hover transform hover:scale-105 transition-all duration-300">
+                    Смотреть каталог
+                </a>
+                <a href="#about" class="py-4 px-10 rounded-full text-base font-display font-semibold text-gray-400 hover:text-white border border-white/10 hover:border-white/20 transition-all duration-300">
+                    Узнать больше
+                </a>
+            </div>
+        </div>
+
+        {# Scroll indicator #}
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in" style="animation-delay: 1s">
+            <span class="text-[10px] font-display font-semibold tracking-[0.3em] uppercase text-gray-600">Scroll</span>
+            <div class="w-px h-8 bg-gradient-to-b from-lime-500/50 to-transparent"></div>
         </div>
     </section>
 
+    {# Marquee Band — filled by JS with real categories #}
+    <div id="marquee-section" class="py-4 border-y border-white/5 bg-white/[0.02] overflow-hidden">
+        <div id="marquee-track" class="marquee-track justify-center">
+            <span class="flex items-center gap-8 px-4 whitespace-nowrap">
+                <span class="font-display font-bold text-sm tracking-[0.2em] uppercase text-gray-600">Loading...</span>
+            </span>
+        </div>
+    </div>
+
     {# Filters & Search #}
-    <section class="pb-8">
+    <section class="pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div id="category-filters" class="flex flex-wrap gap-2">
                     <button class="filter-btn active px-5 py-2 rounded-full text-sm font-medium" data-category="all">Все</button>
                 </div>
                 <div class="relative w-full md:w-72">
-                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
-                    <input id="search-input" type="text" placeholder="Поиск товаров..." class="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-white placeholder-gray-500 text-sm premium-input transition-all">
+                    <input id="search-input" type="text" placeholder="Поиск товаров..." class="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-white placeholder-gray-500 text-sm premium-input transition-all font-sans">
                 </div>
             </div>
         </div>
@@ -62,71 +123,201 @@
     {# Products #}
     <section id="collection" class="pb-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="skeleton rounded-3xl h-96"></div>
-                <div class="skeleton rounded-3xl h-96"></div>
-                <div class="skeleton rounded-3xl h-96"></div>
+            {# Section header #}
+            <div class="flex items-end justify-between mb-10">
+                <div>
+                    <h2 class="font-display font-800 text-3xl md:text-4xl text-white tracking-tight">Каталог</h2>
+                    <p class="text-gray-500 text-sm mt-1">Лучшие товары, отобранные для вас</p>
+                </div>
+                <div class="hidden sm:flex items-center gap-2 text-xs text-gray-600 font-display">
+                    <span class="w-8 h-px bg-gray-700"></span>
+                    <span>SCROLL</span>
+                </div>
+            </div>
+
+            <div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="premium-card rounded-2xl h-96 animate-pulse"></div>
+                <div class="premium-card rounded-2xl h-96 animate-pulse hidden sm:block"></div>
+                <div class="premium-card rounded-2xl h-96 animate-pulse hidden lg:block"></div>
             </div>
 
             <div id="load-more-container" class="text-center mt-16 hidden">
-                <button id="load-more-btn" class="neon-button py-4 px-10 rounded-full text-lg shadow-neon hover:shadow-neon-hover transform hover:scale-105 transition-all duration-300">
+                <button id="load-more-btn" class="neon-button py-4 px-10 rounded-full text-base shadow-neon hover:shadow-neon-hover transform hover:scale-105 transition-all duration-300">
                     Загрузить ещё
                 </button>
             </div>
 
             <div id="empty-state" class="hidden text-center py-20">
-                <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <svg class="w-10 h-10 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 border border-white/10">
+                    <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold text-white mb-2">Ничего не найдено</h3>
-                <p class="text-gray-400">Попробуйте изменить параметры поиска или фильтры</p>
+                <h3 class="font-display font-bold text-xl text-white mb-2">Ничего не найдено</h3>
+                <p class="text-gray-500 text-sm">Попробуйте изменить параметры поиска</p>
             </div>
         </div>
     </section>
 
-    {# About & Contact #}
-    <section id="about" class="py-16 bg-white/5 text-white">
-        <div class="max-w-3xl mx-auto px-4 text-center">
-            <h2 class="text-4xl font-bold mb-6">О нас</h2>
-            <p class="text-gray-400 text-lg leading-relaxed">Мы отбираем лучшие товары со всего мира, чтобы вы могли наслаждаться качеством каждой покупки. Быстрая доставка, надёжная упаковка и заботливая поддержка — наш стандарт.</p>
+    {# About Section — Visual Storytelling #}
+    <section id="about" class="relative py-24 overflow-hidden">
+        {# Background accent #}
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-lime-500/[0.02] to-transparent"></div>
+        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-lime-500/20 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-lime-500/20 to-transparent"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                {# Left: Text #}
+                <div class="scroll-reveal">
+                    <span class="inline-block font-display font-semibold text-xs tracking-[0.3em] uppercase text-lime-500 mb-4">О нас</span>
+                    <h2 class="font-display font-800 text-4xl md:text-5xl text-white tracking-tight leading-[1.1] mb-6">
+                        Мы отбираем<br>
+                        <span class="text-gradient-lime">лучшее</span>
+                    </h2>
+                    <p class="text-gray-400 text-lg leading-relaxed mb-8">
+                        Каждый товар в нашем магазине прошёл строгий отбор. Мы работаем напрямую с производителями,
+                        чтобы предложить вам качество без компромисов по справедливой цене.
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-lime-500/10 border border-lime-500/20 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-lime-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-white font-semibold text-sm">Быстрая доставка</p>
+                            <p class="text-gray-500 text-xs">По всей России от 1 дня</p>
+                        </div>
+                    </div>
+                </div>
+
+                {# Right: Stats #}
+                <div class="scroll-reveal" style="transition-delay: 0.2s">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="premium-card rounded-2xl p-6 text-center group hover:border-lime-500/30">
+                            <div class="stat-number text-4xl md:text-5xl text-lime-500 mb-2" data-target="1200">0</div>
+                            <p class="text-gray-500 text-sm font-display">товаров</p>
+                        </div>
+                        <div class="premium-card rounded-2xl p-6 text-center group hover:border-lime-500/30">
+                            <div class="stat-number text-4xl md:text-5xl text-lime-500 mb-2" data-target="4" id="stat-categories">0</div>
+                            <p class="text-gray-500 text-sm font-display">категории</p>
+                        </div>
+                        <div class="premium-card rounded-2xl p-6 text-center group hover:border-lime-500/30">
+                            <div class="stat-number text-4xl md:text-5xl text-lime-500 mb-2" data-target="98">0</div>
+                            <p class="text-gray-500 text-sm font-display">% довольных</p>
+                        </div>
+                        <div class="premium-card rounded-2xl p-6 text-center group hover:border-lime-500/30">
+                            <div class="stat-number text-4xl md:text-5xl text-lime-500 mb-2" data-target="24">0</div>
+                            <p class="text-gray-500 text-sm font-display">часа поддержка</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section id="contact" class="py-16 text-white text-center">
-        <div class="max-w-3xl mx-auto px-4">
-            <h2 class="text-4xl font-bold mb-8">Контакты</h2>
-            <p class="text-gray-400 mb-2">Есть вопросы? Напишите нам</p>
-            <a href="mailto:hello@ecommerce.com" class="text-lime-400 hover:text-lime-300 transition-colors text-lg font-medium">hello@ecommerce.com</a>
+    {# Features Strip #}
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="scroll-reveal flex items-start gap-4 p-6 rounded-2xl bg-white/[0.02] border border-white/5">
+                    <div class="w-10 h-10 rounded-lg bg-lime-500/10 border border-lime-500/20 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-lime-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-bold text-white text-sm mb-1">Бесплатная доставка</h3>
+                        <p class="text-gray-500 text-xs leading-relaxed">При заказе от 5 000 ₽ по Москве и Санкт-Петербургу</p>
+                    </div>
+                </div>
+                <div class="scroll-reveal flex items-start gap-4 p-6 rounded-2xl bg-white/[0.02] border border-white/5" style="transition-delay: 0.1s">
+                    <div class="w-10 h-10 rounded-lg bg-lime-500/10 border border-lime-500/20 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-lime-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-bold text-white text-sm mb-1">Гарантия качества</h3>
+                        <p class="text-gray-500 text-xs leading-relaxed">30 дней на возврат без вопросов</p>
+                    </div>
+                </div>
+                <div class="scroll-reveal flex items-start gap-4 p-6 rounded-2xl bg-white/[0.02] border border-white/5" style="transition-delay: 0.2s">
+                    <div class="w-10 h-10 rounded-lg bg-lime-500/10 border border-lime-500/20 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-lime-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-bold text-white text-sm mb-1">Поддержка 24/7</h3>
+                        <p class="text-gray-500 text-xs leading-relaxed">Всегда на связи в чате и по телефону</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# Contact Section #}
+    <section id="contact" class="py-20 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.01] to-transparent"></div>
+        <div class="max-w-2xl mx-auto px-4 text-center relative scroll-reveal">
+            <span class="inline-block font-display font-semibold text-xs tracking-[0.3em] uppercase text-lime-500 mb-4">Контакты</span>
+            <h2 class="font-display font-800 text-4xl md:text-5xl text-white tracking-tight mb-4">
+                Свяжитесь с нами
+            </h2>
+            <p class="text-gray-500 text-lg mb-8">Есть вопросы? Мы всегда рады помочь</p>
+            <a href="mailto:hello@ecommerce.com" class="inline-flex items-center gap-3 px-8 py-4 rounded-full border border-white/10 hover:border-lime-500/30 bg-white/[0.02] hover:bg-lime-500/5 transition-all duration-300 group">
+                <svg class="w-5 h-5 text-gray-400 group-hover:text-lime-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <span class="text-gray-300 group-hover:text-white transition-colors font-medium">hello@ecommerce.com</span>
+            </a>
         </div>
     </section>
 
     {# Footer #}
-    <footer class="py-12 border-t border-white/5 text-center text-sm text-gray-500">
-        <p>© 2026 E-commerce. Все права защищены.</p>
+    <footer class="py-8 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 bg-lime-500 rounded flex items-center justify-center">
+                        <svg class="w-3.5 h-3.5 text-black" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                        </svg>
+                    </div>
+                    <span class="font-display font-bold text-xs tracking-tight text-gray-500">ECOMMERCE</span>
+                </div>
+                <p class="text-xs text-gray-600">&copy; 2026 E-commerce Premium. Все права защищены.</p>
+            </div>
+        </div>
     </footer>
 
     {# Cart Sidebar #}
     <div id="cart-sidebar" class="fixed inset-y-0 right-0 w-full max-w-md frosted-glass-dark border-l border-white/10 transform translate-x-full transition-transform duration-300 z-50 text-white">
-        <div class="flex flex-col h-full p-8">
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-2xl font-bold">Корзина</h2>
+        <div class="flex flex-col h-full p-6 md:p-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="font-display font-bold text-xl">Корзина</h2>
                 <button onclick="closeCart()" class="p-2 hover:bg-white/5 rounded-lg transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
             </div>
-            <div id="cart-items" class="flex-1 overflow-y-auto space-y-4">
-                <p class="text-gray-500 text-center py-12">Корзина пуста</p>
+            <div id="cart-items" class="flex-1 overflow-y-auto space-y-3">
+                <div class="text-center py-16">
+                    <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/10">
+                        <svg class="w-7 h-7 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                    </div>
+                    <p class="text-gray-600 text-sm">Корзина пуста</p>
+                </div>
             </div>
             <div id="cart-total" class="border-t border-white/10 pt-6 mt-6 hidden">
                 <div class="flex justify-between items-center mb-6">
-                    <span class="text-gray-400">Итого:</span>
-                    <span id="cart-total-amount" class="text-3xl font-black text-lime-500">0 ₽</span>
+                    <span class="text-gray-400 text-sm">Итого:</span>
+                    <span id="cart-total-amount" class="font-display font-800 text-2xl text-lime-500">0 ₽</span>
                 </div>
-                <button onclick="checkout()" class="w-full py-4 neon-button font-bold rounded-xl checkout-btn">
+                <button onclick="checkout()" class="w-full py-4 neon-button font-bold rounded-xl checkout-btn text-sm">
                     Оформить заказ
                 </button>
             </div>
@@ -135,36 +326,36 @@
 
     {# Checkout Modal #}
     <div id="checkout-modal" class="fixed inset-0 modal-backdrop z-[60] hidden flex items-center justify-center p-4">
-        <div class="bg-[#0f0f11] border border-white/10 rounded-3xl w-full max-w-lg p-8 text-white relative shadow-2xl transform scale-95 opacity-0 transition-all duration-300" id="checkout-modal-content">
+        <div class="bg-[#0f0f11] border border-white/10 rounded-2xl w-full max-w-lg p-6 md:p-8 text-white relative shadow-2xl transform scale-95 opacity-0 transition-all duration-300" id="checkout-modal-content">
             {# Form State #}
             <div id="checkout-form-state">
-                <h2 class="text-2xl font-bold mb-2">Оформление заказа</h2>
-                <p class="text-gray-400 text-sm mb-6">Заполните данные для доставки</p>
+                <h2 class="font-display font-bold text-xl mb-1">Оформление заказа</h2>
+                <p class="text-gray-500 text-sm mb-6">Заполните данные для доставки</p>
 
-                <div id="checkout-summary" class="space-y-3 mb-6 max-h-40 overflow-y-auto pr-1"></div>
+                <div id="checkout-summary" class="space-y-2 mb-6 max-h-40 overflow-y-auto pr-1"></div>
                 <div class="flex justify-between items-center mb-6 border-t border-white/10 pt-4">
-                    <span class="text-gray-400">К оплате:</span>
-                    <span id="checkout-total" class="text-xl font-black text-lime-500">0 ₽</span>
+                    <span class="text-gray-400 text-sm">К оплате:</span>
+                    <span id="checkout-total" class="font-display font-800 text-xl text-lime-500">0 ₽</span>
                 </div>
 
-                <form id="order-form" onsubmit="submitOrder(event)" class="space-y-4">
+                <form id="order-form" onsubmit="submitOrder(event)" class="space-y-3">
                     <div>
-                        <input type="email" name="customerEmail" placeholder="Email" required class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white placeholder-gray-500 premium-input transition-all">
+                        <input type="email" name="customerEmail" placeholder="Email" required class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white placeholder-gray-500 premium-input transition-all text-sm">
                         <p class="text-xs text-red-400 mt-1 hidden" id="error-email">Введите корректный email</p>
                     </div>
                     <div>
-                        <input type="text" name="customerName" placeholder="ФИО" required class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white placeholder-gray-500 premium-input transition-all">
+                        <input type="text" name="customerName" placeholder="ФИО" required class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white placeholder-gray-500 premium-input transition-all text-sm">
                     </div>
                     <div>
-                        <input type="tel" name="customerPhone" placeholder="Телефон" required class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white placeholder-gray-500 premium-input transition-all">
+                        <input type="tel" name="customerPhone" placeholder="Телефон" required class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white placeholder-gray-500 premium-input transition-all text-sm">
                         <p class="text-xs text-red-400 mt-1 hidden" id="error-phone">Введите корректный телефон</p>
                     </div>
                     <div>
-                        <textarea name="deliveryAddress" placeholder="Адрес доставки" required rows="3" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white placeholder-gray-500 premium-input transition-all resize-none"></textarea>
+                        <textarea name="deliveryAddress" placeholder="Адрес доставки" required rows="2" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white placeholder-gray-500 premium-input transition-all resize-none text-sm"></textarea>
                     </div>
-                    <div class="flex gap-4 mt-6">
-                        <button type="button" onclick="closeCheckout()" class="flex-1 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-colors font-medium">Отмена</button>
-                        <button type="submit" id="checkout-submit-btn" class="flex-1 py-3 neon-button font-bold rounded-xl flex items-center justify-center gap-2">
+                    <div class="flex gap-3 mt-6">
+                        <button type="button" onclick="closeCheckout()" class="flex-1 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-colors font-display font-semibold text-sm">Отмена</button>
+                        <button type="submit" id="checkout-submit-btn" class="flex-1 py-3 neon-button font-bold rounded-xl flex items-center justify-center gap-2 text-sm">
                             <span>Заказать</span>
                         </button>
                     </div>
@@ -178,16 +369,23 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                     </svg>
                 </div>
-                <h3 class="text-2xl font-bold mb-2">Заказ оформлен!</h3>
-                <p class="text-gray-400 mb-6">Спасибо за покупку. Мы свяжемся с вами в ближайшее время.</p>
+                <h3 class="font-display font-bold text-xl mb-2">Заказ оформлен!</h3>
+                <p class="text-gray-500 text-sm mb-6">Спасибо за покупку. Мы свяжемся с вами в ближайшее время.</p>
                 <div class="bg-white/5 border border-white/10 rounded-xl p-4 mb-6">
-                    <p class="text-gray-400 text-sm">Номер заказа</p>
-                    <p id="success-order-number" class="text-xl font-black text-lime-500 font-mono tracking-wider">—</p>
+                    <p class="text-gray-500 text-xs mb-1">Номер заказа</p>
+                    <p id="success-order-number" class="font-display font-800 text-xl text-lime-500 font-mono tracking-wider">—</p>
                 </div>
-                <button onclick="finishCheckout()" class="w-full py-3 neon-button font-bold rounded-xl">На главную</button>
+                <button onclick="finishCheckout()" class="w-full py-3 neon-button font-bold rounded-xl text-sm">На главную</button>
             </div>
         </div>
     </div>
+
+    {# Scroll to Top Button #}
+    <button id="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="fixed bottom-6 left-6 z-40 w-11 h-11 rounded-full bg-white/[0.06] border border-white/10 backdrop-blur-xl text-gray-400 hover:text-lime-500 hover:border-lime-500/30 hover:bg-lime-500/10 transition-all duration-300 flex items-center justify-center opacity-0 translate-y-4 pointer-events-none">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+        </svg>
+    </button>
 
     {# Toast Container #}
     <div id="toast-container" class="toast-container"></div>
@@ -207,7 +405,21 @@
                 displayedProducts = 0;
                 renderProducts();
             });
+
+            // Scroll to top button
+            const scrollTopBtn = document.getElementById('scroll-top-btn');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 400) {
+                    scrollTopBtn.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+                    scrollTopBtn.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                } else {
+                    scrollTopBtn.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+                    scrollTopBtn.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                }
+            });
+
             loadProducts();
+            initCounters();
         });
 
         function loadMore() { showNextProducts(); }
@@ -219,6 +431,8 @@
                 if (!result.error && result.data && result.data.products) {
                     allProducts = result.data.products;
                     buildCategoryFilters();
+                    buildMarquee();
+                    updateProductCount();
                     document.getElementById('products-container').innerHTML = '';
                     showNextProducts();
                 } else {
@@ -227,6 +441,33 @@
             } catch (e) {
                 showToast('Ошибка загрузки товаров', 'error');
             }
+        }
+
+        function buildMarquee() {
+            const categories = new Set();
+            allProducts.forEach(p => {
+                if (p.category && p.category.name) categories.add(p.category.name);
+            });
+            const catArr = Array.from(categories);
+            if (catArr.length === 0) return;
+
+            const items = [...catArr, 'Fast Shipping', 'Quality Guaranteed'];
+            const sep = '<span class="text-lime-500">&#9670;</span>';
+            const htmlItems = items.map(c => `<span class="font-display font-bold text-sm tracking-[0.2em] uppercase text-gray-600">${c}</span>`).join(sep);
+
+            const track = document.getElementById('marquee-track');
+            // Duplicate for seamless loop
+            track.innerHTML = `<span class="flex items-center gap-8 px-4 whitespace-nowrap">${sep}${htmlItems}${sep}</span><span class="flex items-center gap-8 px-4 whitespace-nowrap">${sep}${htmlItems}${sep}</span>`;
+        }
+
+        function updateProductCount() {
+            const productEl = document.querySelector('[data-target="1200"]');
+            if (productEl) productEl.dataset.target = allProducts.length;
+
+            const categories = new Set();
+            allProducts.forEach(p => { if (p.category && p.category.name) categories.add(p.category.name); });
+            const catEl = document.getElementById('stat-categories');
+            if (catEl) catEl.dataset.target = categories.size;
         }
 
         function buildCategoryFilters() {
@@ -299,21 +540,24 @@
 
         function createProductCard(product) {
             const div = document.createElement('div');
-            div.className = 'premium-card rounded-3xl p-5 overflow-hidden card-3d group animate-scale-in';
+            div.className = 'premium-card rounded-2xl overflow-hidden card-3d group animate-scale-in';
             const categoryName = product.category ? product.category.name : '';
+            const imgSrc = product.imageUrl || `https://placehold.co/600x450/1a1a1a/3f3f46?text=${encodeURIComponent(product.name)}`;
             div.innerHTML = `
-                <div class="aspect-[4/3] bg-gray-900/50 rounded-2xl mb-4 overflow-hidden relative">
-                    <img src="${product.imageUrl || ''}" alt="${product.name}" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    ${categoryName ? `<span class="absolute top-3 left-3 bg-black/50 backdrop-blur-md text-xs font-medium text-white px-3 py-1 rounded-full border border-white/10">${categoryName}</span>` : ''}
+                <div class="aspect-[4/3] bg-gray-900/80 overflow-hidden relative">
+                    <img src="${imgSrc}" alt="${product.name}" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/600x450/1a1a1a/3f3f46?text=${encodeURIComponent(product.name)}'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
+                    ${categoryName ? `<span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-[10px] font-display font-semibold text-white px-3 py-1 rounded-full border border-white/10 tracking-wide uppercase">${categoryName}</span>` : ''}
                 </div>
-                <h3 class="font-bold text-white mb-1 text-lg leading-tight">${product.name}</h3>
-                <p class="text-gray-500 text-sm mb-4 line-clamp-2">${product.description || ''}</p>
-                <div class="flex justify-between items-center">
-                    <span class="text-2xl font-black text-lime-500">${Math.round(product.price).toLocaleString('ru-RU')} ₽</span>
-                    <button onclick="addToCart(${product.id}, '${escapeJs(product.name)}', ${product.price})" class="w-11 h-11 bg-lime-500 text-black rounded-xl flex items-center justify-center hover:bg-lime-400 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-lime-500/20">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
-                    </button>
+                <div class="p-5">
+                    <h3 class="font-display font-bold text-white mb-1 text-base leading-tight">${product.name}</h3>
+                    <p class="text-gray-600 text-xs mb-4 line-clamp-2 leading-relaxed">${product.description || ''}</p>
+                    <div class="flex justify-between items-center">
+                        <span class="font-display font-800 text-xl text-lime-500">${Math.round(product.price).toLocaleString('ru-RU')} <span class="text-sm font-normal text-gray-500">₽</span></span>
+                        <button onclick="addToCart(${product.id}, '${escapeJs(product.name)}', ${product.price})" class="w-10 h-10 bg-lime-500 text-black rounded-xl flex items-center justify-center hover:bg-lime-400 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-lime-500/20">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+                        </button>
+                    </div>
                 </div>
             `;
             return div;
@@ -359,29 +603,29 @@
 
             if (cart.length === 0) {
                 itemsEl.innerHTML = `
-                    <div class="text-center py-12">
-                        <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                    <div class="text-center py-16">
+                        <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/10">
+                            <svg class="w-7 h-7 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
                         </div>
-                        <p class="text-gray-500">Корзина пуста</p>
+                        <p class="text-gray-600 text-sm">Корзина пуста</p>
                     </div>
                 `;
                 totalDiv.classList.add('hidden');
             } else {
                 itemsEl.innerHTML = cart.map((item) => `
-                    <div class="flex items-center justify-between bg-white/5 p-4 rounded-xl border border-white/5">
+                    <div class="flex items-center justify-between bg-white/[0.03] p-4 rounded-xl border border-white/5">
                         <div class="flex-1 min-w-0 mr-4">
                             <p class="text-sm font-medium text-white truncate">${item.productName}</p>
-                            <p class="text-xs text-gray-400 mt-0.5">${Math.round(item.price).toLocaleString('ru-RU')} ₽ / шт</p>
+                            <p class="text-xs text-gray-500 mt-0.5">${Math.round(item.price).toLocaleString('ru-RU')} ₽ / шт</p>
                         </div>
                         <div class="flex items-center gap-2 mr-3">
                             <button onclick="changeQty(${item.productId}, -1)" class="qty-btn">−</button>
-                            <span class="text-sm font-bold w-4 text-center">${item.quantity}</span>
+                            <span class="text-sm font-bold w-4 text-center font-display">${item.quantity}</span>
                             <button onclick="changeQty(${item.productId}, 1)" class="qty-btn">+</button>
                         </div>
                         <div class="flex items-center gap-3">
-                            <span class="font-bold text-lime-400 whitespace-nowrap">${(item.price * item.quantity).toLocaleString('ru-RU', {maximumFractionDigits:0})} ₽</span>
-                            <button onclick="removeFromCart(${item.productId})" class="text-gray-500 hover:text-red-400 transition-colors p-1">
+                            <span class="font-display font-bold text-lime-400 whitespace-nowrap text-sm">${(item.price * item.quantity).toLocaleString('ru-RU', {maximumFractionDigits:0})} ₽</span>
+                            <button onclick="removeFromCart(${item.productId})" class="text-gray-600 hover:text-red-400 transition-colors p-1">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                             </button>
                         </div>
@@ -408,7 +652,7 @@
 
             const summary = document.getElementById('checkout-summary');
             summary.innerHTML = cart.map(item => `
-                <div class="flex justify-between items-center text-sm bg-white/5 p-3 rounded-lg border border-white/5">
+                <div class="flex justify-between items-center text-sm bg-white/[0.03] p-3 rounded-lg border border-white/5">
                     <span class="text-gray-300 truncate flex-1 mr-3">${item.productName} × ${item.quantity}</span>
                     <span class="font-medium text-white whitespace-nowrap">${(item.price * item.quantity).toLocaleString('ru-RU', {maximumFractionDigits:0})} ₽</span>
                 </div>
@@ -512,6 +756,38 @@
                 toast.classList.remove('show');
                 setTimeout(() => toast.remove(), 500);
             }, 3000);
+        }
+
+        // Animated counters for stats section
+        function initCounters() {
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const target = parseInt(el.dataset.target);
+                        animateCounter(el, target);
+                        counterObserver.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            document.querySelectorAll('.stat-number').forEach(el => counterObserver.observe(el));
+        }
+
+        function animateCounter(el, target) {
+            const duration = 2000;
+            const start = performance.now();
+            const suffix = el.parentElement.querySelector('p').textContent.includes('%') ? '' : '';
+
+            function update(now) {
+                const elapsed = now - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(eased * target);
+                el.textContent = current.toLocaleString('ru-RU') + suffix;
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
         }
     </script>
 {% endblock %}
