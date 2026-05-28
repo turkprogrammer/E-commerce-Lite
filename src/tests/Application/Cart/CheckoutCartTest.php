@@ -9,6 +9,8 @@ use App\Domain\Entity\Cart;
 use App\Domain\Entity\CartItem;
 use App\Domain\Entity\Product;
 use App\Domain\Port\Repository\CartRepositoryInterface;
+use App\Domain\Exception\CartEmptyException;
+use App\Domain\Exception\CartNotFoundException;
 use App\Domain\Port\Repository\OrderRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -97,8 +99,8 @@ class CheckoutCartTest extends TestCase
             ->willReturn($cart);
 
         // Assert
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Корзина пуста');
+        $this->expectException(CartEmptyException::class);
+        $this->expectExceptionMessage('Корзина пуста для сессии: test-session');
 
         // Act
         $this->useCase->handle('test-session', []);
@@ -116,8 +118,8 @@ class CheckoutCartTest extends TestCase
             ->willReturn(null);
 
         // Assert
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Корзина не найдена');
+        $this->expectException(CartNotFoundException::class);
+        $this->expectExceptionMessage('Корзина не найдена для сессии: non-existent');
 
         // Act
         $this->useCase->handle('non-existent', []);
