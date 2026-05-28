@@ -6,6 +6,9 @@ namespace App\Application\Cart;
 
 use App\Domain\Entity\Cart;
 use App\Domain\Entity\CartItem;
+use App\Domain\Exception\InsufficientStockException;
+use App\Domain\Exception\ProductNotActiveException;
+use App\Domain\Exception\ProductNotFoundException;
 use App\Domain\Port\Repository\CartRepositoryInterface;
 use App\Domain\Port\Repository\ProductRepositoryInterface;
 
@@ -39,15 +42,15 @@ readonly class AddItemToCart
         // Находим товар
         $product = $this->productRepo->findById($productId);
         if (!$product) {
-            throw new \RuntimeException("Товар не найден: $productId");
+            throw new ProductNotFoundException($productId);
         }
 
         if (!$product->isActive()) {
-            throw new \RuntimeException("Товар не активен: $productId");
+            throw new ProductNotActiveException($productId);
         }
 
         if ($product->getStock() < $quantity) {
-            throw new \RuntimeException("Недостаточно товара на складе: $productId");
+            throw new InsufficientStockException($productId, $quantity, $product->getStock());
         }
 
         // Проверяем валидацию количества с учётом текущих товаров в корзине
@@ -63,9 +66,7 @@ readonly class AddItemToCart
         $newQuantity = $currentQuantity + $quantity;
 
         if ($newQuantity > $product->getStock()) {
-            throw new \RuntimeException(
-                sprintf('Недостаточно товара на складе. Доступно: %d', $product->getStock())
-            );
+            throw new InsufficientStockException($productId, $newQuantity, $product->getStock());
         }
 
         // Если товар уже в корзине, увеличиваем количество

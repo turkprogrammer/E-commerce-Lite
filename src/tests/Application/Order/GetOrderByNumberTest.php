@@ -58,8 +58,7 @@ class GetOrderByNumberTest extends TestCase
             ->willReturn(null);
 
         // Assert
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage("Заказ не найден: $orderNumber");
+        $this->expectException(\App\Domain\Exception\OrderNotFoundException::class);
 
         // Act
         $this->useCase->handle($orderNumber);

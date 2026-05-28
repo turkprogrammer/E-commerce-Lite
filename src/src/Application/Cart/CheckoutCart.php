@@ -7,6 +7,10 @@ namespace App\Application\Cart;
 use App\Domain\Entity\Cart;
 use App\Domain\Entity\Order;
 use App\Domain\Entity\OrderItem;
+use App\Domain\Exception\CartEmptyException;
+use App\Domain\Exception\CartNotFoundException;
+use App\Domain\Exception\InsufficientStockException;
+use App\Domain\Exception\ProductNotActiveException;
 use App\Domain\Port\Repository\CartRepositoryInterface;
 use App\Domain\Port\Repository\OrderRepositoryInterface;
 
@@ -26,39 +30,38 @@ readonly class CheckoutCart
      * @param string $sessionId Session ID корзины
      * @param array{customerName: string, customerEmail: string, customerPhone: string, deliveryAddress: string} $customerData Данные покупателя
      * @return Order Созданный заказ
-     * @throws \RuntimeException Если корзина пуста или не найдена
+     * @throws CartNotFoundException Если корзина не найдена
+     * @throws CartEmptyException Если корзина пуста
+     * @throws ProductNotActiveException Если товар не активен
+     * @throws InsufficientStockException Если недостаточно товара на складе
      */
     public function handle(string $sessionId, array $customerData): Order
     {
         // Находим корзину
         $cart = $this->cartRepo->findBySessionId($sessionId);
-        
+
         if (!$cart) {
-            throw new \RuntimeException('Корзина не найдена');
+            throw new CartNotFoundException($sessionId);
         }
-        
+
         // Проверяем что корзина не пуста
         if ($cart->isEmpty()) {
-            throw new \RuntimeException('Корзина пуста');
+            throw new CartEmptyException($sessionId);
         }
-        
+
         // Проверяем наличие товаров
         foreach ($cart->getItems() as $cartItem) {
             $product = $cartItem->getProduct();
-            
+
             if (!$product->isActive()) {
-                throw new \RuntimeException(
-                    sprintf('Товар "%s" больше не доступен', $product->getName())
-                );
+                throw new ProductNotActiveException($product->getId());
             }
-            
+
             if ($product->getStock() < $cartItem->getQuantity()) {
-                throw new \RuntimeException(
-                    sprintf(
-                        'Недостаточно товара "%s" на складе. Доступно: %d',
-                        $product->getName(),
-                        $product->getStock()
-                    )
+                throw new InsufficientStockException(
+                    $product->getId(),
+                    $cartItem->getQuantity(),
+                    $product->getStock()
                 );
             }
         }

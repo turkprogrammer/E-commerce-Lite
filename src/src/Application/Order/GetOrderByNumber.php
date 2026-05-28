@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Order;
 
 use App\Domain\Entity\Order;
+use App\Domain\Exception\OrderNotFoundException;
 use App\Domain\Port\Repository\OrderRepositoryInterface;
 
 /**
@@ -21,16 +22,16 @@ readonly class GetOrderByNumber
      *
      * @param string $orderNumber Номер заказа
      * @return Order Найденный заказ
-     * @throws \RuntimeException Если заказ не найден
+     * @throws OrderNotFoundException Если заказ не найден
      */
     public function handle(string $orderNumber): Order
     {
         $order = $this->orderRepo->findByOrderNumber($orderNumber);
-        
+
         if (!$order) {
-            throw new \RuntimeException("Заказ не найден: $orderNumber");
+            throw new OrderNotFoundException($orderNumber);
         }
-        
+
         return $order;
     }
 }

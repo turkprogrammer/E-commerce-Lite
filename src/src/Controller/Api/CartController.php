@@ -7,6 +7,11 @@ namespace App\Controller\Api;
 use App\Application\Cart\AddItemToCart;
 use App\Application\Cart\GetCart;
 use App\Application\Cart\RemoveItemFromCart;
+use App\Domain\Exception\CartNotFoundException;
+use App\Domain\Exception\ProductNotFoundException;
+use App\Domain\Exception\ProductNotActiveException;
+use App\Domain\Exception\InsufficientStockException;
+use App\Domain\Exception\CartItemNotFoundException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -86,7 +91,9 @@ class CartController extends AbstractApiController
                     'totalItems' => $cart->getTotalItems(),
                 ],
             ], 'Товар добавлен в корзину', Response::HTTP_CREATED);
-        } catch (\RuntimeException $e) {
+        } catch (ProductNotFoundException $e) {
+            return $this->error($e->getMessage(), Response::HTTP_NOT_FOUND);
+        } catch (ProductNotActiveException|InsufficientStockException $e) {
             return $this->error($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
@@ -102,7 +109,9 @@ class CartController extends AbstractApiController
         try {
             $this->removeItemFromCart->handle($sessionId, $id);
             return $this->success([], 'Товар удален из корзины', Response::HTTP_OK);
-        } catch (\RuntimeException $e) {
+        } catch (CartNotFoundException $e) {
+            return $this->error($e->getMessage(), Response::HTTP_NOT_FOUND);
+        } catch (CartItemNotFoundException $e) {
             return $this->error($e->getMessage(), Response::HTTP_NOT_FOUND);
         }
     }

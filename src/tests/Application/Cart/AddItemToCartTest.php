@@ -99,8 +99,7 @@ class AddItemToCartTest extends TestCase
         $this->productRepo->method('findById')->willReturn(null);
 
         // Assert
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Товар не найден: 999');
+        $this->expectException(\App\Domain\Exception\ProductNotFoundException::class);
 
         // Act
         $this->useCase->handle('test-session', 999, 1);
@@ -121,8 +120,7 @@ class AddItemToCartTest extends TestCase
         $this->productRepo->method('findById')->willReturn($product);
 
         // Assert
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Товар не активен: 1');
+        $this->expectException(\App\Domain\Exception\ProductNotActiveException::class);
 
         // Act
         $this->useCase->handle('test-session', 1, 1);
@@ -143,8 +141,7 @@ class AddItemToCartTest extends TestCase
         $this->productRepo->method('findById')->willReturn($product);
 
         // Assert
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Недостаточно товара на складе: 1');
+        $this->expectException(\App\Domain\Exception\InsufficientStockException::class);
 
         // Act
         $this->useCase->handle('test-session', 1, 5); // Пытаемся добавить 5

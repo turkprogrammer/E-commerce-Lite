@@ -149,8 +149,7 @@ class CheckoutCartTest extends TestCase
             ->willReturn($cart);
 
         // Assert
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Товар "Inactive Product" больше не доступен');
+        $this->expectException(\App\Domain\Exception\ProductNotActiveException::class);
 
         // Act
         $this->useCase->handle('test-session', []);
@@ -182,8 +181,7 @@ class CheckoutCartTest extends TestCase
             ->willReturn($cart);
 
         // Assert
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Недостаточно товара "Limited Product" на складе');
+        $this->expectException(\App\Domain\Exception\InsufficientStockException::class);
 
         // Act
         $this->useCase->handle('test-session', []);

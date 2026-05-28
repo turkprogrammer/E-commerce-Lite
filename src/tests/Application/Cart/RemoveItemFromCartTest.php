@@ -64,8 +64,7 @@ class RemoveItemFromCartTest extends TestCase
         $this->cartRepo->method('findBySessionId')->willReturn(null);
 
         // Assert
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Корзина не найдена');
+        $this->expectException(\App\Domain\Exception\CartNotFoundException::class);
 
         // Act
         $this->useCase->handle('non-existent-session', 1);
@@ -90,8 +89,7 @@ class RemoveItemFromCartTest extends TestCase
         $this->cartRepo->method('findBySessionId')->willReturn($cart);
 
         // Assert
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Товар не найден в корзине');
+        $this->expectException(\App\Domain\Exception\CartItemNotFoundException::class);
 
         // Act
         $this->useCase->handle('test-session', 999);

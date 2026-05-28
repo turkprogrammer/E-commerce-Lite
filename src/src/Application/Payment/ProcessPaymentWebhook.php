@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Application\Payment;
 
 use App\Domain\Entity\Payment;
+use App\Domain\Exception\PaymentNotFoundException;
+use App\Domain\Exception\WebhookException;
 use App\Domain\Port\Repository\PaymentRepositoryInterface;
 
 /**
@@ -21,26 +23,27 @@ readonly class ProcessPaymentWebhook
      *
      * @param array<string, mixed> $payload Данные webhook
      * @return Payment Обработанный платёж
-     * @throws \RuntimeException Если webhook невалиден
+     * @throws WebhookException Если тип webhook неизвестен
+     * @throws PaymentNotFoundException Если платёж не найден при возврате
      */
     public function handle(array $payload): Payment
     {
         // Проверяем тип события
         $eventType = $payload['type'] ?? '';
-        
+
         if ($eventType === 'payment.succeeded' || $eventType === 'payment.completed') {
             return $this->handlePaymentSucceeded($payload);
         }
-        
+
         if ($eventType === 'payment.failed') {
             return $this->handlePaymentFailed($payload);
         }
-        
+
         if ($eventType === 'payment.refunded') {
             return $this->handlePaymentRefunded($payload);
         }
-        
-        throw new \RuntimeException("Неизвестный тип webhook: $eventType");
+
+        throw WebhookException::unknownType((string) $eventType);
     }
 
     /**
@@ -112,7 +115,7 @@ readonly class ProcessPaymentWebhook
         $payment = $this->paymentRepo->findByPaymentNumber($paymentNumber);
         
         if (!$payment) {
-            throw new \RuntimeException("Платёж не найден: $paymentNumber");
+            throw new PaymentNotFoundException($paymentNumber);
         }
         
         $payment->setStatus('refunded');

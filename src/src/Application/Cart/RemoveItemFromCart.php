@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\Cart;
 
+use App\Domain\Exception\CartNotFoundException;
+use App\Domain\Exception\CartItemNotFoundException;
 use App\Domain\Port\Repository\CartRepositoryInterface;
 
 /**
@@ -26,7 +28,7 @@ readonly class RemoveItemFromCart
     {
         $cart = $this->cartRepo->findBySessionId($sessionId);
         if (!$cart) {
-            throw new \RuntimeException("Корзина не найдена");
+            throw new CartNotFoundException($sessionId);
         }
 
         // Находим товар в корзине и удаляем
@@ -39,6 +41,6 @@ readonly class RemoveItemFromCart
             }
         }
 
-        throw new \RuntimeException("Товар не найден в корзине");
+        throw new CartItemNotFoundException($productId);
     }
 }

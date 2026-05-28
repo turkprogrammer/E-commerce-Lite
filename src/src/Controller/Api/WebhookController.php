@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Application\Payment\ProcessPaymentWebhook;
+use App\Domain\Exception\PaymentNotFoundException;
+use App\Domain\Exception\WebhookException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,8 +39,10 @@ class WebhookController extends AbstractApiController
             return $this->success([
                 'payment' => $payment,
             ], 'Webhook обработан', Response::HTTP_OK);
-        } catch (\RuntimeException $e) {
+        } catch (WebhookException $e) {
             return $this->error($e->getMessage(), Response::HTTP_BAD_REQUEST);
+        } catch (PaymentNotFoundException $e) {
+            return $this->error($e->getMessage(), Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
             return $this->error('Ошибка обработки webhook', Response::HTTP_INTERNAL_SERVER_ERROR);
         }

@@ -144,8 +144,7 @@ class ProcessPaymentWebhookTest extends TestCase
         ];
 
         // Assert
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Неизвестный тип webhook: payment.unknown');
+        $this->expectException(\App\Domain\Exception\WebhookException::class);
 
         // Act
         $this->useCase->handle($payload);

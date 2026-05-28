@@ -8,6 +8,12 @@ use App\Application\Cart\CheckoutCart;
 use App\Application\Cart\AddItemToCart;
 use App\Application\Order\GetOrderByNumber;
 use App\Application\Order\GetOrdersByEmail;
+use App\Domain\Exception\CartEmptyException;
+use App\Domain\Exception\CartNotFoundException;
+use App\Domain\Exception\OrderNotFoundException;
+use App\Domain\Exception\ProductNotFoundException;
+use App\Domain\Exception\ProductNotActiveException;
+use App\Domain\Exception\InsufficientStockException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,7 +96,11 @@ class OrderController extends AbstractApiController
                     'customerEmail' => $order->getCustomerEmail(),
                 ],
             ], 'Заказ успешно создан', Response::HTTP_CREATED);
-        } catch (\RuntimeException $e) {
+        } catch (ProductNotFoundException $e) {
+            return $this->error($e->getMessage(), Response::HTTP_NOT_FOUND);
+        } catch (CartNotFoundException|CartEmptyException $e) {
+            return $this->error($e->getMessage(), Response::HTTP_BAD_REQUEST);
+        } catch (ProductNotActiveException|InsufficientStockException $e) {
             return $this->error($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
@@ -126,7 +136,7 @@ class OrderController extends AbstractApiController
             return $this->success([
                 'order' => $order,
             ], 'Заказ найден', Response::HTTP_OK);
-        } catch (\RuntimeException $e) {
+        } catch (OrderNotFoundException $e) {
             return $this->error($e->getMessage(), Response::HTTP_NOT_FOUND);
         }
     }
