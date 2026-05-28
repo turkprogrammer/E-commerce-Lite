@@ -18,6 +18,9 @@ class CategoryFixtures extends Fixture
     public const CATEGORY_HOME = 'category_home';
     public const CATEGORY_BOOKS = 'category_books';
 
+    /**
+     * Загрузить фикстуры категорий
+     */
     public function load(ObjectManager $manager): void
     {
         $categories = [

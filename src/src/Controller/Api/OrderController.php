@@ -37,6 +37,8 @@ final class OrderController extends AbstractApiController
 
     /**
      * Создать новый заказ (Checkout) или получить заказы по email
+     *
+     * @return JsonResponse
      */
     #[Route('/api/orders', name: 'api_orders', methods: ['POST', 'GET'])]
     public function __invoke(Request $request): JsonResponse
@@ -126,6 +128,8 @@ final class OrderController extends AbstractApiController
 
     /**
      * Получить заказ по номеру
+     *
+     * @return JsonResponse
      */
     #[Route('/api/orders/{orderNumber}', name: 'api_orders_show', methods: ['GET'])]
     public function show(string $orderNumber): JsonResponse

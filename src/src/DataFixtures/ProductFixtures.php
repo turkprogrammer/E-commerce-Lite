@@ -15,6 +15,9 @@ use Doctrine\Persistence\ObjectManager;
  */
 class ProductFixtures extends Fixture implements DependentFixtureInterface
 {
+    /**
+     * Загрузить фикстуры товаров
+     */
     public function load(ObjectManager $manager): void
     {
         $products = [
@@ -149,6 +152,9 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
+    /**
+     * @return array<class-string>
+     */
     public function getDependencies(): array
     {
         return [

@@ -42,16 +42,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->createdAt = new \DateTimeImmutable();
     }
 
+    /**
+     * Получить ID пользователя
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Получить email пользователя
+     */
     public function getEmail(): string
     {
         return $this->email;
     }
 
+    /**
+     * Установить email пользователя
+     */
     public function setEmail(string $email): static
     {
         $this->email = $email;
@@ -59,11 +68,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * Получить имя пользователя
+     */
     public function getUsername(): string
     {
         return $this->username;
     }
 
+    /**
+     * Установить имя пользователя
+     */
     public function setUsername(string $username): static
     {
         $this->username = $username;
@@ -79,6 +94,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
+    /**
+     * Установить пароль
+     */
     public function setPassword(string $password): static
     {
         $this->password = $password;
@@ -87,6 +105,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * Получить роли пользователя
+     *
+     * @return array<string>
      * @see UserInterface
      */
     public function getRoles(): array
@@ -108,11 +129,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * Проверить активен ли пользователь
+     */
     public function isActive(): bool
     {
         return $this->isActive;
     }
 
+    /**
+     * Установить статус активности
+     */
     public function setIsActive(bool $isActive): static
     {
         $this->isActive = $isActive;
@@ -120,6 +147,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * Получить дату создания
+     */
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;

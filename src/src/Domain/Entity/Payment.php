@@ -81,10 +81,9 @@ class Payment
     /**
      * Дополнительные данные платежа
      *
-     * @var array Дополнительная информация о платеже в формате JSON
+     * @var array<string, mixed> Дополнительная информация о платеже в формате JSON
      */
     #[ORM\Column(type: 'json', options: ['default' => '{}'])]
-    /** @var array<string, mixed> */
     private array $metadata = [];
 
     /**

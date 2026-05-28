@@ -31,16 +31,19 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMIN')]
 final class OrderCrudController extends AbstractCrudController
 {
-    // Статусы заказов
-    private const STATUSES = [
-        'pending' => 'Ожидает оплаты',
-        'paid' => 'Оплачен',
-        'confirmed' => 'Подтверждён',
-        'shipped' => 'Отправлен',
-        'delivered' => 'Доставлен',
-        'cancelled' => 'Отменён',
+    /** @var array<string, string> Метка => значение для EasyAdmin */
+    private const STATUS_LABELS = [
+        'Ожидает оплаты' => 'pending',
+        'Оплачен' => 'paid',
+        'Подтверждён' => 'confirmed',
+        'Отправлен' => 'shipped',
+        'Доставлен' => 'delivered',
+        'Отменён' => 'cancelled',
     ];
 
+    /**
+     * @return class-string<Order>
+     */
     public static function getEntityFqcn(): string
     {
         return Order::class;
@@ -48,6 +51,8 @@ final class OrderCrudController extends AbstractCrudController
 
     /**
      * Настройка CRUD
+     *
+     * @return Crud
      */
     public function configureCrud(Crud $crud): Crud
     {
@@ -67,6 +72,8 @@ final class OrderCrudController extends AbstractCrudController
 
     /**
      * Настройка действий
+     *
+     * @return Actions
      */
     public function configureActions(Actions $actions): Actions
     {
@@ -78,6 +85,8 @@ final class OrderCrudController extends AbstractCrudController
 
     /**
      * Настройка фильтров
+     *
+     * @return Filters
      */
     public function configureFilters(Filters $filters): Filters
     {
@@ -85,11 +94,13 @@ final class OrderCrudController extends AbstractCrudController
             ->add(TextFilter::new('orderNumber'))
             ->add(TextFilter::new('customerEmail'))
             ->add(ChoiceFilter::new('status')
-                ->setChoices(self::STATUSES));
+                ->setChoices(self::STATUS_LABELS));
     }
 
     /**
      * Настройка полей
+     *
+     * @return iterable
      */
     public function configureFields(string $pageName): iterable
     {
@@ -114,7 +125,7 @@ final class OrderCrudController extends AbstractCrudController
             ->hideOnIndex();
 
         yield ChoiceField::new('status', 'Статус')
-            ->setChoices(self::STATUSES)
+            ->setChoices(self::STATUS_LABELS)
             ->setRequired(true)
             ->renderAsBadges([
                 'pending' => 'warning',

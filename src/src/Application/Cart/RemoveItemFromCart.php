@@ -23,6 +23,8 @@ readonly class RemoveItemFromCart
      * @param string $sessionId Session ID
      * @param int $productId ID товара
      * @return void
+     * @throws CartNotFoundException Если корзина не найдена
+     * @throws CartItemNotFoundException Если товар не найден в корзине
      */
     public function handle(string $sessionId, int $productId): void
     {

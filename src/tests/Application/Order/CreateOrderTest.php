@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Application\Order;
 
 use App\Application\Order\CreateOrder;
+use App\Domain\Exception\DomainException;
 use App\Domain\Port\Repository\OrderRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -64,11 +65,13 @@ class CreateOrderTest extends TestCase
     }
 
     /**
-     * Тест: Создание заказа без элементов
+     * Тест: Создание заказа без элементов выбрасывает исключение
      */
     public function testCreateOrderWithoutItems(): void
     {
-        // Arrange
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Order must contain at least one item.');
+
         $data = [
             'customerName' => 'Иван Иванов',
             'customerEmail' => 'ivan@example.com',
@@ -78,13 +81,6 @@ class CreateOrderTest extends TestCase
 
         $items = [];
 
-        $this->orderRepo->expects($this->once())->method('save');
-
-        // Act
-        $order = $this->useCase->handle($data, $items);
-
-        // Assert
-        $this->assertCount(0, $order->getItems());
-        $this->assertEquals(0.0, $order->getTotalAmount());
+        $this->useCase->handle($data, $items);
     }
 }

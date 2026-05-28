@@ -30,6 +30,9 @@ use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 #[IsGranted('ROLE_ADMIN')]
 final class ProductCrudController extends AbstractCrudController
 {
+    /**
+     * @return class-string<Product>
+     */
     public static function getEntityFqcn(): string
     {
         return Product::class;
@@ -37,6 +40,8 @@ final class ProductCrudController extends AbstractCrudController
 
     /**
      * Настройка CRUD
+     *
+     * @return Crud
      */
     public function configureCrud(Crud $crud): Crud
     {
@@ -51,6 +56,8 @@ final class ProductCrudController extends AbstractCrudController
 
     /**
      * Настройка действий
+     *
+     * @return Actions
      */
     public function configureActions(Actions $actions): Actions
     {
@@ -63,6 +70,8 @@ final class ProductCrudController extends AbstractCrudController
 
     /**
      * Настройка фильтров
+     *
+     * @return Filters
      */
     public function configureFilters(Filters $filters): Filters
     {
@@ -73,6 +82,8 @@ final class ProductCrudController extends AbstractCrudController
 
     /**
      * Настройка полей
+     *
+     * @return iterable
      */
     public function configureFields(string $pageName): iterable
     {

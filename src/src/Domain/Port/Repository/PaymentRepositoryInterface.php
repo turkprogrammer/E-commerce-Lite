@@ -13,11 +13,15 @@ interface PaymentRepositoryInterface
 {
     /**
      * Найти платёж по ID
+     *
+     * @return Payment|null
      */
     public function findById(int $id): ?Payment;
 
     /**
      * Найти платёж по номеру
+     *
+     * @return Payment|null
      */
     public function findByPaymentNumber(string $paymentNumber): ?Payment;
 
@@ -30,6 +34,8 @@ interface PaymentRepositoryInterface
 
     /**
      * Сохранить платёж
+     *
+     * @param Payment $payment Платёж для сохранения
      */
     public function save(Payment $payment): void;
 

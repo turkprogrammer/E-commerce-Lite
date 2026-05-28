@@ -15,6 +15,8 @@ final class HomeController extends AbstractController
 {
     /**
      * Главная страница (Premium Design)
+     *
+     * @return Response
      */
     #[Route('/', name: 'app_home', methods: ['GET'])]
     public function index(): Response

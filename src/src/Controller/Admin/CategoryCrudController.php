@@ -27,6 +27,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMIN')]
 final class CategoryCrudController extends AbstractCrudController
 {
+    /**
+     * @return class-string<Category>
+     */
     public static function getEntityFqcn(): string
     {
         return Category::class;
@@ -34,6 +37,8 @@ final class CategoryCrudController extends AbstractCrudController
 
     /**
      * Настройка CRUD
+     *
+     * @return Crud
      */
     public function configureCrud(Crud $crud): Crud
     {
@@ -48,6 +53,8 @@ final class CategoryCrudController extends AbstractCrudController
 
     /**
      * Настройка действий
+     *
+     * @return Actions
      */
     public function configureActions(Actions $actions): Actions
     {
@@ -60,6 +67,8 @@ final class CategoryCrudController extends AbstractCrudController
 
     /**
      * Настройка фильтров
+     *
+     * @return Filters
      */
     public function configureFilters(Filters $filters): Filters
     {
@@ -70,6 +79,8 @@ final class CategoryCrudController extends AbstractCrudController
 
     /**
      * Настройка полей
+     *
+     * @return iterable
      */
     public function configureFields(string $pageName): iterable
     {

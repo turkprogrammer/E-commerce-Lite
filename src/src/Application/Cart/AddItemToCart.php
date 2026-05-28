@@ -29,6 +29,9 @@ readonly class AddItemToCart
      * @param int $productId ID товара
      * @param int $quantity Количество
      * @return CartItem Созданный элемент корзины
+     * @throws ProductNotFoundException Если товар не найден
+     * @throws ProductNotActiveException Если товар не активен
+     * @throws InsufficientStockException Если недостаточно товара на складе
      */
     public function handle(string $sessionId, int $productId, int $quantity): CartItem
     {

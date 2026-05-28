@@ -21,6 +21,9 @@ class UserFixtures extends Fixture
     ) {
     }
 
+    /**
+     * Загрузить фикстуры пользователей
+     */
     public function load(ObjectManager $manager): void
     {
         // Создаем администратора

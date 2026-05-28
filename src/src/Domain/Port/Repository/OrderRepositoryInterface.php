@@ -13,6 +13,8 @@ interface OrderRepositoryInterface
 {
     /**
      * Найти заказ по номеру заказа
+     *
+     * @return Order|null
      */
     public function findByOrderNumber(string $orderNumber): ?Order;
 
@@ -25,11 +27,15 @@ interface OrderRepositoryInterface
 
     /**
      * Сохранить заказ
+     *
+     * @param Order $order Заказ для сохранения
      */
     public function save(Order $order): void;
 
     /**
      * Удалить заказ
+     *
+     * @param Order $order Заказ для удаления
      */
     public function delete(Order $order): void;
 }

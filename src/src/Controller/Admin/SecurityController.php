@@ -15,6 +15,8 @@ final class SecurityController extends AbstractController
 {
     /**
      * Страница входа
+     *
+     * @return Response
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {

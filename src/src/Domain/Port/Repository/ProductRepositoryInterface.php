@@ -13,6 +13,8 @@ interface ProductRepositoryInterface
 {
     /**
      * Найти товар по ID
+     *
+     * @return Product|null
      */
     public function findById(int $id): ?Product;
 

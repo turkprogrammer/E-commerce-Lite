@@ -6,6 +6,7 @@ namespace App\Application\Order;
 
 use App\Domain\Entity\Order;
 use App\Domain\Entity\OrderItem;
+use App\Domain\Exception\DomainException;
 use App\Domain\Port\Repository\OrderRepositoryInterface;
 
 /**
@@ -23,16 +24,20 @@ readonly class CreateOrder
      * @param array{customerName: string, customerEmail: string, customerPhone: string, deliveryAddress: string} $data Данные заказа
      * @param array<int, array{productName: string, quantity: int, price: float}> $items Элементы заказа
      * @return Order Созданный заказ
+     * @throws DomainException Если список элементов пуст
      */
     public function handle(array $data, array $items): Order
     {
+        if (empty($items)) {
+            throw new DomainException('Order must contain at least one item.');
+        }
+
         $order = new Order();
         $order->setCustomerName($data['customerName']);
         $order->setCustomerEmail($data['customerEmail']);
         $order->setCustomerPhone($data['customerPhone']);
         $order->setDeliveryAddress($data['deliveryAddress']);
 
-        // Добавляем элементы заказа
         foreach ($items as $itemData) {
             $item = new OrderItem();
             $item->setProductName($itemData['productName']);
@@ -41,10 +46,8 @@ readonly class CreateOrder
             $order->addItem($item);
         }
 
-        // Пересчитываем общую сумму
         $order->recalculate();
 
-        // Сохраняем
         $this->orderRepo->save($order);
 
         return $order;

@@ -36,6 +36,8 @@ final class CartController extends AbstractApiController
 
     /**
      * Получить текущую корзину
+     *
+     * @return JsonResponse
      */
     #[Route('/api/cart', name: 'api_cart_get', methods: ['GET'])]
     public function getCart(Request $request): JsonResponse
@@ -65,6 +67,8 @@ final class CartController extends AbstractApiController
 
     /**
      * Добавить товар в корзину
+     *
+     * @return JsonResponse
      */
     #[Route('/api/cart/items', name: 'api_cart_add', methods: ['POST'])]
     public function addItem(Request $request): JsonResponse
@@ -100,6 +104,8 @@ final class CartController extends AbstractApiController
 
     /**
      * Удалить товар из корзины
+     *
+     * @return JsonResponse
      */
     #[Route('/api/cart/items/{id}', name: 'api_cart_remove', methods: ['DELETE'])]
     public function removeItem(Request $request, int $id): JsonResponse

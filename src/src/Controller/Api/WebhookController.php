@@ -29,6 +29,8 @@ final class WebhookController extends AbstractApiController
 
     /**
      * Обработать webhook от платёжной системы
+     *
+     * @return JsonResponse
      */
     #[Route('/api/webhooks/payment', name: 'api_webhooks_payment', methods: ['POST'])]
     public function handlePaymentWebhook(Request $request): JsonResponse
@@ -54,6 +56,8 @@ final class WebhookController extends AbstractApiController
 
     /**
      * Тест webhook endpoint
+     *
+     * @return JsonResponse
      */
     #[Route('/api/webhooks/payment/test', name: 'api_webhooks_payment_test', methods: ['GET'])]
     public function test(): JsonResponse

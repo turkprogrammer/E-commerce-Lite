@@ -46,6 +46,9 @@ SVG;
 
     /**
      * Генерирует placeholder URL для товара
+     *
+     * @param string $text Текст для отображения
+     * @return string Data URI с SVG placeholder
      */
     public static function forProduct(string $text): string
     {

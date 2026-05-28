@@ -10,9 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Главная панель администратора
@@ -26,6 +24,8 @@ final class DashboardController extends AbstractDashboardController
 
     /**
      * Главная страница админки - Dashboard
+     *
+     * @return Response
      */
     public function index(): Response
     {
@@ -44,6 +44,8 @@ final class DashboardController extends AbstractDashboardController
 
     /**
      * Загрузка глобальных CSS-ассетов для админки
+     *
+     * @return Assets
      */
     public function configureAssets(): Assets
     {
@@ -53,6 +55,8 @@ final class DashboardController extends AbstractDashboardController
 
     /**
      * Настройка дашборда
+     *
+     * @return Dashboard
      */
     public function configureDashboard(): Dashboard
     {

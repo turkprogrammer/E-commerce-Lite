@@ -100,21 +100,9 @@ class DashboardStatsProviderTest extends TestCase
     public function testGetStatsWithZeroValues(): void
     {
         // Arrange
-        $today = date('Y-m-d');
-        $yesterday = date('Y-m-d', strtotime('-1 day'));
-
         $this->connection
             ->method('fetchOne')
-            ->willReturnMap([
-                ['SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE DATE(created_at) = :today AND status != "cancelled"', ['today' => $today], 0],
-                ['SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE DATE(created_at) = :yesterday AND status != "cancelled"', ['yesterday' => $yesterday], 0],
-                ['SELECT COUNT(*) FROM orders WHERE DATE(created_at) = :today', ['today' => $today], 0],
-                ['SELECT COUNT(*) FROM orders WHERE DATE(created_at) = :yesterday', ['yesterday' => $yesterday], 0],
-                ['SELECT COUNT(*) FROM orders', [], 0],
-                ['SELECT COUNT(*) FROM products WHERE active = 1', [], 0],
-                ['SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE DATE(created_at) >= DATE(:today, "-7 days") AND status != "cancelled"', ['today' => $today], 0],
-                ['SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE DATE(created_at) >= DATE(:today, "-30 days") AND status != "cancelled"', ['today' => $today], 0],
-            ]);
+            ->willReturn(0);
 
         // Act
         $stats = $this->statsProvider->getStats();

@@ -23,7 +23,6 @@ class ProductDoctrineRepository extends ServiceEntityRepository implements Produ
 
     public function findById(int $id): ?Product
     {
-        /** @var Product|null */
         return $this->find($id);
     }
 

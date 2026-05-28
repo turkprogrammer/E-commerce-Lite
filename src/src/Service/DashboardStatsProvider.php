@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
+use RuntimeException;
 
 /**
  * Сервис статистики для Dashboard
@@ -16,67 +17,70 @@ class DashboardStatsProvider
     ) {}
 
     /**
+     * @param array<string, mixed> $params
+     * @return int|float|string
+     */
+    private function fetchScalar(string $sql, array $params = []): int|float|string
+    {
+        $result = $this->entityManager->getConnection()->fetchOne($sql, $params);
+
+        if ($result === false) {
+            throw new RuntimeException('Database query failed.');
+        }
+
+        return $result;
+    }
+
+    /**
      * Получить основную статистику
      *
      * @return array{todayRevenue: float, todayRevenueChange: float, todayOrders: int, todayOrdersChange: float, averageCheck: float, totalOrders: int, totalProducts: int, weekRevenue: float, monthRevenue: float}
      */
     public function getStats(): array
     {
-        $connection = $this->entityManager->getConnection();
-
-        // Получаем текущую дату в формате SQLite
         $today = date('Y-m-d');
         $yesterday = date('Y-m-d', strtotime('-1 day'));
 
-        // Выручка за сегодня (исключая отменённые)
-        $todayRevenue = $connection->fetchOne('
+        $todayRevenue = $this->fetchScalar('
             SELECT COALESCE(SUM(total_amount), 0)
             FROM orders
             WHERE DATE(created_at) = :today
             AND status != "cancelled"
         ', ['today' => $today]);
 
-        // Выручка за вчера
-        $yesterdayRevenue = $connection->fetchOne('
+        $yesterdayRevenue = $this->fetchScalar('
             SELECT COALESCE(SUM(total_amount), 0)
             FROM orders
             WHERE DATE(created_at) = :yesterday
             AND status != "cancelled"
         ', ['yesterday' => $yesterday]);
 
-        // Новые заказы за сегодня
-        $todayOrders = $connection->fetchOne('
+        $todayOrders = $this->fetchScalar('
             SELECT COUNT(*)
             FROM orders
             WHERE DATE(created_at) = :today
         ', ['today' => $today]);
 
-        // Новые заказы за вчера
-        $yesterdayOrders = $connection->fetchOne('
+        $yesterdayOrders = $this->fetchScalar('
             SELECT COUNT(*)
             FROM orders
             WHERE DATE(created_at) = :yesterday
         ', ['yesterday' => $yesterday]);
 
-        // Средний чек за сегодня (только активные заказы)
         $averageCheck = $todayOrders > 0 ? $todayRevenue / $todayOrders : 0;
 
-        // Всего заказов (все)
-        $totalOrders = $connection->fetchOne('SELECT COUNT(*) FROM orders');
+        $totalOrders = $this->fetchScalar('SELECT COUNT(*) FROM orders');
 
-        // Всего активных товаров
-        $totalProducts = $connection->fetchOne('SELECT COUNT(*) FROM products WHERE active = 1');
+        $totalProducts = $this->fetchScalar('SELECT COUNT(*) FROM products WHERE active = 1');
 
-        // Выручка за неделю (только активные заказы)
-        $weekRevenue = $connection->fetchOne('
+        $weekRevenue = $this->fetchScalar('
             SELECT COALESCE(SUM(total_amount), 0)
             FROM orders
             WHERE DATE(created_at) >= DATE(:today, "-7 days")
             AND status != "cancelled"
         ', ['today' => $today]);
 
-        // Выручка за месяц (только активные заказы)
-        $monthRevenue = $connection->fetchOne('
+        $monthRevenue = $this->fetchScalar('
             SELECT COALESCE(SUM(total_amount), 0)
             FROM orders
             WHERE DATE(created_at) >= DATE(:today, "-30 days")

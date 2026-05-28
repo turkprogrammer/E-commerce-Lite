@@ -27,6 +27,8 @@ final class ProductController extends AbstractApiController
 
     /**
      * Получить список всех товаров
+     *
+     * @return JsonResponse
      */
     #[Route('/api/products', name: 'api_products_list', methods: ['GET'])]
     public function index(Request $request): JsonResponse
@@ -41,6 +43,8 @@ final class ProductController extends AbstractApiController
 
     /**
      * Получить избранные товары
+     *
+     * @return JsonResponse
      */
     #[Route('/api/products/featured', name: 'api_products_featured', methods: ['GET'])]
     public function featured(Request $request): JsonResponse
@@ -56,6 +60,8 @@ final class ProductController extends AbstractApiController
 
     /**
      * Получить товар по ID
+     *
+     * @return JsonResponse
      */
     #[Route('/api/products/{id}', name: 'api_product_show', methods: ['GET'], requirements: ['id' => '\d+'])]
     public function show(int $id): JsonResponse

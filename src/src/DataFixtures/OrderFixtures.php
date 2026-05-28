@@ -16,8 +16,11 @@ use Doctrine\Persistence\ObjectManager;
  */
 class OrderFixtures extends Fixture implements DependentFixtureInterface
 {
-    private const STATUSES = ['pending', 'paid', 'confirmed', 'shipped', 'delivered', 'cancelled'];
+    // Используем Order::STATUSES для единообразия
 
+    /**
+     * Загрузить фикстуры заказов
+     */
     public function load(ObjectManager $manager): void
     {
         $products = $manager->getRepository(Product::class)->findAll();
@@ -34,7 +37,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             $order->setCustomerEmail("customer$i@example.com");
             $order->setCustomerPhone("+7 (999) 000-00" . str_pad((string)$i, 2, '0', STR_PAD_LEFT));
             $order->setDeliveryAddress("г. Москва, ул. Примерная, д. $i, кв. " . ($i * 10));
-            $order->setStatus(self::STATUSES[array_rand(self::STATUSES)]);
+            $order->setStatus(Order::STATUSES[array_rand(Order::STATUSES)]);
 
             // Добавляем 1-3 товара в заказ
             $numItems = random_int(1, 3);
@@ -64,6 +67,9 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
+    /**
+     * @return array<class-string>
+     */
     public function getDependencies(): array
     {
         return [

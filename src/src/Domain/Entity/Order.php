@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
+use App\Domain\Exception\InvalidOrderStatusException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,6 +20,16 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'orders')]
 class Order
 {
+    /** @var list<string> Допустимые статусы заказа */
+    public const STATUSES = [
+        'pending',
+        'paid',
+        'confirmed',
+        'shipped',
+        'delivered',
+        'cancelled',
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -249,9 +260,14 @@ class Order
      *
      * @param string $status Новый статус заказа
      * @return self Возвращает текущий экземпляр для цепочки вызовов
+     * @throws InvalidOrderStatusException Если статус не входит в список допустимых
      */
     public function setStatus(string $status): self
     {
+        if (!in_array($status, self::STATUSES, true)) {
+            throw new InvalidOrderStatusException($status);
+        }
+
         $this->status = $status;
         return $this;
     }

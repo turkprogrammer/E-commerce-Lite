@@ -26,6 +26,8 @@ final class CategoryController extends AbstractApiController
 
     /**
      * Получить список всех категорий
+     *
+     * @return JsonResponse
      */
     #[Route('/api/categories', name: 'api_categories_list', methods: ['GET'])]
     public function index(): JsonResponse
@@ -40,6 +42,8 @@ final class CategoryController extends AbstractApiController
 
     /**
      * Получить категорию по ID
+     *
+     * @return JsonResponse
      */
     #[Route('/api/categories/{id}', name: 'api_categories_show', methods: ['GET'])]
     public function show(int $id): JsonResponse

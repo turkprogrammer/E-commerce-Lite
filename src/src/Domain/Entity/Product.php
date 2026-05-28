@@ -162,9 +162,9 @@ class Product
     /**
      * Получить название товара
      *
-     * @return string|null Название продукта
+     * @return string Название продукта
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
