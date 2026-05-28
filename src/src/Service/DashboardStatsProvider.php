@@ -158,7 +158,7 @@ class DashboardStatsProvider
         $connection = $this->entityManager->getConnection();
 
         $rows = $connection->fetchAllAssociative('
-            SELECT 
+            SELECT
                 oi.product_name,
                 SUM(oi.quantity) as total_quantity,
                 SUM(oi.quantity * oi.price) as total_revenue
@@ -167,8 +167,8 @@ class DashboardStatsProvider
             WHERE o.status != "cancelled"
             GROUP BY oi.product_name
             ORDER BY total_quantity DESC
-            LIMIT ' . (int)$limit
-        );
+            LIMIT :limit
+        ', ['limit' => $limit]);
 
         return array_map(fn($row) => [
             'name' => $row['product_name'],

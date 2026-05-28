@@ -373,8 +373,11 @@ class Order
         if ($this->payments->isEmpty()) {
             return null;
         }
-        
-        return $this->payments->last();
+
+        /** @var Payment|false $last */
+        $last = $this->payments->last();
+
+        return $last instanceof Payment ? $last : null;
     }
 
     /**

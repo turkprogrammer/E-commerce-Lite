@@ -19,6 +19,12 @@ class ProductDoctrineRepository extends ServiceEntityRepository implements Produ
         parent::__construct($registry, Product::class);
     }
 
+    public function findById(int $id): ?Product
+    {
+        /** @var Product|null */
+        return $this->find($id);
+    }
+
     public function findAll(): array
     {
         return parent::findAll();

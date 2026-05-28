@@ -21,6 +21,6 @@ class CategoryDoctrineRepository extends ServiceEntityRepository implements Cate
 
     public function findActiveCategories(): array
     {
-        return $this->findBy(['active' => true], ['sortOrder' => 'ASC', 'name' => 'ASC']);
+        return $this->findBy(['active' => true], ['name' => 'ASC']);
     }
 }

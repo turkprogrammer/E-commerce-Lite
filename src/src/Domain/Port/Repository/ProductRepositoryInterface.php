@@ -12,9 +12,22 @@ use App\Domain\Entity\Product;
 interface ProductRepositoryInterface
 {
     /**
+     * Найти товар по ID
+     */
+    public function findById(int $id): ?Product;
+
+    /**
      * Найти все товары
      *
      * @return Product[]
      */
     public function findAll(): array;
+
+    /**
+     * Найти избранные товары
+     *
+     * @param int $limit Максимальное количество
+     * @return Product[]
+     */
+    public function findFeatured(int $limit = 10): array;
 }

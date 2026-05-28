@@ -6,9 +6,9 @@ namespace App\Controller\Api;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 /**
  * Базовый контроллер для API
@@ -76,15 +76,14 @@ abstract class AbstractApiController extends AbstractController
     /**
      * Преобразовать ошибки валидации в массив
      *
-     * @param mixed $violations Объект violations из валидатора
-     * @return array Массив ошибок с полями field и message
+     * @return array<int, array{field: string, message: string}>
      */
-    protected function getErrors($violations): array
+    protected function getErrors(ConstraintViolationListInterface $violations): array
     {
         $errors = [];
         foreach ($violations as $violation) {
             $errors[] = [
-                'field' => $violation->getPropertyPath(),
+                'field' => $violation->getPropertyPath() ?? '',
                 'message' => $violation->getMessage(),
             ];
         }

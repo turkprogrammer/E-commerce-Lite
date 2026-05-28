@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Domain\Port\Repository\ProductRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +20,6 @@ class ProductController extends AbstractApiController
 {
     public function __construct(
         private ProductRepositoryInterface $productRepo,
-        private EntityManagerInterface $entityManager,
         protected SerializerInterface $serializer,
     ) {
         parent::__construct($serializer);
@@ -62,8 +60,7 @@ class ProductController extends AbstractApiController
     #[Route('/api/products/{id}', name: 'api_product_show', methods: ['GET'], requirements: ['id' => '\d+'])]
     public function show(int $id): JsonResponse
     {
-        // Используем EntityManager напрямую т.к. find() не может быть в интерфейсе
-        $product = $this->entityManager->find(\App\Domain\Entity\Product::class, $id);
+        $product = $this->productRepo->findById($id);
 
         if (!$product) {
             return $this->error('Товар не найден', Response::HTTP_NOT_FOUND);

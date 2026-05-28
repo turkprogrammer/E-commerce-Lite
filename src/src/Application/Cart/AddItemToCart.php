@@ -7,7 +7,7 @@ namespace App\Application\Cart;
 use App\Domain\Entity\Cart;
 use App\Domain\Entity\CartItem;
 use App\Domain\Port\Repository\CartRepositoryInterface;
-use App\Infrastructure\Doctrine\Repository\ProductDoctrineRepository;
+use App\Domain\Port\Repository\ProductRepositoryInterface;
 
 /**
  * Use Case: Добавить товар в корзину
@@ -16,7 +16,7 @@ readonly class AddItemToCart
 {
     public function __construct(
         private CartRepositoryInterface $cartRepo,
-        private ProductDoctrineRepository $productRepo,
+        private ProductRepositoryInterface $productRepo,
     ) {}
 
     /**
@@ -37,7 +37,7 @@ readonly class AddItemToCart
         }
 
         // Находим товар
-        $product = $this->productRepo->find($productId);
+        $product = $this->productRepo->findById($productId);
         if (!$product) {
             throw new \RuntimeException("Товар не найден: $productId");
         }

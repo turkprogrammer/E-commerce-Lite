@@ -47,6 +47,6 @@ class PaymentDoctrineRepository extends ServiceEntityRepository implements Payme
 
     public function findAll(): array
     {
-        return $this->findAll();
+        return parent::findAll();
     }
 }
