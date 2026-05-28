@@ -25,7 +25,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
  */
 #[AdminRoute]
 #[IsGranted('ROLE_ADMIN')]
-class CategoryCrudController extends AbstractCrudController
+final class CategoryCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {

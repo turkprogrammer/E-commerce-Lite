@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Сущность заказа, представляющая оформленный заказ клиента с информацией о покупателе,
  * адресе доставки, статусе и списком товаров. Связана с элементами заказа через коллекцию.
  */
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity]
 #[ORM\Table(name: 'orders')]
 class Order

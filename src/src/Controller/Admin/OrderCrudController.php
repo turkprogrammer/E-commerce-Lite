@@ -29,7 +29,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
  */
 #[AdminRoute]
 #[IsGranted('ROLE_ADMIN')]
-class OrderCrudController extends AbstractCrudController
+final class OrderCrudController extends AbstractCrudController
 {
     // Статусы заказов
     private const STATUSES = [

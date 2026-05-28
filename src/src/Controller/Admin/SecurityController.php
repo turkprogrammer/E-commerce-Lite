@@ -11,7 +11,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 /**
  * Контроллер безопасности для админки
  */
-class SecurityController extends AbstractController
+final class SecurityController extends AbstractController
 {
     /**
      * Страница входа

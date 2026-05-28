@@ -17,13 +17,13 @@ use App\Domain\Exception\InsufficientStockException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * API контроллер для управления заказами
  */
-class OrderController extends AbstractApiController
+final class OrderController extends AbstractApiController
 {
     public function __construct(
         private CheckoutCart $checkoutCart,

@@ -28,7 +28,7 @@ use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
  */
 #[AdminRoute]
 #[IsGranted('ROLE_ADMIN')]
-class ProductCrudController extends AbstractCrudController
+final class ProductCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
