@@ -31,7 +31,6 @@ class OrderTest extends TestCase
         $order = new Order();
 
         // Assert
-        $this->assertNotNull($order->getCreatedAt());
         $this->assertInstanceOf(\DateTimeImmutable::class, $order->getCreatedAt());
     }
 
@@ -44,7 +43,6 @@ class OrderTest extends TestCase
         $order = new Order();
 
         // Assert
-        $this->assertNotNull($order->getUpdatedAt());
         $this->assertInstanceOf(\DateTimeImmutable::class, $order->getUpdatedAt());
     }
 
@@ -231,7 +229,6 @@ class OrderTest extends TestCase
         $order = new Order();
 
         // Assert
-        $this->assertNotNull($order->getOrderNumber());
         $this->assertStringStartsWith('ORD-', $order->getOrderNumber());
     }
 }

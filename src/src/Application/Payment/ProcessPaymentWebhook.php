@@ -29,6 +29,7 @@ readonly class ProcessPaymentWebhook
     public function handle(array $payload): Payment
     {
         // Проверяем тип события
+        /** @var string $eventType */
         $eventType = $payload['type'] ?? '';
 
         if ($eventType === 'payment.succeeded' || $eventType === 'payment.completed') {
@@ -43,7 +44,7 @@ readonly class ProcessPaymentWebhook
             return $this->handlePaymentRefunded($payload);
         }
 
-        throw WebhookException::unknownType((string) $eventType);
+        throw WebhookException::unknownType($eventType);
     }
 
     /**
@@ -53,17 +54,23 @@ readonly class ProcessPaymentWebhook
      */
     private function handlePaymentSucceeded(array $payload): Payment
     {
-        $paymentNumber = (string) ($payload['payment_number'] ?? $payload['id'] ?? '');
+        /** @var string $paymentNumber */
+        $paymentNumber = $payload['payment_number'] ?? $payload['id'] ?? '';
 
         // Ищем существующий платёж или создаём новый
         $payment = $this->paymentRepo->findByPaymentNumber($paymentNumber);
 
         if (!$payment) {
             // Создаём новый платёж из данных webhook
+            /** @var float $amount */
+            $amount = $payload['amount'] ?? 0;
+            /** @var string $method */
+            $method = $payload['method'] ?? 'unknown';
+
             $payment = new Payment();
             $payment->setPaymentNumber($paymentNumber);
-            $payment->setAmount((float) ($payload['amount'] ?? 0));
-            $payment->setMethod((string) ($payload['method'] ?? 'unknown'));
+            $payment->setAmount($amount);
+            $payment->setMethod($method);
         }
         
         // Обновляем статус
@@ -85,14 +92,18 @@ readonly class ProcessPaymentWebhook
      */
     private function handlePaymentFailed(array $payload): Payment
     {
-        $paymentNumber = (string) ($payload['payment_number'] ?? $payload['id'] ?? '');
+        /** @var string $paymentNumber */
+        $paymentNumber = $payload['payment_number'] ?? $payload['id'] ?? '';
 
         $payment = $this->paymentRepo->findByPaymentNumber($paymentNumber);
 
         if (!$payment) {
+            /** @var float $amount */
+            $amount = $payload['amount'] ?? 0;
+
             $payment = new Payment();
             $payment->setPaymentNumber($paymentNumber);
-            $payment->setAmount((float) ($payload['amount'] ?? 0));
+            $payment->setAmount($amount);
         }
         
         $payment->setStatus('failed');
@@ -110,7 +121,8 @@ readonly class ProcessPaymentWebhook
      */
     private function handlePaymentRefunded(array $payload): Payment
     {
-        $paymentNumber = (string) ($payload['payment_number'] ?? $payload['original_payment_id'] ?? '');
+        /** @var string $paymentNumber */
+        $paymentNumber = $payload['payment_number'] ?? $payload['original_payment_id'] ?? '';
 
         $payment = $this->paymentRepo->findByPaymentNumber($paymentNumber);
         

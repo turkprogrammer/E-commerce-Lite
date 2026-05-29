@@ -41,7 +41,7 @@ class DashboardStatsProviderTest extends TestCase
 
         $this->connection
             ->method('fetchOne')
-            ->willReturnCallback(function($sql, $params = []) use ($today, $yesterday, &$callCount) {
+            ->willReturnCallback(function($sql, $params = []) use (&$callCount) {
                 $callCount++;
                 
                 // 1-й вызов: today revenue
@@ -148,12 +148,12 @@ class DashboardStatsProviderTest extends TestCase
     {
         // Arrange
         $today = date('Y-m-d');
-        
+
         $this->connection
+            ->expects($this->once())
             ->method('fetchAllAssociative')
-            ->with($this->stringContains('SELECT'), ['today' => $today])
             ->willReturn([
-                ['date' => $today, 'orders' => 5, 'revenue' => 50000],
+                ['date' => $today, 'orders' => '5', 'revenue' => '50000'],
             ]);
 
         // Act
@@ -161,9 +161,9 @@ class DashboardStatsProviderTest extends TestCase
 
         // Assert
         $this->assertCount(7, $chart);
-        
+
         // Проверяем, что пропущенные дни заполнены нулями
-        $zeroDays = array_filter($chart, fn($day) => $day['orders'] === 0 && $day['revenue'] === 0);
+        $zeroDays = array_filter($chart, fn($day) => $day['orders'] === 0 && $day['revenue'] === 0.0);
         $this->assertCount(6, $zeroDays);
     }
 

@@ -31,12 +31,15 @@ class OrderDoctrineRepository extends ServiceEntityRepository implements OrderRe
      */
     public function findByEmail(string $email): array
     {
-        return $this->createQueryBuilder('o')
+        /** @var Order[] $result */
+        $result = $this->createQueryBuilder('o')
             ->where('o.customerEmail = :email')
             ->setParameter('email', $email)
             ->orderBy('o.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
+
+        return $result;
     }
 
     public function save(Order $order): void

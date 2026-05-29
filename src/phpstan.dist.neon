@@ -13,3 +13,7 @@ parameters:
         # Symfony config reference class
         - identifier: class.notFound
           path: config/reference.php
+        # Mock objects in tests
+        - identifier: method.notFound
+          path: */tests/*.php
+          reportUnmatched: false

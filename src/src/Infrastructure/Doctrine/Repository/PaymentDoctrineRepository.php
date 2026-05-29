@@ -36,12 +36,15 @@ class PaymentDoctrineRepository extends ServiceEntityRepository implements Payme
      */
     public function findByOrderId(int $orderId): array
     {
-        return $this->createQueryBuilder('p')
+        /** @var Payment[] $result */
+        $result = $this->createQueryBuilder('p')
             ->where('p.order = :orderId')
             ->setParameter('orderId', $orderId)
             ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
+
+        return $result;
     }
 
     public function save(Payment $payment): void

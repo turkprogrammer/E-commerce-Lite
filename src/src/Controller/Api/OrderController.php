@@ -81,7 +81,9 @@ final class OrderController extends AbstractApiController
         /** @var array<int, array{productId: int, quantity?: int}> $items */
         $items = $data['items'];
 
-        $checkoutData = CheckoutData::fromArray($data);
+        /** @var array{customerName: string, customerEmail: string, customerPhone: string, deliveryAddress: string} $checkoutInput */
+        $checkoutInput = $data;
+        $checkoutData = CheckoutData::fromArray($checkoutInput);
 
         try {
             // Сначала добавляем товары в корзину
@@ -116,13 +118,14 @@ final class OrderController extends AbstractApiController
      */
     private function list(Request $request): JsonResponse
     {
+        /** @var string|null $email */
         $email = $request->query->get('email');
 
         if (!$email) {
             return $this->error('Email параметр обязателен', Response::HTTP_BAD_REQUEST);
         }
 
-        $orders = $this->getOrdersByEmail->handle($email);
+        $orders = $this->getOrdersByEmail->handle((string) $email);
 
         return $this->success([
             'orders' => $orders,

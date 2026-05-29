@@ -78,7 +78,7 @@ class CheckoutCartTest extends TestCase
         $order = $this->useCase->handle('test-session', $checkoutData);
 
         // Assert
-        $this->assertNotNull($order->getOrderNumber());
+        $this->assertNotEmpty($order->getOrderNumber());
         $this->assertEquals('Иван Иванов', $order->getCustomerName());
         $this->assertEquals('ivan@example.com', $order->getCustomerEmail());
         $this->assertEquals(2000.00, $order->getTotalAmount());

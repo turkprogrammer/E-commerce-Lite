@@ -93,6 +93,7 @@ readonly class CheckoutCart
         // Уменьшаем склад
         foreach ($cart->getItems() as $cartItem) {
             $product = $cartItem->getProduct();
+            assert($product !== null);
             $product->setStock($product->getStock() - $cartItem->getQuantity());
         }
         

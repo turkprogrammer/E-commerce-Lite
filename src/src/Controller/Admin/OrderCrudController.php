@@ -103,8 +103,6 @@ final class OrderCrudController extends AbstractCrudController
 
     /**
      * Настройка полей
-     *
-     * @return iterable<Field>
      */
     public function configureFields(string $pageName): iterable
     {

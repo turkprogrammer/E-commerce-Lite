@@ -22,10 +22,24 @@ class OrderControllerTest extends WebTestCase
     private \Symfony\Bundle\FrameworkBundle\KernelBrowser $client;
     private EntityManagerInterface $entityManager;
 
+    /**
+     * @return array<mixed>
+     */
+    private function decodeResponse(): array
+    {
+        $content = $this->client->getResponse()->getContent();
+        assert($content !== false);
+        $data = json_decode($content, true);
+        assert(is_array($data));
+        return $data;
+    }
+
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->entityManager = static::getContainer()->get(EntityManagerInterface::class);
+        /** @var EntityManagerInterface $em */
+        $em = static::getContainer()->get(EntityManagerInterface::class);
+        $this->entityManager = $em;
     }
 
     /**
@@ -66,14 +80,13 @@ class OrderControllerTest extends WebTestCase
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
-            json_encode($payload)
+            (string) json_encode($payload)
         );
 
         // Assert
         $this->assertResponseIsSuccessful();
-        $this->assertJson($this->client->getResponse()->getContent());
-        
-        $data = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertResponseIsSuccessful();
+        $data = $this->decodeResponse();
         $this->assertFalse($data['error']);
         $this->assertArrayHasKey('order', $data['data']);
         $this->assertArrayHasKey('orderNumber', $data['data']['order']);
@@ -101,13 +114,13 @@ class OrderControllerTest extends WebTestCase
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
-            json_encode($payload)
+            (string) json_encode($payload)
         );
 
         // Assert
         $this->assertResponseStatusCodeSame(400);
         
-        $data = json_decode($this->client->getResponse()->getContent(), true);
+        $data = $this->decodeResponse();
         $this->assertTrue($data['error']);
         $this->assertEquals('Корзина пуста', $data['message']);
     }
@@ -131,7 +144,7 @@ class OrderControllerTest extends WebTestCase
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
-            json_encode($payload)
+            (string) json_encode($payload)
         );
 
         // Assert
@@ -149,7 +162,7 @@ class OrderControllerTest extends WebTestCase
         // Assert
         $this->assertResponseIsSuccessful();
         
-        $data = json_decode($this->client->getResponse()->getContent(), true);
+        $data = $this->decodeResponse();
         $this->assertFalse($data['error']);
         $this->assertArrayHasKey('orders', $data['data']);
         $this->assertArrayHasKey('total', $data['data']);
@@ -166,7 +179,7 @@ class OrderControllerTest extends WebTestCase
         // Assert
         $this->assertResponseStatusCodeSame(400);
         
-        $data = json_decode($this->client->getResponse()->getContent(), true);
+        $data = $this->decodeResponse();
         $this->assertTrue($data['error']);
     }
 
@@ -194,7 +207,7 @@ class OrderControllerTest extends WebTestCase
         // Assert
         $this->assertResponseIsSuccessful();
         
-        $data = json_decode($this->client->getResponse()->getContent(), true);
+        $data = $this->decodeResponse();
         $this->assertFalse($data['error']);
         $this->assertArrayHasKey('order', $data['data']);
     }
@@ -210,7 +223,7 @@ class OrderControllerTest extends WebTestCase
         // Assert
         $this->assertResponseStatusCodeSame(404);
         
-        $data = json_decode($this->client->getResponse()->getContent(), true);
+        $data = $this->decodeResponse();
         $this->assertTrue($data['error']);
     }
 

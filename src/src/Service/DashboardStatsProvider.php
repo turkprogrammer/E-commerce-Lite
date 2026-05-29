@@ -22,6 +22,7 @@ class DashboardStatsProvider
      */
     private function fetchScalar(string $sql, array $params = []): int|float|string
     {
+        /** @var int|float|string|false $result */
         $result = $this->entityManager->getConnection()->fetchOne($sql, $params);
 
         if ($result === false) {
@@ -39,7 +40,7 @@ class DashboardStatsProvider
     public function getStats(): array
     {
         $today = date('Y-m-d');
-        $yesterday = date('Y-m-d', strtotime('-1 day'));
+        $yesterday = date('Y-m-d', (int) strtotime('-1 day'));
 
         $todayRevenue = (float) $this->fetchScalar('
             SELECT COALESCE(SUM(total_amount), 0)
@@ -131,14 +132,14 @@ class DashboardStatsProvider
         $result = [];
 
         for ($i = 6; $i >= 0; $i--) {
-            $date = date('Y-m-d', strtotime("-{$i} days"));
+            $date = date('Y-m-d', (int) strtotime("-{$i} days"));
             $found = false;
 
             /** @var array{date: string, orders: string, revenue: string} $row */
             foreach ($rows as $row) {
                 if ($row['date'] === $date) {
                     $result[] = [
-                        'date' => date('d.m', strtotime($date)),
+                        'date' => date('d.m', (int) strtotime($date)),
                         'orders' => (int)$row['orders'],
                         'revenue' => (float)$row['revenue'],
                     ];
@@ -149,9 +150,9 @@ class DashboardStatsProvider
             
             if (!$found) {
                 $result[] = [
-                    'date' => date('d.m', strtotime($date)),
+                    'date' => date('d.m', (int) strtotime($date)),
                     'orders' => 0,
-                    'revenue' => 0,
+                    'revenue' => 0.0,
                 ];
             }
         }
@@ -181,8 +182,8 @@ class DashboardStatsProvider
             LIMIT :limit
         ', ['limit' => $limit]);
 
-        /** @var array{product_name: string, total_quantity: string, total_revenue: string} $row */
-        return array_map(fn($row) => [
+        /** @var list<array{product_name: string, total_quantity: string, total_revenue: string}> $rows */
+        return array_map(fn(array $row) => [
             'name' => $row['product_name'],
             'quantity' => (int) $row['total_quantity'],
             'revenue' => (float) $row['total_revenue'],
@@ -204,8 +205,8 @@ class DashboardStatsProvider
             GROUP BY status
         ');
 
-        /** @var array{status: string, count: string} $row */
-        return array_map(fn($row) => [
+        /** @var list<array{status: string, count: string}> $rows */
+        return array_map(fn(array $row) => [
             'status' => $row['status'],
             'count' => (int) $row['count'],
         ], $rows);

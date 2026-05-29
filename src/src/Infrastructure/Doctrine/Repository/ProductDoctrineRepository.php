@@ -33,12 +33,15 @@ class ProductDoctrineRepository extends ServiceEntityRepository implements Produ
 
     public function findFeatured(int $limit = 10): array
     {
-        return $this->createQueryBuilder('p')
+        /** @var Product[] $result */
+        $result = $this->createQueryBuilder('p')
             ->where('p.active = :active')
             ->setParameter('active', true)
             ->orderBy('p.createdAt', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
+
+        return $result;
     }
 }

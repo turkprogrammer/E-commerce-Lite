@@ -36,7 +36,7 @@ class HomeControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/');
-        $html = $client->getResponse()->getContent();
+        $html = (string) $client->getResponse()->getContent();
 
         // Проверяем наличие контейнера для товаров
         $this->assertSelectorExists('#collection', 'Секция товаров должна существовать');

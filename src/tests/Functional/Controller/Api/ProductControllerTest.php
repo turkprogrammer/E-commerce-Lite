@@ -19,10 +19,24 @@ class ProductControllerTest extends WebTestCase
     private \Symfony\Bundle\FrameworkBundle\KernelBrowser $client;
     private EntityManagerInterface $entityManager;
 
+    /**
+     * @return array<mixed>
+     */
+    private function decodeResponse(): array
+    {
+        $content = $this->client->getResponse()->getContent();
+        assert($content !== false);
+        $data = json_decode($content, true);
+        assert(is_array($data));
+        return $data;
+    }
+
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->entityManager = static::getContainer()->get(EntityManagerInterface::class);
+        /** @var EntityManagerInterface $em */
+        $em = static::getContainer()->get(EntityManagerInterface::class);
+        $this->entityManager = $em;
     }
 
     /**
@@ -52,7 +66,7 @@ class ProductControllerTest extends WebTestCase
         // Assert
         $this->assertResponseIsSuccessful();
         
-        $data = json_decode($this->client->getResponse()->getContent(), true);
+        $data = $this->decodeResponse();
         $this->assertFalse($data['error']);
         $this->assertArrayHasKey('products', $data['data']);
         $this->assertNotEmpty($data['data']['products']);
@@ -93,7 +107,7 @@ class ProductControllerTest extends WebTestCase
         // Assert
         $this->assertResponseIsSuccessful();
         
-        $data = json_decode($this->client->getResponse()->getContent(), true);
+        $data = $this->decodeResponse();
         $this->assertFalse($data['error']);
         $this->assertArrayHasKey('product', $data['data']);
         $this->assertEquals('Test Product', $data['data']['product']['name']);
@@ -163,7 +177,7 @@ class ProductControllerTest extends WebTestCase
         // Assert
         $this->assertResponseIsSuccessful();
         
-        $data = json_decode($this->client->getResponse()->getContent(), true);
+        $data = $this->decodeResponse();
         $this->assertFalse($data['error']);
         $this->assertArrayHasKey('products', $data['data']);
         $this->assertLessThanOrEqual(3, count($data['data']['products']));
