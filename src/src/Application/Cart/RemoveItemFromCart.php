@@ -35,7 +35,8 @@ readonly class RemoveItemFromCart
 
         // Находим товар в корзине и удаляем
         foreach ($cart->getItems() as $item) {
-            if ($item->getProduct()->getId() === $productId) {
+            $product = $item->getProduct();
+            if ($product !== null && $product->getId() === $productId) {
                 $cart->removeItem($item);
                 $cart->recalculate();
                 $this->cartRepo->save($cart);

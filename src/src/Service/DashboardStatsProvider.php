@@ -41,27 +41,27 @@ class DashboardStatsProvider
         $today = date('Y-m-d');
         $yesterday = date('Y-m-d', strtotime('-1 day'));
 
-        $todayRevenue = $this->fetchScalar('
+        $todayRevenue = (float) $this->fetchScalar('
             SELECT COALESCE(SUM(total_amount), 0)
             FROM orders
             WHERE DATE(created_at) = :today
             AND status != "cancelled"
         ', ['today' => $today]);
 
-        $yesterdayRevenue = $this->fetchScalar('
+        $yesterdayRevenue = (float) $this->fetchScalar('
             SELECT COALESCE(SUM(total_amount), 0)
             FROM orders
             WHERE DATE(created_at) = :yesterday
             AND status != "cancelled"
         ', ['yesterday' => $yesterday]);
 
-        $todayOrders = $this->fetchScalar('
+        $todayOrders = (int) $this->fetchScalar('
             SELECT COUNT(*)
             FROM orders
             WHERE DATE(created_at) = :today
         ', ['today' => $today]);
 
-        $yesterdayOrders = $this->fetchScalar('
+        $yesterdayOrders = (int) $this->fetchScalar('
             SELECT COUNT(*)
             FROM orders
             WHERE DATE(created_at) = :yesterday
@@ -69,18 +69,18 @@ class DashboardStatsProvider
 
         $averageCheck = $todayOrders > 0 ? $todayRevenue / $todayOrders : 0;
 
-        $totalOrders = $this->fetchScalar('SELECT COUNT(*) FROM orders');
+        $totalOrders = (int) $this->fetchScalar('SELECT COUNT(*) FROM orders');
 
-        $totalProducts = $this->fetchScalar('SELECT COUNT(*) FROM products WHERE active = 1');
+        $totalProducts = (int) $this->fetchScalar('SELECT COUNT(*) FROM products WHERE active = 1');
 
-        $weekRevenue = $this->fetchScalar('
+        $weekRevenue = (float) $this->fetchScalar('
             SELECT COALESCE(SUM(total_amount), 0)
             FROM orders
             WHERE DATE(created_at) >= DATE(:today, "-7 days")
             AND status != "cancelled"
         ', ['today' => $today]);
 
-        $monthRevenue = $this->fetchScalar('
+        $monthRevenue = (float) $this->fetchScalar('
             SELECT COALESCE(SUM(total_amount), 0)
             FROM orders
             WHERE DATE(created_at) >= DATE(:today, "-30 days")
@@ -88,19 +88,19 @@ class DashboardStatsProvider
         ', ['today' => $today]);
 
         return [
-            'todayRevenue' => (float)$todayRevenue,
-            'todayRevenueChange' => $yesterdayRevenue > 0 
-                ? round((($todayRevenue - $yesterdayRevenue) / $yesterdayRevenue) * 100, 1) 
+            'todayRevenue' => $todayRevenue,
+            'todayRevenueChange' => $yesterdayRevenue > 0
+                ? round((($todayRevenue - $yesterdayRevenue) / $yesterdayRevenue) * 100, 1)
                 : 0,
-            'todayOrders' => (int)$todayOrders,
-            'todayOrdersChange' => $yesterdayOrders > 0 
-                ? round((($todayOrders - $yesterdayOrders) / $yesterdayOrders) * 100, 1) 
+            'todayOrders' => $todayOrders,
+            'todayOrdersChange' => $yesterdayOrders > 0
+                ? round((($todayOrders - $yesterdayOrders) / $yesterdayOrders) * 100, 1)
                 : 0,
-            'averageCheck' => (float)$averageCheck,
-            'totalOrders' => (int)$totalOrders,
-            'totalProducts' => (int)$totalProducts,
-            'weekRevenue' => (float)$weekRevenue,
-            'monthRevenue' => (float)$monthRevenue,
+            'averageCheck' => (float) $averageCheck,
+            'totalOrders' => $totalOrders,
+            'totalProducts' => $totalProducts,
+            'weekRevenue' => $weekRevenue,
+            'monthRevenue' => $monthRevenue,
         ];
     }
 
@@ -129,11 +129,12 @@ class DashboardStatsProvider
 
         // Заполняем пропущенные дни
         $result = [];
-        
+
         for ($i = 6; $i >= 0; $i--) {
             $date = date('Y-m-d', strtotime("-{$i} days"));
             $found = false;
-            
+
+            /** @var array{date: string, orders: string, revenue: string} $row */
             foreach ($rows as $row) {
                 if ($row['date'] === $date) {
                     $result[] = [
@@ -180,10 +181,11 @@ class DashboardStatsProvider
             LIMIT :limit
         ', ['limit' => $limit]);
 
+        /** @var array{product_name: string, total_quantity: string, total_revenue: string} $row */
         return array_map(fn($row) => [
             'name' => $row['product_name'],
-            'quantity' => (int)$row['total_quantity'],
-            'revenue' => (float)$row['total_revenue'],
+            'quantity' => (int) $row['total_quantity'],
+            'revenue' => (float) $row['total_revenue'],
         ], $rows);
     }
 
@@ -202,9 +204,10 @@ class DashboardStatsProvider
             GROUP BY status
         ');
 
+        /** @var array{status: string, count: string} $row */
         return array_map(fn($row) => [
             'status' => $row['status'],
-            'count' => (int)$row['count'],
+            'count' => (int) $row['count'],
         ], $rows);
     }
 }

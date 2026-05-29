@@ -164,6 +164,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * @return non-empty-string
      * @see UserInterface
      */
     public function getUserIdentifier(): string

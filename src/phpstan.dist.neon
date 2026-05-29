@@ -1,8 +1,15 @@
 parameters:
-    level: 6
+    level: 9
     paths:
         - bin/
         - config/
         - public/
         - src/
         - tests/
+    ignoreErrors:
+        # Doctrine entity $id is assigned via reflection
+        - identifier: property.unusedType
+          path: src/Domain/Entity/*.php
+        # Symfony config reference class
+        - identifier: class.notFound
+          path: config/reference.php

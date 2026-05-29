@@ -24,10 +24,10 @@ final readonly class CheckoutData
     public static function fromArray(array $data): self
     {
         return new self(
-            customerName: (string) ($data['customerName'] ?? ''),
-            customerEmail: (string) ($data['customerEmail'] ?? ''),
-            customerPhone: (string) ($data['customerPhone'] ?? ''),
-            deliveryAddress: (string) ($data['deliveryAddress'] ?? ''),
+            customerName: $data['customerName'],
+            customerEmail: $data['customerEmail'],
+            customerPhone: $data['customerPhone'],
+            deliveryAddress: $data['deliveryAddress'],
         );
     }
 }

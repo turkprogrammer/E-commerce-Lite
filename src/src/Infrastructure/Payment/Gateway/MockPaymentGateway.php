@@ -45,9 +45,9 @@ class MockPaymentGateway implements PaymentGatewayInterface
         $this->webhooks[] = $payload;
         
         $payment = new Payment();
-        $payment->setPaymentNumber($payload['payment_number'] ?? 'PAY-MOCK-' . uniqid());
+        $payment->setPaymentNumber((string) ($payload['payment_number'] ?? 'PAY-MOCK-' . uniqid()));
         $payment->setAmount((float) ($payload['amount'] ?? 0));
-        $payment->setMethod($payload['method'] ?? 'mock');
+        $payment->setMethod((string) ($payload['method'] ?? 'mock'));
         
         // Определяем статус из webhook
         $eventType = $payload['type'] ?? '';

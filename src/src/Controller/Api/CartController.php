@@ -87,6 +87,7 @@ final class CartController extends AbstractApiController
         try {
             $cartItem = $this->addItemToCart->handle($sessionId, $productId, $quantity);
             $cart = $cartItem->getCart();
+            assert($cart !== null);
 
             return $this->success([
                 'item' => $cartItem,

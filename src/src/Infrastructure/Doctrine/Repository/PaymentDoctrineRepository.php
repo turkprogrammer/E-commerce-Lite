@@ -31,6 +31,9 @@ class PaymentDoctrineRepository extends ServiceEntityRepository implements Payme
         return $this->findOneBy(['paymentNumber' => $paymentNumber]);
     }
 
+    /**
+     * @return Payment[]
+     */
     public function findByOrderId(int $orderId): array
     {
         return $this->createQueryBuilder('p')

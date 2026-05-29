@@ -26,6 +26,9 @@ class OrderDoctrineRepository extends ServiceEntityRepository implements OrderRe
         return $this->findOneBy(['orderNumber' => $orderNumber]);
     }
 
+    /**
+     * @return Order[]
+     */
     public function findByEmail(string $email): array
     {
         return $this->createQueryBuilder('o')

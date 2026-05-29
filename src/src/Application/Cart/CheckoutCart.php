@@ -52,6 +52,7 @@ readonly class CheckoutCart
         // Проверяем наличие товаров
         foreach ($cart->getItems() as $cartItem) {
             $product = $cartItem->getProduct();
+            assert($product !== null);
 
             if (!$product->isActive()) {
                 throw new ProductNotActiveException($product->getId());
@@ -76,7 +77,8 @@ readonly class CheckoutCart
         // Переносим элементы корзины в заказ
         foreach ($cart->getItems() as $cartItem) {
             $product = $cartItem->getProduct();
-            
+            assert($product !== null);
+
             $orderItem = new OrderItem();
             $orderItem->setProductName($product->getName());
             $orderItem->setQuantity($cartItem->getQuantity());

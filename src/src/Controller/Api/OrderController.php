@@ -78,15 +78,18 @@ final class OrderController extends AbstractApiController
             return $this->error('Корзина пуста', Response::HTTP_BAD_REQUEST);
         }
 
+        /** @var array<int, array{productId: int, quantity?: int}> $items */
+        $items = $data['items'];
+
         $checkoutData = CheckoutData::fromArray($data);
 
         try {
             // Сначала добавляем товары в корзину
-            foreach ($data['items'] as $item) {
+            foreach ($items as $item) {
                 $this->addItemToCart->handle(
                     $sessionId,
-                    (int)$item['productId'],
-                    (int)($item['quantity'] ?? 1)
+                    (int) $item['productId'],
+                    (int) ($item['quantity'] ?? 1)
                 );
             }
 

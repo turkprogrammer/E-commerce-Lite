@@ -7,6 +7,7 @@ namespace App\Controller\Admin;
 use App\Domain\Entity\Product;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
@@ -83,7 +84,7 @@ final class ProductCrudController extends AbstractCrudController
     /**
      * Настройка полей
      *
-     * @return iterable
+     * @return iterable<Field>
      */
     public function configureFields(string $pageName): iterable
     {
