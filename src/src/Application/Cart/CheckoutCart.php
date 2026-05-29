@@ -28,14 +28,14 @@ readonly class CheckoutCart
      * Оформить заказ из корзины
      *
      * @param string $sessionId Session ID корзины
-     * @param array{customerName: string, customerEmail: string, customerPhone: string, deliveryAddress: string} $customerData Данные покупателя
+     * @param CheckoutData $checkoutData Данные покупателя
      * @return Order Созданный заказ
      * @throws CartNotFoundException Если корзина не найдена
      * @throws CartEmptyException Если корзина пуста
      * @throws ProductNotActiveException Если товар не активен
      * @throws InsufficientStockException Если недостаточно товара на складе
      */
-    public function handle(string $sessionId, array $customerData): Order
+    public function handle(string $sessionId, CheckoutData $checkoutData): Order
     {
         // Находим корзину
         $cart = $this->cartRepo->findBySessionId($sessionId);
@@ -68,10 +68,10 @@ readonly class CheckoutCart
         
         // Создаём заказ
         $order = new Order();
-        $order->setCustomerName($customerData['customerName']);
-        $order->setCustomerEmail($customerData['customerEmail']);
-        $order->setCustomerPhone($customerData['customerPhone']);
-        $order->setDeliveryAddress($customerData['deliveryAddress']);
+        $order->setCustomerName($checkoutData->customerName);
+        $order->setCustomerEmail($checkoutData->customerEmail);
+        $order->setCustomerPhone($checkoutData->customerPhone);
+        $order->setDeliveryAddress($checkoutData->deliveryAddress);
         
         // Переносим элементы корзины в заказ
         foreach ($cart->getItems() as $cartItem) {

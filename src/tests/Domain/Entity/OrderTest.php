@@ -6,6 +6,7 @@ namespace App\Tests\Domain\Entity;
 
 use App\Domain\Entity\Order;
 use App\Domain\Entity\OrderItem;
+use App\Domain\Entity\OrderStatus;
 use App\Domain\Entity\Payment;
 use PHPUnit\Framework\TestCase;
 
@@ -215,10 +216,10 @@ class OrderTest extends TestCase
     public function testSetAndGetStatus(): void
     {
         // Act
-        $this->order->setStatus('confirmed');
+        $this->order->setStatus(OrderStatus::Confirmed);
 
         // Assert
-        $this->assertEquals('confirmed', $this->order->getStatus());
+        $this->assertSame(OrderStatus::Confirmed, $this->order->getStatus());
     }
 
     /**

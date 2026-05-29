@@ -6,6 +6,7 @@ namespace App\DataFixtures;
 
 use App\Domain\Entity\Order;
 use App\Domain\Entity\OrderItem;
+use App\Domain\Entity\OrderStatus;
 use App\Domain\Entity\Product;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -16,8 +17,6 @@ use Doctrine\Persistence\ObjectManager;
  */
 class OrderFixtures extends Fixture implements DependentFixtureInterface
 {
-    // Используем Order::STATUSES для единообразия
-
     /**
      * Загрузить фикстуры заказов
      */
@@ -29,15 +28,17 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             return;
         }
 
+        $statuses = OrderStatus::cases();
+
         // Создаем 15 тестовых заказов
         for ($i = 1; $i <= 15; $i++) {
             $order = new Order();
-            
+
             $order->setCustomerName("Клиент #$i");
             $order->setCustomerEmail("customer$i@example.com");
             $order->setCustomerPhone("+7 (999) 000-00" . str_pad((string)$i, 2, '0', STR_PAD_LEFT));
             $order->setDeliveryAddress("г. Москва, ул. Примерная, д. $i, кв. " . ($i * 10));
-            $order->setStatus(Order::STATUSES[array_rand(Order::STATUSES)]);
+            $order->setStatus($statuses[array_rand($statuses)]);
 
             // Добавляем 1-3 товара в заказ
             $numItems = random_int(1, 3);

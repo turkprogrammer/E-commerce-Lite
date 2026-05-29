@@ -6,6 +6,7 @@ namespace App\Tests\Functional\Controller\Api;
 
 use App\Domain\Entity\Order;
 use App\Domain\Entity\OrderItem;
+use App\Domain\Entity\OrderStatus;
 use App\Domain\Entity\Product;
 use App\Domain\Entity\Category;
 use Doctrine\ORM\EntityManagerInterface;
@@ -180,7 +181,7 @@ class OrderControllerTest extends WebTestCase
         $order->setCustomerEmail('test@example.com');
         $order->setCustomerPhone('+123456789');
         $order->setDeliveryAddress('Test Address');
-        $order->setStatus('pending');
+        $order->setStatus(OrderStatus::Pending);
         $order->setTotalAmount(1000.00);
         $this->entityManager->persist($order);
         $this->entityManager->flush();

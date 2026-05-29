@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Application\Cart\CheckoutCart;
+use App\Application\Cart\CheckoutData;
 use App\Application\Cart\AddItemToCart;
 use App\Application\Order\GetOrderByNumber;
 use App\Application\Order\GetOrdersByEmail;
@@ -77,6 +78,8 @@ final class OrderController extends AbstractApiController
             return $this->error('Корзина пуста', Response::HTTP_BAD_REQUEST);
         }
 
+        $checkoutData = CheckoutData::fromArray($data);
+
         try {
             // Сначала добавляем товары в корзину
             foreach ($data['items'] as $item) {
@@ -88,7 +91,7 @@ final class OrderController extends AbstractApiController
             }
 
             // Оформляем заказ через CheckoutCart Use Case
-            $order = $this->checkoutCart->handle($sessionId, $data);
+            $order = $this->checkoutCart->handle($sessionId, $checkoutData);
 
             return $this->success([
                 'order' => [

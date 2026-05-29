@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Domain\Entity\Order;
+use App\Domain\Entity\OrderStatus;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -31,15 +32,17 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMIN')]
 final class OrderCrudController extends AbstractCrudController
 {
-    /** @var array<string, string> Метка => значение для EasyAdmin */
-    private const STATUS_LABELS = [
-        'Ожидает оплаты' => 'pending',
-        'Оплачен' => 'paid',
-        'Подтверждён' => 'confirmed',
-        'Отправлен' => 'shipped',
-        'Доставлен' => 'delivered',
-        'Отменён' => 'cancelled',
-    ];
+    /**
+     * @return array<string, string>
+     */
+    private static function statusChoices(): array
+    {
+        $choices = [];
+        foreach (OrderStatus::cases() as $status) {
+            $choices[$status->label()] = $status->value;
+        }
+        return $choices;
+    }
 
     /**
      * @return class-string<Order>
@@ -94,7 +97,7 @@ final class OrderCrudController extends AbstractCrudController
             ->add(TextFilter::new('orderNumber'))
             ->add(TextFilter::new('customerEmail'))
             ->add(ChoiceFilter::new('status')
-                ->setChoices(self::STATUS_LABELS));
+                ->setChoices(self::statusChoices()));
     }
 
     /**
@@ -125,7 +128,7 @@ final class OrderCrudController extends AbstractCrudController
             ->hideOnIndex();
 
         yield ChoiceField::new('status', 'Статус')
-            ->setChoices(self::STATUS_LABELS)
+            ->setChoices(self::statusChoices())
             ->setRequired(true)
             ->renderAsBadges([
                 'pending' => 'warning',

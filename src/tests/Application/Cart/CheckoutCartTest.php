@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Application\Cart;
 
 use App\Application\Cart\CheckoutCart;
+use App\Application\Cart\CheckoutData;
 use App\Domain\Entity\Cart;
 use App\Domain\Entity\CartItem;
 use App\Domain\Entity\Product;
@@ -52,12 +53,12 @@ class CheckoutCartTest extends TestCase
         $cart->addItem($cartItem);
         $cart->recalculate();
 
-        $customerData = [
-            'customerName' => 'Иван Иванов',
-            'customerEmail' => 'ivan@example.com',
-            'customerPhone' => '+7 (999) 123-45-67',
-            'deliveryAddress' => 'г. Москва, ул. Тестовая, д. 1',
-        ];
+        $checkoutData = new CheckoutData(
+            customerName: 'Иван Иванов',
+            customerEmail: 'ivan@example.com',
+            customerPhone: '+7 (999) 123-45-67',
+            deliveryAddress: 'г. Москва, ул. Тестовая, д. 1',
+        );
 
         $this->cartRepo
             ->method('findBySessionId')
@@ -74,7 +75,7 @@ class CheckoutCartTest extends TestCase
             ->with($cart);
 
         // Act
-        $order = $this->useCase->handle('test-session', $customerData);
+        $order = $this->useCase->handle('test-session', $checkoutData);
 
         // Assert
         $this->assertNotNull($order->getOrderNumber());
@@ -103,7 +104,7 @@ class CheckoutCartTest extends TestCase
         $this->expectExceptionMessage('Корзина пуста для сессии: test-session');
 
         // Act
-        $this->useCase->handle('test-session', []);
+        $this->useCase->handle('test-session', new CheckoutData('', '', '', ''));
     }
 
     /**
@@ -122,7 +123,7 @@ class CheckoutCartTest extends TestCase
         $this->expectExceptionMessage('Корзина не найдена для сессии: non-existent');
 
         // Act
-        $this->useCase->handle('non-existent', []);
+        $this->useCase->handle('non-existent', new CheckoutData('', '', '', ''));
     }
 
     /**
@@ -154,7 +155,7 @@ class CheckoutCartTest extends TestCase
         $this->expectException(\App\Domain\Exception\ProductNotActiveException::class);
 
         // Act
-        $this->useCase->handle('test-session', []);
+        $this->useCase->handle('test-session', new CheckoutData('', '', '', ''));
     }
 
     /**
@@ -186,7 +187,7 @@ class CheckoutCartTest extends TestCase
         $this->expectException(\App\Domain\Exception\InsufficientStockException::class);
 
         // Act
-        $this->useCase->handle('test-session', []);
+        $this->useCase->handle('test-session', new CheckoutData('', '', '', ''));
     }
 
     /**
@@ -215,12 +216,12 @@ class CheckoutCartTest extends TestCase
             ->willReturn($cart);
 
         // Act
-        $this->useCase->handle('test-session', [
-            'customerName' => 'Test',
-            'customerEmail' => 'test@test.com',
-            'customerPhone' => '+7 (999) 000-00-00',
-            'deliveryAddress' => 'Test Address',
-        ]);
+        $this->useCase->handle('test-session', new CheckoutData(
+            customerName: 'Test',
+            customerEmail: 'test@test.com',
+            customerPhone: '+7 (999) 000-00-00',
+            deliveryAddress: 'Test Address',
+        ));
 
         // Assert
         $this->assertTrue($cart->isEmpty());
