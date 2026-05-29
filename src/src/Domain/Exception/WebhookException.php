@@ -14,8 +14,4 @@ class WebhookException extends DomainException
         return new self(sprintf('Неизвестный тип webhook: %s', $eventType));
     }
 
-    public static function invalidPayload(string $reason): self
-    {
-        return new self(sprintf('Невалидный payload webhook: %s', $reason));
-    }
 }

@@ -8,7 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 /**
  * Базовый контроллер для API
@@ -72,28 +71,4 @@ abstract class AbstractApiController extends AbstractController
         return $this->json($response, $status, [], $context);
     }
 
-    /**
-     * Получить текущее время
-     */
-    protected function getTimestamp(): \DateTimeImmutable
-    {
-        return new \DateTimeImmutable();
-    }
-
-    /**
-     * Преобразовать ошибки валидации в массив
-     *
-     * @return array<int, array{field: string, message: string}>
-     */
-    protected function getErrors(ConstraintViolationListInterface $violations): array
-    {
-        $errors = [];
-        foreach ($violations as $violation) {
-            $errors[] = [
-                'field' => $violation->getPropertyPath(),
-                'message' => $violation->getMessage(),
-            ];
-        }
-        return $errors;
-    }
 }

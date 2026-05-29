@@ -100,9 +100,7 @@ final class OrderController extends AbstractApiController
             ], 'Заказ успешно создан', Response::HTTP_CREATED);
         } catch (ProductNotFoundException $e) {
             return $this->error($e->getMessage(), Response::HTTP_NOT_FOUND);
-        } catch (CartNotFoundException|CartEmptyException $e) {
-            return $this->error($e->getMessage(), Response::HTTP_BAD_REQUEST);
-        } catch (ProductNotActiveException|InsufficientStockException $e) {
+        } catch (CartNotFoundException|CartEmptyException|ProductNotActiveException|InsufficientStockException $e) {
             return $this->error($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }

@@ -36,7 +36,6 @@ final class WebhookController extends AbstractApiController
     public function handlePaymentWebhook(Request $request): JsonResponse
     {
         $payload = $request->toArray();
-        $signature = $request->headers->get('X-Webhook-Signature', '');
 
         try {
             // Обрабатываем webhook
